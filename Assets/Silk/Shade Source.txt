@@ -1,0 +1,88 @@
+﻿:: Start
+I [[died|died]] [[today|today]]
+
+
+:: died
+You would never know that i left a long [[time|yesterday]] ago. You never saw. You never [[noticed|me]].
+
+
+:: me
+If you are reading this and have ever -- me, to start I'm sorry.
+i wish you hadn't, as i wish i hadn't
+There was a time maybe when the seams showed less. it's a bummer, really.
+what can you do? what can you ever [[do]]?
+
+
+:: do
+no that was mean. you do everything you can. while i'm over here wishing i was different and waiting for things to change and forgetting that they never will.
+
+
+:: Title
+Shade
+
+
+:: today
+Or was it [[yesterday|yesterday]]
+
+
+:: Author
+Hyacinth Nil
+
+
+:: yesterday
+Time is [[hard|sometimes]].
+
+
+:: sometimes
+Or all of the time. It seems to move sideways sometimes.
+
+
+:: dont
+Don't [[touch]] me
+
+
+:: touch
+i said don't
+
+
+:: Untitled Passage 3
+i hate trying to sound smart because i never actually do and i know you see that
+
+
+:: Untitled Passage 2
+
+
+
+:: Untitled Passage 1
+
+
+
+:: Untitled Stylesheet 1 [stylesheet]
+/* Your story will use the CSS in this passage to style the page.
+Give this passage more tags, and it will only affect passages with those tags.
+Example selectors: */
+
+body {
+	/* This affects the entire page */
+	
+	
+}
+.passage {
+	/* This only affects passages */
+color:#666;
+	
+	
+}
+.passage a {
+	/* This affects passage links */
+color:red;
+	
+	
+}
+.passage a:hover {
+	/* This affects links while the cursor is over them */
+	
+	
+}
+
+
