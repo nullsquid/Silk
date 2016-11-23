@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 namespace Silk
@@ -16,11 +17,34 @@ namespace Silk
         {
             textToParse = testText.text;
             nodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < nodesToInterpret.Length; i++)
+            {
+                BuildNodes(nodesToInterpret[i]);
+            }
         }
 
         void BuildNodes(string newText)
         {
-            //newNode = 
+            Silk.Node newNode = new Silk.Node();
+            StringBuilder newKey = new StringBuilder();
+
+            for (int i = 0; i < newText.Length; i++)
+            {
+                if (newText[i] != '\n')
+                {
+                    newKey.Append(newText[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            for(int j = 0; j < newText.Length; j++)
+            {
+
+            }
+            newNode.Key = newKey.ToString();
+            Debug.Log("Key is " + newNode.Key);
         }
         
     }
