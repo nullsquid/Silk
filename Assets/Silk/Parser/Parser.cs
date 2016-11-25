@@ -19,14 +19,18 @@ namespace Silk
             nodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < nodesToInterpret.Length; i++)
             {
-                BuildNodes(nodesToInterpret[i]);
+                //BuildNodes(nodesToInterpret[i]);
+                SplitTokens(nodesToInterpret[i]);
             }
         }
 
         void BuildNodes(string newText)
         {
+            string[] responseDelim = new string[]{ "[[" };
             Silk.Node newNode = new Silk.Node();
             StringBuilder newKey = new StringBuilder();
+            //List<string> newResponseList = new List<string>(); 
+            string[] newResponses;
 
             for (int i = 0; i < newText.Length; i++)
             {
@@ -41,11 +45,55 @@ namespace Silk
             }
             for(int j = 0; j < newText.Length; j++)
             {
-
+                
             }
             newNode.Key = newKey.ToString();
             Debug.Log("Key is " + newNode.Key);
         }
-        
+
+        void SplitTokens(string newText)
+        {
+            StringBuilder tempKey = new StringBuilder();
+            StringBuilder newKey = new StringBuilder();
+
+            StringBuilder testLink = new StringBuilder();
+            
+            for (int i = 0; i < newText.Length; i++)
+            {
+                if (newKey.ToString() == "")
+                {
+                    if (newText[i] != '\n')
+                    {
+                        tempKey.Append(newText[i]);
+                    }
+                    else
+                    {
+                        newKey = tempKey;
+                    }
+                }
+                else if(newText[i] == '[' && newText[i + 1] == '[')
+                {
+                    List<string> newLinks = new List<string>();
+                    StringBuilder newLink = new StringBuilder();
+                    for (int j = i; j < newText.IndexOf("]]"); j++)
+                    {
+                        newLink.Append(newText[j]);
+                    }
+                    newLinks.Add(newLink.ToString().TrimStart('['));
+                    foreach(string link in newLinks)
+                    {
+                        Debug.Log("link is " + link);
+                    }
+
+                }
+                
+                
+            }
+            
+            Debug.Log(newKey);
+            //Debug.Log("test link is " + newLink);
+
+        }
+
     }
 }
