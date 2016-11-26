@@ -92,6 +92,7 @@ namespace Silk
                 }
                 else if(newText[i] == '<' && newText[i + 1] == '<')
                 {
+                    List<string> newCustomTags = new List<string>();
                     //Custom Tags
                 }
                 else
