@@ -57,7 +57,7 @@ namespace Silk
             StringBuilder newKey = new StringBuilder();
 
             StringBuilder testLink = new StringBuilder();
-            
+            StringBuilder prompt = new StringBuilder();
             for (int i = 0; i < newText.Length; i++)
             {
                 if (newKey.ToString() == "")
@@ -79,19 +79,29 @@ namespace Silk
                     {
                         newLink.Append(newText[j]);
                     }
-                    newLinks.Add(newLink.ToString().TrimStart('['));
+                    if (newLink.ToString() != "")
+                    {
+                        newLinks.Add(newLink.ToString().TrimStart('['));
+                    }
                     foreach(string link in newLinks)
                     {
-                        Debug.Log("link is " + link);
+                        
+                        Debug.Log("link is " + i + " " + link);
                     }
 
+                }
+                else if(newText[i] == '<' && newText[i + 1] == '<')
+                {
+                    //Custom Tags
+                }
+                else
+                {
+                    prompt.Append(newText[i]);
                 }
                 
                 
             }
             
-            Debug.Log(newKey);
-            //Debug.Log("test link is " + newLink);
 
         }
 

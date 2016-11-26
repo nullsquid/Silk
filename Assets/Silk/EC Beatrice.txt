@@ -1,0 +1,738 @@
+﻿:: No, but he gave me a job.
+
+
+
+:: Start
+"What can I get for you, hun?"
+
+"[[Burger and fries.  And coffee.]]"
+
+"[[Egg salad sandwich and onion rings.  And coffee.]]"
+
+
+:: Burger and fries.  And coffee.
+"Sure thing.  You got a long drive ahead of you?"
+
+"[[It'll be a few hours.]]"
+
+"[[No, not long at all.]]"
+
+
+:: No, not long at all.
+"That's good.  Most of the people who come in here, they've been driving for a long while, and they still have a long while to go.  You look like you could use a big cup of coffee."
+
+"[[Thanks.]]"
+
+"[[Just a half a cup.]]"
+
+
+:: Thanks.
+"Not a problem."  {Patrons at the next table begin to get noisy.  Beatrice lights them on fire.}  "You want another cup, sweetie?"
+
+"[[Yes, please.]]"
+
+"[[No, thanks.]]"
+
+
+:: No, thanks.
+"That's a trick I picked up from a man I met a few years ago.  I think you might know him as well."
+
+"[[I think I do, too.]]"
+
+"[[It's a very impressive trick.]]"
+
+
+:: I think I do, too.
+"Did he teach you any tricks?"
+
+"[[Nothing that cool.]]"
+
+"[[No, but he gave me a job.]]"
+
+
+:: You're right.
+
+
+
+:: New York.
+"I never liked New York.  It's a dirty city, don't you think?"
+
+"[[Filthy.]]"
+
+"[[I love it.]]"
+
+
+:: With cream.
+"That's how I like it.  Where are you coming from?"
+
+"[[New York.]]"
+
+"[[Idaho.]]"
+
+
+:: Yes, please.
+"Coming right up."
+
+"[[So you're a witch?]]"
+
+"[[Thank you.]]"
+
+
+:: Idaho.
+"You know what I just heard?  I heard there was a serial killer who just escaped from jail over there."
+
+"[[I hadn't heard about that.]]"
+
+"[[I'm sure they'll catch him soon.]]"
+
+
+:: Filthy.
+
+
+
+:: StoryTitle
+Untitled Story
+
+
+:: Egg salad sandwich and onion rings.  And coffee.
+"Coming right up.  How do you take your coffee?"
+
+"[[Light and sweet.]]"
+
+"[[Black.]]"
+
+
+:: It'll be a few hours.
+"I thought so.  I see a lot of people in this diner.  But you've got a certain look about you that I've only seen a few times.  I think you and I might have a friend in common."
+
+"[[Oh?]]"
+
+"[[I don't think so.]]"
+
+
+:: Just a half a cup.
+"Half a cup it is."
+
+"[[With cream.]]"
+
+"[[No sugar.]]"
+
+
+:: I usually don't have that problem.
+
+
+
+:: It's a very impressive trick.
+"I'm glad that you think so."
+
+"[[Can you show me how?]]"
+
+"[[I guess I'd better get going soon.]]"
+
+
+:: No sugar.
+"You got it.  You're not very chatty, are you?"
+
+"[[No.]]"
+
+"[[Not really.]]"
+
+
+:: I already know that, thanks.
+"Alright.  I'm just trying to be friendly is all."
+
+"[[It's fine.  I'm just tired.]]"
+
+"[[I'm not a friendly person.]]"
+
+
+:: Nothing that cool.
+
+
+
+:: I think I'll take the check now.
+
+
+
+:: I guess I'd better get going soon.
+
+
+
+:: StoryAuthor
+Anonymous
+
+
+:: Light and sweet.
+"That's how I like it, too.  I think you and I have a lot in common."
+
+"[[Like what?]]"
+
+"[[I doubt it.]]"
+
+
+:: Black.
+"You got it, hun.  Gotta stay awake for the long trip.  Where you heading?"
+
+"[[Minnesota.]]"
+
+"[[Rhode Island.]]"
+
+
+:: I don't think so.
+"I get it, you just want to eat and be on your way.  I don't want to stop you, I just want you to know that it might not be as easy as you think."
+
+"[[I already know that, thanks.]]"
+
+"[[Who is this friend you have in mind?]]"
+
+
+:: I think I know.
+"He's been very kind to me over the years.  I think he'll be kind to you, too."
+
+"[[I hope so.]]"
+
+"[[What makes you say that?]]"
+
+
+:: Not really.
+"That's fine.  I don't need to talk to everybody.  You're a truck driver, right?  That's just like being a waitress.  Some people are nice, but most people think you must've done something wrong to wind up with a job like that, and they're not polite to you cause they think they're better than you."
+
+"[[You're right.]]"
+
+"[[I usually don't have that problem.]]"
+
+
+:: Who is this friend you have in mind?
+"To be fair, most people meet him at one time or another.  Sometimes he wears red, and sometimes he wears black, and sometimes he doesn't wear anything at all.  Sound familiar?"
+
+"[[I think I know.]]"
+
+"[[No, go on.]]"
+
+
+:: No, go on.
+"I don't mean to be vague, but he's a hard guy to pin down.  Some people say he's ugly, but I always liked his face.  Everyone agrees that he's very charismatic, though."
+
+"[[I understand.]]"
+
+"[[He does have a nice face.]]"
+
+
+:: I love it.
+
+
+
+:: Like what?
+"Some years ago, a gentleman came into this diner.  Nothing out of the ordinary about him.  As a matter of fact, he sat right here at this table."
+
+"[[So?]]"
+
+"[[Did he have a black briefcase?]]"
+
+
+:: No.
+"Did you ever hear, about the woman who came up to Calvin Coolidge at a party and said, 'I made a bet that I could get three words out of you,' and he said to her, 'You lose.'  Did you ever hear that?"
+
+"[[Yeah.]]"
+
+"[[Nope.]]"
+
+
+:: Can you show me how?
+
+
+
+:: I doubt it.
+"Alright, then.  Your food will be right out soon."
+
+{Brings out food and it catches on fire as soon as it's set on the table}
+
+"[[What the hell?]]"
+
+"[[Just how I like my egg salad.]]"
+
+
+:: Rhode Island.
+"Oh, I went on vacation there once.  Providence.  Nicest vacation I've ever been on.  Do you like it there?"
+
+"[[It's okay.]]"
+
+"[[I've never been before.]]"
+
+
+:: Oh?
+"Met him a few years ago.  He came in here and sat down at this same table you're sitting at.  Very nice man.  Made me an offer, and I took him up on it."
+
+"[[Do you think it worked out for you?]]"
+
+"[[What was the offer?]]"
+
+
+:: What was the offer?
+"The details aren't important.  The important thing is, he made me promise that in return, I'd keep an eye out for his other associates."
+
+"[[I'm surprised.  He's never struck me as considerate.]]"
+
+"[[Well, it's a dangerous business.]]"
+
+
+:: It's fine.  I'm just tired.
+"I understand.  We all get tired now and then."
+
+"[[That's a truism if I ever heard one.]]"
+
+"[[Indeed.]]"
+
+
+:: Minnesota.
+"Never been there.  You work out up there?"
+
+"[[That's right.]]"
+
+"[[Nope, just visiting.]]"
+
+
+:: I hadn't heard about that.
+
+
+
+:: So?
+"He gave me a way to deal with rude customers, such as yourself."  {Egg salad lights on fire.}  "Do you catch my meaning?"
+
+"[[I think I know the gentleman you met.]]"
+
+"[[I don't quite understand.]]"
+
+
+:: Well, it's a dangerous business.
+"That it is, that it is.  You're one of the delivery people, aren't you?  He's been hiring a lot of those lately."
+
+"[[Yep.]]"
+
+"[[How many others?]]"
+
+
+:: Thank you.
+"Can I get you anything else."
+
+"[[Just the check please.]]"
+
+"[[No, that'll be it.]]"
+
+
+:: Nope.
+
+
+
+:: Just how I like my egg salad.
+"That's a trick our mutual friend taught me.  Impressive, isn't it?"
+
+"[[Quite.]]"
+
+"[[I've seen better.]]"
+
+
+:: I'm not a friendly person.
+"Apparently.  Can I ask you why?  What's wrong with being friendly?"
+
+"[[It's not my nature.]]"
+
+"[[It doesn't usually work out for me.]]"
+
+
+:: It's okay.
+"Are you gonna drive all the way out there?"
+
+"[[That's the plan.]]"
+
+"[[I have a job to do.]]"
+
+
+:: Do you think it worked out for you?
+"Oh, absolutely.  I haven't regretted it for a moment."
+
+"[[That's comforting to hear.]]"
+
+"[[What'd you have to give him in return?]]"
+
+
+:: That's right.
+"What do you do?"
+
+"[[Delivery person, of sorts.]]"
+
+"[[I'm an artist.]]"
+
+
+:: I'm surprised.  He's never struck me as considerate.
+"Oh, it's not out of consideration for you.  But he'll treat you well, if you do well at your job."
+
+"[[Do you know him very well?]]"
+
+"[[What does he look for in his employees?]]"
+
+
+:: I'm sure they'll catch him soon.
+
+
+
+:: So you're a witch?
+"Oh, I don't like that word.  But I have certain tricks that I've picked up here and there.  They're especially useful for rude customers.  Your boss showed me how."
+
+"[[I think you have me confused for someone else.]]"
+
+"[[Oh, you know him?]]"
+
+
+:: Yeah.
+
+
+
+:: Did he have a black briefcase?
+"That's right.  Black suitcase and a black hat.  The table right beside him had two boys who were being rude as hell.  I didn't want to complain about it, but the gentleman with the suitcase asked me quietly if I'd like to do anything about it.  I told him I certainly would, but I couldn't.  Then he said, what if I could?  Do you know the man I mean?"
+
+"[[I think I do.]]"
+
+"[[I'd rather not talk about it.]]"
+
+
+:: What the hell?
+"I don't take kindly to rude customers.  Now, like I said, I think we have a friend in common, so I want to give you a word of advice."
+
+"[[Go on.]]"
+
+"[[I don't take kindly to having my food set on fire.]]"
+
+
+:: I have a job to do.
+"I know, hun."
+
+"[[I think I'll take the check now.]]"
+
+"[[What do you know?]]"
+
+
+:: That's comforting to hear.
+"Looking at you, I think you'll be just fine.  You've got what it takes."
+
+"[[Thank you, ma'am.]]"
+
+"[[I really hope so.]]"
+
+
+:: Nope, just visiting.
+"Family?"
+
+"[[A friend.]]"
+
+"[[No, I don't have any family.]]"
+
+
+:: I've never been before.
+"I hope you have a good time.  I have a friend who lives up there though, maybe you know him?"
+
+"[[It's a big place.]]"
+
+"[[What's he look like?]]"
+
+
+:: What'd you have to give him in return?
+"Coffee.  That's all.  Lots of coffee."
+
+"[[How does he take his coffee?]]"
+
+"[[He works in mysterious ways, I guess.]]"
+
+
+:: I hope so.
+
+
+
+:: What makes you say that?
+
+
+
+:: That's the plan.
+"That's a really long drive.  You want some coffee to go?  I can put it in a travel mug for you."
+
+"[[No, thanks you.]]"
+
+"[[I don't have one, but thanks.]]"
+
+
+:: I think I do.
+
+
+
+:: I think I know the gentleman you met.
+
+
+
+:: It's a big place.
+"Most people have met him, one way or another.  I think you know who I mean."
+
+"[[No, I don't.]]"
+
+"[[Yes, I do.]]"
+
+
+:: What's he look like?
+"I think he's handsome, but not everyone agrees."
+
+"[[Like Benedict Cumberbatch.]]"
+
+"[[I know who you mean.]]"
+
+
+:: I've seen better.
+"Can't win them all.  I'd like to see you do better, though."
+
+"[[Magic isn't my specialty.]]"
+
+"[[I'm just a courier.]]"
+
+
+:: I'd rather not talk about it.
+"Alright, that's your business.  You want anything else?"
+
+"[[Ketchup?]]"
+
+"[[No, that will be it.]]"
+
+
+:: Just the check please.
+
+
+
+:: I'm an artist.
+"Oh, that's nice.  What kind of work do you do?"
+
+"[[Mixed medium.]]"
+
+"[[Sculpture.  Do you want to see one of my pieces?  I have it in the truck.]]"
+
+
+:: No, that'll be it.
+
+
+
+:: Quite.
+"You want to show me one of yours?"
+
+"[[I'm not a witch.]]"
+
+"[[If you want to come to my truck, I can show you something cool.]]"
+
+
+:: I don't quite understand.
+
+
+
+:: Go on.
+"We have a mutual friend, and he can give you some wonderful things, if he wants.  But he doesn't like it when people fail him."
+
+"[[I already knew that, thanks.]]"
+
+"[[Good to know.]]"
+
+
+:: That's a truism if I ever heard one.
+
+
+
+:: Delivery person, of sorts.
+"Do you like it?  Getting to drive all around the country."
+
+"[[It's not the country.  Just this one area.]]"
+
+"[[No, I don't like it.]]"
+
+
+:: Indeed.
+
+
+
+:: A friend.
+"Okay.  I think I might happen to know your friend."
+
+"[[A lot of people do.]]"
+
+"[[I sort of doubt it.]]"
+
+
+:: I don't take kindly to having my food set on fire.
+"Alright, then.  You don't have to listen."
+
+"[[Okay.]]"
+
+"[[Can I have another sandwich?]]"
+
+
+:: No, I don't have any family.
+"That's a shame.  I hope you find someone, then."
+
+"[[Me too.]]"
+
+"[[I'm not really a people person anyway.]]"
+
+
+:: Oh, you know him?
+
+
+
+:: I think you have me confused for someone else.
+
+
+
+:: He does have a nice face.
+
+
+
+:: I understand.
+
+
+
+:: Thank you, ma'am.
+
+
+
+:: How does he take his coffee?
+
+
+
+:: Do you know him very well?
+
+
+
+:: How much?
+"For you, it's on the house.  As a favor to our mutual friend.  But let me give you something before you head out."  {kisses MC on the cheek}
+
+
+:: How many others?
+
+
+
+:: No, that will be it.
+
+
+
+:: No, thanks you.
+
+
+
+:: Yep.
+
+
+
+:: I already knew that, thanks.
+
+
+
+:: Okay.
+
+
+
+:: Good to know.
+
+
+
+:: Yes, I do.
+
+
+
+:: It's not my nature.
+
+
+
+:: A lot of people do.
+
+
+
+:: I don't have one, but thanks.
+
+
+
+:: I really hope so.
+
+
+
+:: I'm not really a people person anyway.
+
+
+
+:: He works in mysterious ways, I guess.
+
+
+
+:: Can I have another sandwich?
+
+
+
+:: What does he look for in his employees?
+
+
+
+:: It doesn't usually work out for me.
+
+
+
+:: Ketchup?
+
+
+
+:: I know who you mean.
+
+
+
+:: No, I don't.
+
+
+
+:: What do you know?
+
+
+
+:: Sculpture.  Do you want to see one of my pieces?  I have it in the truck.
+
+
+
+:: I sort of doubt it.
+
+
+
+:: If you want to come to my truck, I can show you something cool.
+
+
+
+:: Like Benedict Cumberbatch.
+
+
+
+:: Mixed medium.
+
+
+
+:: Me too.
+
+
+
+:: No, I don't like it.
+
+
+
+:: I'm not a witch.
+
+
+
+:: It's not the country.  Just this one area.
+
+
+
+:: I'm just a courier.
+
+
+
+:: Magic isn't my specialty.
+
+
+
