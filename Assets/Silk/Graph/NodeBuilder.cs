@@ -6,15 +6,29 @@ namespace Silk
 {
     public class NodeBuilder
     {
-        Node node;
-        public void BuildNode(string nodeKey, List<string> nodeResponses)
+        Silk.Graph graph = new Silk.Graph();
+        Silk.Node node;
+        public void AddToGraph(Node newNode)
         {
-            node = new Node();
-            node.Key = nodeKey;
-            node.Responses = nodeResponses;
+            if (graph != null)
+            {
+                graph.nodesInGraph.Add(newNode);
+            }
         }
 
-        public void BuildNode(string nodeKey, List<string> nodeResponses, List<string> nodeCustomTags)
+        public void BuildNode(string nodeKey, string nodePrompt, List<string> nodeResponses)
+        {
+            node = new Silk.Node();
+            node.Key = nodeKey;
+            node.Prompt = nodePrompt;
+            node.Responses = nodeResponses;
+            AddToGraph(node);
+            Debug.Log(node);
+            
+            
+        }
+
+        public void BuildNode(string nodeKey, string nodePrompt, List<string> nodeResponses, List<string> nodeCustomTags)
         {
 
         }
