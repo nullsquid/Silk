@@ -86,7 +86,7 @@ namespace Silk
                     foreach(string link in newLinks)
                     {
                         
-                        Debug.Log("link is " + i + " " + link);
+                        //Debug.Log("link is " + i + " " + link);
                     }
 
                 }
@@ -99,6 +99,7 @@ namespace Silk
                 {
                     prompt.Append(newText[i]);
                 }
+                Debug.Log(prompt);
                 
                 
             }
