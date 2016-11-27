@@ -8,7 +8,7 @@ namespace Silk
     public class Parser : MonoBehaviour
     {
         public TextAsset testText;
-
+        NodeBuilder nodeBuilder;
         string textToParse;
         //List<string> nodesToInterpret = new List<string>();
         string[] nodesToInterpret;

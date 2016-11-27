@@ -8,10 +8,10 @@ namespace Silk
 
         string _key;
         string _prompt;
-        public List<string> _responses = new List<string>();
+        public List<string> Responses = new List<string>();
         //
         Dictionary<string, Silk.Node> _neighbors = new Dictionary<string, Silk.Node>();
-
+        
         public string Key
         {
             get
