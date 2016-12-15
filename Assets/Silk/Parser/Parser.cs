@@ -22,6 +22,11 @@ namespace Silk
             {
                 //BuildNodes(nodesToInterpret[i]);
                 SplitTokens(tweeNodesToInterpret[i]);
+                
+            }
+            foreach(string node in tweeNodesToInterpret)
+            {
+                Debug.Log(node);
             }
         }
 
@@ -71,10 +76,8 @@ namespace Silk
                 {
                     prompt.Append(newText[i]);
                 }
-                nodeBuilder.BuildNode(newKey.ToString(), prompt.ToString(), newLinks);
-
-                
-                
+                //nodeBuilder.BuildNode(newKey.ToString(), prompt.ToString(), newLinks);
+                //might need to do it in a new for loop
             }
             
 
