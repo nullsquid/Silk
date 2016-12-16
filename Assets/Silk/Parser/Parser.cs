@@ -11,7 +11,7 @@ namespace Silk
         NodeBuilder nodeBuilder;
         string textToParse;
         //List<string> nodesToInterpret = new List<string>();
-        string[] tweeNodesToInterpret;
+        public string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
         void Start()
         {
@@ -24,6 +24,8 @@ namespace Silk
                 SplitTokens(tweeNodesToInterpret[i]);
                 
             }
+
+            //this below works => for testing only
             foreach(string node in tweeNodesToInterpret)
             {
                 Debug.Log(node);
