@@ -21,16 +21,41 @@ namespace Silk
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
                 //BuildNodes(nodesToInterpret[i]);
-                SplitTokens(tweeNodesToInterpret[i]);
+                //SplitTokens(tweeNodesToInterpret[i]);
                 
             }
+        }
 
-            //this below works => for testing only
-            foreach(string node in tweeNodesToInterpret)
+        void AssignDataToNodes(string newTweeData)
+        {
+            SilkNode newNode = new SilkNode();
+            newNode.nodeName = ReturnTitle(newTweeData);
+            for(int i = 0; i < newTweeData.Length; i++)
             {
-                Debug.Log(node);
+                
             }
         }
+
+        string ReturnTitle(string inputToExtractTitleFrom)
+        {
+            string title = "";
+            for(int i = 0;i < inputToExtractTitleFrom.Length; i++)
+            {
+                if(inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[')
+                {
+                    break;
+                }
+                else
+                {
+                    title += inputToExtractTitleFrom[i];
+                }
+            }
+            return title;
+        }
+        /*string ReturnTitle(inputTweeText)
+        {
+
+        }*/
 
         
 
@@ -77,7 +102,9 @@ namespace Silk
                 else
                 {
                     prompt.Append(newText[i]);
+                    
                 }
+                
                 //nodeBuilder.BuildNode(newKey.ToString(), prompt.ToString(), newLinks);
                 //might need to do it in a new for loop
             }
