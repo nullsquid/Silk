@@ -22,7 +22,7 @@ namespace Silk
             {
                 //BuildNodes(nodesToInterpret[i]);
                 //SplitTokens(tweeNodesToInterpret[i]);
-                
+                AssignDataToNodes(tweeNodesToInterpret[i]);
             }
         }
 
@@ -50,7 +50,23 @@ namespace Silk
                     title += inputToExtractTitleFrom[i];
                 }
             }
+            Debug.Log("title is " + title);
             return title;
+        }
+
+        List<string> ReturnLinks(string inputToExtractLinksFrom)
+        {
+            List<string> newLinks = new List<string>();
+            for (int i = 0; i < inputToExtractLinksFrom.Length; i++){
+                if(inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
+                {
+
+                    string newLink = "";
+                    int linkLength;
+
+                }
+            }
+            return null;
         }
         /*string ReturnTitle(inputTweeText)
         {
