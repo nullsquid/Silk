@@ -23,7 +23,7 @@
 
 "[[Thanks.]]"
 
-"[[Just a half a cup.]]"
+"[[Just a half a cup. ]]"
 
 
 :: Thanks.
@@ -59,7 +59,7 @@
 
 "[[Filthy.]]"
 
-"[[I love it.]]"
+"[[I lo|ve it.]]"
 
 
 :: With cream.

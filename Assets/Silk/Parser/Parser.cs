@@ -20,8 +20,7 @@ namespace Silk
             tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
-                //BuildNodes(nodesToInterpret[i]);
-                //SplitTokens(tweeNodesToInterpret[i]);
+
                 AssignDataToNodes(tweeNodesToInterpret[i]);
             }
         }
@@ -30,10 +29,8 @@ namespace Silk
         {
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
-            for(int i = 0; i < newTweeData.Length; i++)
-            {
-                
-            }
+            newNode.links = ReturnLinks(newTweeData);
+            
         }
 
         string ReturnTitle(string inputToExtractTitleFrom)
@@ -54,19 +51,60 @@ namespace Silk
             return title;
         }
 
-        List<string> ReturnLinks(string inputToExtractLinksFrom)
+        string ReturnCustomTags(string inputToExtractTagsFrom)
         {
-            List<string> newLinks = new List<string>();
+            return null;
+        }
+
+        Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
+        {
+            Debug.Log("link scraper fired");
+
+            Dictionary<string, string> newLinks = new Dictionary<string, string>();
             for (int i = 0; i < inputToExtractLinksFrom.Length; i++){
                 if(inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
                 {
-
+                    
                     string newLink = "";
                     int linkLength;
+             
+                    for(int j = i + 2; j < inputToExtractLinksFrom.Length; j++)
+                    {
+                        if(inputToExtractLinksFrom[j] == '|')
+                        {
+                            string newLinkValue = "";
+                            for(int k = j + 1; k < inputToExtractLinksFrom.Length; k++)
+                            {
+                                if(inputToExtractLinksFrom[k] == ']')
+                                {
+                                    newLinks.Add(newLink, newLinkValue);
+                                    Debug.Log("new link value is " + newLinkValue);
+                                    break;
+                                }
+                                else
+                                {
+                                    newLinkValue += inputToExtractLinksFrom[k];
+                                }
+                            }
+                        }
+                        if(inputToExtractLinksFrom[j] == ']')
+                        {
+                            newLinks.Add(newLink, newLink);
+                            Debug.Log("new link is " + newLink);
+                            break;
+                        }
+                        else
+                        {
+                            newLink += inputToExtractLinksFrom[j];
+
+                        }
+                    }
 
                 }
             }
-            return null;
+            
+            
+            return newLinks;
         }
         /*string ReturnTitle(inputTweeText)
         {
