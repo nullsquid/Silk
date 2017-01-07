@@ -5,9 +5,10 @@ namespace Silk
 {
     public class Graph
     {
-        public List<Silk.Node> nodesInGraph = new List<Silk.Node>();
-        
-        
+        public Dictionary<string, SilkNode> nodes = new Dictionary<string, SilkNode>();
+        public void AddToGraph(string silkKey, SilkNode silkValue) {
+
+        }
 
     }
 }

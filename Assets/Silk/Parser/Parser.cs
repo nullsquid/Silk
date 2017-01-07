@@ -32,7 +32,7 @@ namespace Silk
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
-
+            graphBuilder.AddToGraph(newNode.nodeName, newNode);
             
         }
 
