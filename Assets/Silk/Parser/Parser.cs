@@ -9,6 +9,7 @@ namespace Silk
     {
         public TextAsset testText;
         NodeBuilder nodeBuilder;
+        GraphBuilder graphBuilder;
         string textToParse;
         //List<string> nodesToInterpret = new List<string>();
         public string[] tweeNodesToInterpret;
@@ -16,6 +17,7 @@ namespace Silk
         void Start()
         {
             nodeBuilder = new NodeBuilder();
+            graphBuilder = new GraphBuilder();
             textToParse = testText.text;
             tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
@@ -30,6 +32,7 @@ namespace Silk
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
+
             
         }
 
@@ -51,6 +54,12 @@ namespace Silk
             return title;
         }
 
+        string ReturnPassageTags(string inputToExtractTagsFrom)
+        {
+            string newTag = "";
+            return newTag;
+        }
+
         string ReturnCustomTags(string inputToExtractTagsFrom)
         {
             return null;
@@ -58,8 +67,6 @@ namespace Silk
 
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
-            Debug.Log("link scraper fired");
-
             Dictionary<string, string> newLinks = new Dictionary<string, string>();
             for (int i = 0; i < inputToExtractLinksFrom.Length; i++){
                 if(inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')

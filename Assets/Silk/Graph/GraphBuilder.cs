@@ -6,14 +6,20 @@ namespace Silk
 {
     public class GraphBuilder
     {
+
         //Silk.Graph graph = new Silk.Graph();
-        LinkedList<Node> graph = new LinkedList<Node>();
+        //LinkedList<Node> graph = new LinkedList<Node>();
         Silk.Node node;
+        Dictionary<string, SilkNode> graph = new Dictionary<string, SilkNode>();
+        public void AddToGraph(SilkNode newNode)
+        {
+
+        }
         public void AddToGraph(Node newNode)
         {
             if (graph != null)
             {
-                graph.AddLast(newNode);
+                //graph.AddLast(newNode);
             }
         }
 
