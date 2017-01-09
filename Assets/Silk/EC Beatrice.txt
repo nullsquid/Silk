@@ -5,7 +5,7 @@
 :: Start
 "What can I get for you, hun?"
 
-"[[Burger and fries.  And coffee.]]"
+"[[Burger and fries. | And coffee.]]"
 
 "[[Egg salad sandwich and onion rings.  And coffee.]]"
 

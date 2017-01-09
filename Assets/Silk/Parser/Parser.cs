@@ -91,14 +91,24 @@ namespace Silk
                                 else
                                 {
                                     newLinkValue += inputToExtractLinksFrom[k];
+                                    if (inputToExtractLinksFrom[j] == ']')
+                                    {
+
+                                        newLinks.Add(newLink, newLink);
+                                        Debug.Log("new link is " + newLink);
+                                        break;
+                                    }
                                 }
                             }
                         }
                         if(inputToExtractLinksFrom[j] == ']')
                         {
-                            newLinks.Add(newLink, newLink);
-                            Debug.Log("new link is " + newLink);
-                            break;
+                            if (!newLink.Contains("|"))
+                            {
+                                newLinks.Add(newLink, newLink);
+                                Debug.Log("new link is " + newLink);
+                                break;
+                            }
                         }
                         else
                         {
