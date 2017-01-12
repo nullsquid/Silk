@@ -9,18 +9,20 @@ namespace Silk
 
         //Silk.Graph graph = new Silk.Graph();
         //LinkedList<Node> graph = new LinkedList<Node>();
-        Dictionary<string, SilkNode> graph = new Dictionary<string, SilkNode>();
+        public Dictionary<string, SilkNode> graph = new Dictionary<string, SilkNode>();
+        public Dictionary<string, Dictionary<string, SilkNode>> motherGraph;
         public void AddToGraph(string newKey, SilkNode newNode)
         {
             graph.Add(newKey, newNode);
         }
-        public void AddToGraph(Node newNode)
+        
+        public void AddGraphToMother(Dictionary<string, SilkNode> graph)
         {
-            if (graph != null)
-            {
-                //graph.AddLast(newNode);
-            }
+
         }
+
+
+
 
         
     }

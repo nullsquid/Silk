@@ -9,7 +9,6 @@ public class SilkNode {
     public string nodeName;
     public string nodePassage;
     public Dictionary<string, string> links = new Dictionary<string, string>();
-    //public List<string> linkText = new List<string>();
 
 	
 }

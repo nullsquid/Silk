@@ -22,10 +22,11 @@ namespace Silk
             tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
-
                 AssignDataToNodes(tweeNodesToInterpret[i]);
             }
         }
+
+        
 
         void AssignDataToNodes(string newTweeData)
         {
@@ -33,7 +34,6 @@ namespace Silk
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
-            
         }
 
         string ReturnTitle(string inputToExtractTitleFrom)
@@ -49,6 +49,8 @@ namespace Silk
                 {
                     title += inputToExtractTitleFrom[i];
                 }
+
+                //put StoryTitle check in this function
             }
             Debug.Log("title is " + title);
             return title;
@@ -123,13 +125,9 @@ namespace Silk
             
             return newLinks;
         }
-        /*string ReturnTitle(inputTweeText)
-        {
-
-        }*/
 
         
-
+        /*
         void SplitTokens(string newText)
         {
             StringBuilder tempKey = new StringBuilder();
@@ -182,6 +180,7 @@ namespace Silk
             
 
         }
+        */
 
     }
 }
