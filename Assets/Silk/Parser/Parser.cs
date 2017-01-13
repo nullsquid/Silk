@@ -27,7 +27,7 @@ namespace Silk
         }
 
         
-
+        
         void AssignDataToNodes(string newTweeData)
         {
             SilkNode newNode = new SilkNode();
@@ -36,6 +36,12 @@ namespace Silk
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
         }
 
+        /*string ReturnGraphTitle(string newTweeData)
+        {
+            string newGraphTitle;
+
+        }*/
+
         string ReturnTitle(string inputToExtractTitleFrom)
         {
             string title = "";
@@ -43,6 +49,10 @@ namespace Silk
             {
                 if(inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[')
                 {
+                    if(title == "StoryTitle")
+                    {
+                        //
+                    }
                     break;
                 }
                 else
