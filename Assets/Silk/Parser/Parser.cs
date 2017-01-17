@@ -11,7 +11,6 @@ namespace Silk
         NodeBuilder nodeBuilder;
         GraphBuilder graphBuilder;
         string textToParse;
-        //List<string> nodesToInterpret = new List<string>();
         public string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
         void Start()
@@ -24,6 +23,7 @@ namespace Silk
             {
                 AssignDataToNodes(tweeNodesToInterpret[i]);
             }
+
         }
 
         
@@ -33,14 +33,10 @@ namespace Silk
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
+            //add passage
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
         }
 
-        /*string ReturnGraphTitle(string newTweeData)
-        {
-            string newGraphTitle;
-
-        }*/
 
         string ReturnTitle(string inputToExtractTitleFrom)
         {
@@ -51,20 +47,22 @@ namespace Silk
                 {
                     if(title == "StoryTitle")
                     {
-                        //
+                        
                     }
                     break;
                 }
                 else
                 {
                     title += inputToExtractTitleFrom[i];
+                    inputToExtractTitleFrom.Replace(title, string.Empty);
+
                 }
 
-                //put StoryTitle check in this function
             }
-            Debug.Log("title is " + title);
             return title;
         }
+
+        
 
         string ReturnPassageTags(string inputToExtractTagsFrom)
         {
@@ -97,7 +95,6 @@ namespace Silk
                                 if(inputToExtractLinksFrom[k] == ']')
                                 {
                                     newLinks.Add(newLink, newLinkValue);
-                                    Debug.Log("new link value is " + newLinkValue);
                                     break;
                                 }
                                 else
@@ -107,7 +104,6 @@ namespace Silk
                                     {
 
                                         newLinks.Add(newLink, newLink);
-                                        Debug.Log("new link is " + newLink);
                                         break;
                                     }
                                 }
@@ -118,7 +114,6 @@ namespace Silk
                             if (!newLink.Contains("|"))
                             {
                                 newLinks.Add(newLink, newLink);
-                                Debug.Log("new link is " + newLink);
                                 break;
                             }
                         }
@@ -136,61 +131,36 @@ namespace Silk
             return newLinks;
         }
 
-        
-        /*
-        void SplitTokens(string newText)
+        //garbage fire
+        string ReturnPassage(string inputToExtractPassageFrom)
         {
-            StringBuilder tempKey = new StringBuilder();
-            StringBuilder newKey = new StringBuilder();
-
-            StringBuilder prompt = new StringBuilder();
-            for (int i = 0; i < newText.Length; i++)
+            Debug.Log("full text is " + inputToExtractPassageFrom);
+            string passage = "";
+            for(int i = 0; i < inputToExtractPassageFrom.Length; i++)
             {
-                List<string> newLinks = new List<string>();
-                if (newKey.ToString() == "")
+                if(inputToExtractPassageFrom[i] == ':')
                 {
-                    if (newText[i] != '\n')
+                    for(int j = i; j < inputToExtractPassageFrom.Length; j++)
                     {
-                        tempKey.Append(newText[i]);
-                    }
-                    else
-                    {
-                        newKey = tempKey;
-                    }
-                }
-                else if(newText[i] == '[' && newText[i + 1] == '[')
-                {
-                    
-                    StringBuilder newLink = new StringBuilder();
-                    for (int j = i; j < newText.IndexOf("]]"); j++)
-                    {
-                        newLink.Append(newText[j]);
-                    }
-                    if (newLink.ToString() != "")
-                    {
-                        newLinks.Add(newLink.ToString().TrimStart('['));
-                    }
-                    
 
+                    }
                 }
-                else if(newText[i] == '<' && newText[i + 1] == '<')
+                else if (inputToExtractPassageFrom[i] == '[' || inputToExtractPassageFrom[i] == '<')
                 {
-                    List<string> newCustomTags = new List<string>();
-                    //Custom Tags
+
                 }
                 else
                 {
-                    prompt.Append(newText[i]);
-                    
+                    passage += inputToExtractPassageFrom[i];
                 }
-                
-                //nodeBuilder.BuildNode(newKey.ToString(), prompt.ToString(), newLinks);
-                //might need to do it in a new for loop
-            }
-            
 
+            }
+            Debug.Log("passage is " + passage);
+            return passage;
         }
-        */
+
+        
+        
 
     }
 }

@@ -16,9 +16,9 @@ namespace Silk
             graph.Add(newKey, newNode);
         }
         
-        public void AddGraphToMother(Dictionary<string, SilkNode> graph)
+        public void AddGraphToMother(string name, Dictionary<string, SilkNode> graph)
         {
-
+            motherGraph.Add(name, graph);
         }
 
 
