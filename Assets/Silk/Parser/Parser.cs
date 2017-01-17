@@ -40,6 +40,7 @@ namespace Silk
 
         string ReturnTitle(string inputToExtractTitleFrom)
         {
+            Debug.Log("before " + inputToExtractTitleFrom);
             string title = "";
             for(int i = 0;i < inputToExtractTitleFrom.Length; i++)
             {
@@ -54,11 +55,12 @@ namespace Silk
                 else
                 {
                     title += inputToExtractTitleFrom[i];
-                    inputToExtractTitleFrom.Replace(title, string.Empty);
+                    
 
                 }
 
             }
+            Debug.Log("after " + inputToExtractTitleFrom);
             return title;
         }
 
@@ -136,6 +138,7 @@ namespace Silk
         {
             Debug.Log("full text is " + inputToExtractPassageFrom);
             string passage = "";
+             
             for(int i = 0; i < inputToExtractPassageFrom.Length; i++)
             {
                 if(inputToExtractPassageFrom[i] == ':')
