@@ -15,6 +15,7 @@ namespace Silk
         string[] delim = new string[] { ":: " };
         void Start()
         {
+            string promptContainer = "";
             nodeBuilder = new NodeBuilder();
             graphBuilder = new GraphBuilder();
             textToParse = testText.text;
@@ -22,6 +23,17 @@ namespace Silk
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
                 AssignDataToNodes(tweeNodesToInterpret[i]);
+                promptContainer = tweeNodesToInterpret[i].Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty);
+                //promptContainer = tweeNodesToInterpret[i].Replace(ReturnLinks)
+                promptContainer = tweeNodesToInterpret[i].Replace(ReturnCustomTags(tweeNodesToInterpret[i]), string.Empty);
+                promptContainer = tweeNodesToInterpret[i].Replace(ReturnPassageTags(tweeNodesToInterpret[i]), string.Empty);
+                Debug.Log(promptContainer);
+                
+            }
+            //for testing
+            for(int j = 0; j < tweeNodesToInterpret.Length; j++)
+            {
+                Debug.Log("test " + tweeNodesToInterpret[j]);
             }
 
         }
@@ -37,19 +49,20 @@ namespace Silk
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
         }
 
+        void AssignPassageToNodes(string newTweeData)
+        {
+
+        }
 
         string ReturnTitle(string inputToExtractTitleFrom)
         {
-            Debug.Log("before " + inputToExtractTitleFrom);
             string title = "";
             for(int i = 0;i < inputToExtractTitleFrom.Length; i++)
             {
                 if(inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[')
                 {
-                    if(title == "StoryTitle")
-                    {
-                        
-                    }
+                    //title/graph parsing should go here
+                    //
                     break;
                 }
                 else
@@ -60,8 +73,8 @@ namespace Silk
                 }
 
             }
-            Debug.Log("after " + inputToExtractTitleFrom);
-            return title;
+            Debug.Log("title is " + title);
+            return title.TrimStart(' ').TrimEnd(' ');
         }
 
         
