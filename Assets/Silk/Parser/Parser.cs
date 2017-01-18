@@ -15,26 +15,40 @@ namespace Silk
         string[] delim = new string[] { ":: " };
         void Start()
         {
-            string promptContainer = "";
+            
             nodeBuilder = new NodeBuilder();
             graphBuilder = new GraphBuilder();
             textToParse = testText.text;
             tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
+                StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
                 AssignDataToNodes(tweeNodesToInterpret[i]);
-                promptContainer = tweeNodesToInterpret[i].Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty);
-                //promptContainer = tweeNodesToInterpret[i].Replace(ReturnLinks)
-                promptContainer = tweeNodesToInterpret[i].Replace(ReturnCustomTags(tweeNodesToInterpret[i]), string.Empty);
-                promptContainer = tweeNodesToInterpret[i].Replace(ReturnPassageTags(tweeNodesToInterpret[i]), string.Empty);
-                Debug.Log(promptContainer);
+                if (tweeNodesToInterpret[i].Contains("|"))
+                {
+                    promptContainer.Replace("|", string.Empty);
+                }
+                //if contains passagetag replace passagetag
+                if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
+                {
+                    //need to also deal with if there's a tag in the name
+                    
+                    promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                }
+                foreach(KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
+                {
+                    if(tweeNodesToInterpret[i].Contains("[["+entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
+                    {
+
+                        promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
+                    }
+                }
+                
+                
+                Debug.Log("container is " + promptContainer);
                 
             }
-            //for testing
-            for(int j = 0; j < tweeNodesToInterpret.Length; j++)
-            {
-                Debug.Log("test " + tweeNodesToInterpret[j]);
-            }
+            
 
         }
 
@@ -73,7 +87,7 @@ namespace Silk
                 }
 
             }
-            Debug.Log("title is " + title);
+            //Debug.Log("title is " + title);
             return title.TrimStart(' ').TrimEnd(' ');
         }
 
