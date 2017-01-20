@@ -23,16 +23,13 @@ namespace Silk
             for (int i = 0; i < tweeNodesToInterpret.Length; i++)
             {
                 StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
-                AssignDataToNodes(tweeNodesToInterpret[i]);
+                
                 if (tweeNodesToInterpret[i].Contains("|"))
                 {
                     promptContainer.Replace("|", string.Empty);
                 }
-                //if contains passagetag replace passagetag
                 if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
-                {
-                    //need to also deal with if there's a tag in the name
-                    
+                {                    
                     promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
                 }
                 foreach(KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
@@ -43,23 +40,27 @@ namespace Silk
                         promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
                     }
                 }
-                
-                
+
+                AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
                 Debug.Log("container is " + promptContainer);
                 
             }
-            
+            foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
+            {
+                Debug.Log("node prompt is " + node.Key + " " + node.Value.nodePassage);
+            }
 
         }
 
         
         
-        void AssignDataToNodes(string newTweeData)
+        void AssignDataToNodes(string newTweeData, string newPassage)
         {
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
             //add passage
+            newNode.nodePassage = newPassage;
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
         }
 
