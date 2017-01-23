@@ -100,8 +100,27 @@ namespace Silk
             return newTag;
         }
 
-        string ReturnCustomTags(string inputToExtractTagsFrom)
+        Dictionary<string, List<string>> ReturnCustomTags(string inputToExtractTagsFrom)
         {
+            //first is root, List of arguments to follow
+            for(int i = 0; i < inputToExtractTagsFrom.Length; i++)
+            {
+                if(inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<')
+                {
+                    string customTagName;
+                    List<string> customTagAttributes = new List<string>();
+                    for(int j = i + 2; j < inputToExtractTagsFrom.Length; j++)
+                    {
+                        if(inputToExtractTagsFrom[j] == '=')
+                        {
+
+                        }
+                    }
+
+                    
+                }
+            }
+
             return null;
         }
 
