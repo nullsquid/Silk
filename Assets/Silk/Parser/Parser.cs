@@ -111,13 +111,14 @@ namespace Silk
                     List<string> customTagAttributes = new List<string>();
                     string[] custTagAtts = null;
                     int numOfAttributes = 0;
-                    char attrDelimiter = ',';
+                    char[] attrDelimiter = { ',' };
                     for(int t = 0; t < inputToExtractTagsFrom.Length; t++)
                     {
                         if(inputToExtractTagsFrom[t] == '>' && inputToExtractTagsFrom[t] == '>')
                         {
                             //this is so that there will be one more attribute than there are commas
                             numOfAttributes += 1;
+                            Debug.Log(numOfAttributes);
                             break;
                         }
                         else if(inputToExtractTagsFrom[t] == ',')
@@ -130,9 +131,7 @@ namespace Silk
                     {
                         if(inputToExtractTagsFrom[j] == '=')
                         {
-                            //need to split the tag attributes into an array, delimited by ',' to a maximum of numOfAttributes
-                            //string.Split(char, int) isn't working and idk why
-                            //custTagAtts = inputToExtractTagsFrom.Split(attrDelimiter, numOfAttributes);
+                            custTagAtts = inputToExtractTagsFrom.Split(attrDelimiter, numOfAttributes);
                             break;
                         }
                         else

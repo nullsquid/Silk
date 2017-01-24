@@ -10,7 +10,7 @@ I didn't get very far, but there's a passage here.
 
 :: I'm not sure yet.  Seems vast.  Do you want to stick together or split up?
 I'm not sure yet.  Seems vast.  Do you want to stick together or split up?
-
+<<sfx="hello","world">>
 [[Stick together|7D]]
 
 [[Split up|7E]]
