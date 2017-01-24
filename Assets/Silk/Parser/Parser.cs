@@ -42,26 +42,34 @@ namespace Silk
                 }
 
                 AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
-                Debug.Log("container is " + promptContainer);
+                //Debug.Log("container is " + promptContainer);
                 
             }
             foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
             {
-                Debug.Log("node prompt is " + node.Key + " " + node.Value.nodePassage);
+                //Debug.Log("node prompt is " + node.Key + " " + node.Value.nodePassage);
+                //Debug.Log("custom tags are " + node.Key + " " + node.Value.tags.Keys);
             }
+
+
+
 
         }
 
-        
-        
+
+
         void AssignDataToNodes(string newTweeData, string newPassage)
         {
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
+            ReturnCustomTags(newTweeData);
+            //newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
             newNode.nodePassage = newPassage;
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
+            //Debug.Log("new custom tags are " + newNode.tags);
+
         }
 
         void AssignPassageToNodes(string newTweeData)
@@ -100,8 +108,62 @@ namespace Silk
             return newTag;
         }
 
-        Dictionary<string, List<string>> ReturnCustomTags(string inputToExtractTagsFrom)
+        /*Dictionary<string, string[]>*/void ReturnCustomTags(string inputToExtractTagsFrom)
         {
+            Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
+            List<string> rawTags = new List<string>();
+            for (int i = 0; i < inputToExtractTagsFrom.Length; i++)
+            {
+                string rawTag = "";
+                //to find each custom tag
+                if (inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<')
+                {
+                    //to get data out of each tag
+                    for (int j = i + 2; j < inputToExtractTagsFrom.Length; j++)
+                    {
+                        if(inputToExtractTagsFrom[j] == '>' && inputToExtractTagsFrom[j + 1] == '>')
+                        {
+                            rawTags.Add(rawTag);
+                            break;
+                        }
+                        else
+                        {
+                            rawTag += inputToExtractTagsFrom[j];
+                        }
+                    }
+                }
+            }
+            foreach(string tag in rawTags)
+            {
+                string tagName = "";
+                string[] tagArgs = null;
+                for(int i = 0; i < tag.Length; i++)
+                {
+                    if(tag[i] == '=')
+                    {
+                        tagArgs = tag.Substring(i + 1).Split(',');
+                        break;
+                    }
+                    else
+                    {
+                        tagName += tag[i];
+                        
+                    }
+                }
+                if (tagArgs != null)
+                {
+                    foreach (string arg in tagArgs)
+                    {
+                        Debug.Log(arg);
+                    }
+                }
+            }
+
+        }
+        /*
+        Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
+        {
+            Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
             //first is root, List of arguments to follow
             for(int i = 0; i < inputToExtractTagsFrom.Length; i++)
             {
@@ -138,14 +200,18 @@ namespace Silk
                         {
                             customTagName += inputToExtractTagsFrom[j];
                         }
-                    }
 
+                    }
+                    
+                    tags.Add(customTagName, custTagAtts);
                     
                 }
+                
             }
-
-            return null;
+            //well this is returning the wrong stuff
+            return tags;
         }
+        */
 
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
