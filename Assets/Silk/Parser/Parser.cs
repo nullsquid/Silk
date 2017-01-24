@@ -42,14 +42,11 @@ namespace Silk
                 }
 
                 AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
-                //Debug.Log("container is " + promptContainer);
                 
             }
             foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
             {
-                //Debug.Log("node prompt is " + node.Key + " " + node.Value.nodePassage);
-                //Debug.Log("custom tags are " + node.Key + " " + node.Value.tags.Keys);
-                Debug.Log("custom tags are " + node.Value.tags.Count);
+                //for testing
             }
 
 
