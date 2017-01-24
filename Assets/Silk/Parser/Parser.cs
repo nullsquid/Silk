@@ -56,19 +56,20 @@ namespace Silk
                     AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
 
                 }
+                graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
             }
             foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
             {
                 //for testing
             }
-
+            
 
 
 
         }
 
 
-
+        
         void AssignDataToNodes(string newTweeData, string newPassage)
         {
             SilkNode newNode = new SilkNode();
