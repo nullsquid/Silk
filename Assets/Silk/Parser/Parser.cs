@@ -49,6 +49,7 @@ namespace Silk
             {
                 //Debug.Log("node prompt is " + node.Key + " " + node.Value.nodePassage);
                 //Debug.Log("custom tags are " + node.Key + " " + node.Value.tags.Keys);
+                Debug.Log("custom tags are " + node.Value.tags.Count);
             }
 
 
@@ -63,12 +64,10 @@ namespace Silk
             SilkNode newNode = new SilkNode();
             newNode.nodeName = ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
-            ReturnCustomTags(newTweeData);
-            //newNode.tags = ReturnCustomTags(newTweeData);
+            newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
             newNode.nodePassage = newPassage;
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
-            //Debug.Log("new custom tags are " + newNode.tags);
 
         }
 
@@ -96,7 +95,6 @@ namespace Silk
                 }
 
             }
-            //Debug.Log("title is " + title);
             return title.TrimStart(' ').TrimEnd(' ');
         }
 
@@ -108,10 +106,11 @@ namespace Silk
             return newTag;
         }
 
-        /*Dictionary<string, string[]>*/void ReturnCustomTags(string inputToExtractTagsFrom)
+        Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
         {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
             List<string> rawTags = new List<string>();
+            int iterations = 0;
             for (int i = 0; i < inputToExtractTagsFrom.Length; i++)
             {
                 string rawTag = "";
@@ -137,8 +136,10 @@ namespace Silk
             {
                 string tagName = "";
                 string[] tagArgs = null;
+                
                 for(int i = 0; i < tag.Length; i++)
                 {
+
                     if(tag[i] == '=')
                     {
                         tagArgs = tag.Substring(i + 1).Split(',');
@@ -152,66 +153,24 @@ namespace Silk
                 }
                 if (tagArgs != null)
                 {
-                    foreach (string arg in tagArgs)
-                    {
-                        Debug.Log(arg);
-                    }
+                    
+                    tags.Add(tagName + "_" + iterations, tagArgs);
+                    
                 }
-            }
-
-        }
-        /*
-        Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
-        {
-            Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
-            //first is root, List of arguments to follow
-            for(int i = 0; i < inputToExtractTagsFrom.Length; i++)
-            {
-                if(inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<')
+                else
                 {
-                    string customTagName = "";
-                    List<string> customTagAttributes = new List<string>();
-                    string[] custTagAtts = null;
-                    int numOfAttributes = 0;
-                    char[] attrDelimiter = { ',' };
-                    for(int t = 0; t < inputToExtractTagsFrom.Length; t++)
-                    {
-                        if(inputToExtractTagsFrom[t] == '>' && inputToExtractTagsFrom[t] == '>')
-                        {
-                            //this is so that there will be one more attribute than there are commas
-                            numOfAttributes += 1;
-                            Debug.Log(numOfAttributes);
-                            break;
-                        }
-                        else if(inputToExtractTagsFrom[t] == ',')
-                        {
-                            numOfAttributes += 1;
-                        }
-                        //catch some errors here, if the syntax for the tag isn't right
-                    }
-                    for(int j = i + 2; j < inputToExtractTagsFrom.Length; j++)
-                    {
-                        if(inputToExtractTagsFrom[j] == '=')
-                        {
-                            custTagAtts = inputToExtractTagsFrom.Split(attrDelimiter, numOfAttributes);
-                            break;
-                        }
-                        else
-                        {
-                            customTagName += inputToExtractTagsFrom[j];
-                        }
-
-                    }
-                    
-                    tags.Add(customTagName, custTagAtts);
-                    
+                    tags.Add(tagName, null);
                 }
-                
+                iterations += 1;
             }
-            //well this is returning the wrong stuff
+            foreach(KeyValuePair<string, string[]> tag in tags)
+            {
+                //Debug.Log(tag.Key);
+            }
             return tags;
+
         }
-        */
+       
 
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {

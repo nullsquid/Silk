@@ -95,6 +95,7 @@ Even a network has a control center.
 
 :: And then we'll go from there.
 And then we'll go from there.
+<<boop="hi">>
 
 [[7D]]
 
