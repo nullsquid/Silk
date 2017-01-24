@@ -10,6 +10,7 @@ namespace Silk
         public TextAsset testText;
         NodeBuilder nodeBuilder;
         GraphBuilder graphBuilder;
+        Importer importer;
         string textToParse;
         public string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
@@ -18,31 +19,43 @@ namespace Silk
             
             nodeBuilder = new NodeBuilder();
             graphBuilder = new GraphBuilder();
-            textToParse = testText.text;
-            tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < tweeNodesToInterpret.Length; i++)
+            importer = GetComponent<Silk.Importer>();
+            
+            foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
-                StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
+                TextAsset tweeFile = currentTweeFile;
+                string fileName = currentTweeFile.name;
+                Debug.Log(tweeFile.text);
+                //this works for single file
+                //textToParse = testText.text;
                 
-                if (tweeNodesToInterpret[i].Contains("|"))
+                //hopefully this works
+                textToParse = tweeFile.text;
+                tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < tweeNodesToInterpret.Length; i++)
                 {
-                    promptContainer.Replace("|", string.Empty);
-                }
-                if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
-                {                    
-                    promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
-                }
-                foreach(KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
-                {
-                    if(tweeNodesToInterpret[i].Contains("[["+entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
+                    StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
+
+                    if (tweeNodesToInterpret[i].Contains("|"))
                     {
-
-                        promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
+                        promptContainer.Replace("|", string.Empty);
                     }
-                }
+                    if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
+                    {
+                        promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                    }
+                    foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
+                    {
+                        if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
+                        {
 
-                AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
-                
+                            promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
+                        }
+                    }
+
+                    AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
+
+                }
             }
             foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
             {
