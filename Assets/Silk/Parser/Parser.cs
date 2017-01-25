@@ -8,7 +8,6 @@ namespace Silk
     public class Parser : MonoBehaviour
     {
         public TextAsset testText;
-        NodeBuilder nodeBuilder;
         GraphBuilder graphBuilder;
         Importer importer;
         string textToParse;
@@ -17,7 +16,6 @@ namespace Silk
         void Start()
         {
             
-            nodeBuilder = new NodeBuilder();
             graphBuilder = new GraphBuilder();
             importer = GetComponent<Silk.Importer>();
             
@@ -29,7 +27,6 @@ namespace Silk
                 //this works for single file
                 //textToParse = testText.text;
                 
-                //hopefully this works
                 textToParse = tweeFile.text;
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tweeNodesToInterpret.Length; i++)
