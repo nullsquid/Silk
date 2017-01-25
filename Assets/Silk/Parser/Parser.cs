@@ -53,7 +53,7 @@ namespace Silk
                         }
                     }
 
-                    AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString());
+                    AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
 
                 }
                 graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
@@ -62,18 +62,27 @@ namespace Silk
             {
                 //for testing
             }
+            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> graph in graphBuilder.motherGraph)
+            {
+                //for testing
+                //Debug.Log("graph is " + graph);
+                foreach(KeyValuePair<string, SilkNode> node in graph.Value)
+                {
+                    //for testing
+                    //Debug.Log("passage is " + node.Value.nodeName);
+                }
+                
+
+            }
             
-
-
-
         }
 
 
         
-        void AssignDataToNodes(string newTweeData, string newPassage)
+        void AssignDataToNodes(string newTweeData, string newPassage, string graphTitle)
         {
             SilkNode newNode = new SilkNode();
-            newNode.nodeName = ReturnTitle(newTweeData);
+            newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData);
             newNode.links = ReturnLinks(newTweeData);
             newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
