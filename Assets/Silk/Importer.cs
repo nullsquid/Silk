@@ -10,10 +10,7 @@ namespace Silk {
         void Awake()
         {
             rawTweeFiles = Resources.LoadAll<TextAsset>("Text");
-            /*foreach(TextAsset file in rawTweeFiles)
-            {
-                Debug.Log(file.text);
-            }*/
+            
         }
     }
 }

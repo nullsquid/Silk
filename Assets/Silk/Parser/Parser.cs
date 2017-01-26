@@ -3,15 +3,15 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using Silk;
 namespace Silk
 {
     public class Parser : MonoBehaviour
     {
-        public TextAsset testText;
         GraphBuilder graphBuilder;
         Importer importer;
         string textToParse;
-        public string[] tweeNodesToInterpret;
+        string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
         void Start()
         {
@@ -23,7 +23,6 @@ namespace Silk
             {
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
-                Debug.Log(tweeFile.text);
                 //this works for single file
                 //textToParse = testText.text;
                 
