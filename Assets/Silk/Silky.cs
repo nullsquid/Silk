@@ -18,6 +18,25 @@ namespace Silk
             return null;
         }
 
+        public SilkNode GetNodeByLink(string linkText)
+        {
+            return null;
+        }
+
+        public string GetNodePassage(SilkNode node)
+        {
+            return "";
+        }
+
+        public string GetNodeTitle(SilkNode node)
+        {
+            return "";
+        }
+
+
+
+        
+
         
 
 
