@@ -22,8 +22,9 @@ namespace Silk
 
         public Dictionary<string, SilkNode> LoadStory(string storyName)
         {
-            
-            return null;
+            Dictionary<string, SilkNode> story;
+            story = builder.motherGraph[storyName];
+            return story;
         }
 
 
