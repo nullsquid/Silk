@@ -7,6 +7,9 @@ namespace Silk
     public class Silky
     {
         GraphBuilder builder;
+        //story => graph
+        Dictionary<string, SilkNode> story;
+
         //public Dictionary<string, >
         //I might want to make the SilkGraph class do something first
         //for now I'll just have it return a dictionary I guess.... :/
@@ -22,7 +25,6 @@ namespace Silk
 
         public Dictionary<string, SilkNode> LoadStory(string storyName)
         {
-            Dictionary<string, SilkNode> story;
             story = builder.motherGraph[storyName];
             return story;
         }
@@ -31,29 +33,29 @@ namespace Silk
 
         public SilkNode GetNodeByName(string nodeName)
         {
-            return null;
+            SilkNode node;
+            node = story[nodeName];
+            return node;
         }
 
-        public SilkNode GetNodeByLink(string linkText)
+        //this is gonna be bad for now
+        public SilkNode GetNodeByLink(SilkNode curNode, string linkText)
         {
-            return null;
+            SilkNode node;
+            string link = curNode.links[linkText];
+            node = story[link];
+            return node;
         }
 
-        public string GetNodePassage(SilkNode node)
+        public string GetNodePassage(SilkNode curNode)
         {
-            return node.nodePassage;
+            return curNode.nodePassage;
         }
 
-        public string GetNodeName(SilkNode node)
+        public string GetNodeName(SilkNode curNode)
         {
-            return node.nodeName;
+            return curNode.nodeName;
         }
-
-
-
-        
-
-        
 
 
 
