@@ -101,6 +101,7 @@ GameObject:
   - 114: {fileID: 1228748755}
   - 114: {fileID: 1228748757}
   - 114: {fileID: 1228748758}
+  - 114: {fileID: 1228748759}
   m_Layer: 0
   m_Name: Silk
   m_TagString: Untagged
@@ -155,6 +156,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawTweeFiles: []
+--- !u!114 &1228748759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1228748754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ae0408c5614e048b2501b9a6c09252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745732814
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,12 +4,12 @@ using UnityEngine;
 using Silk;
 namespace Silk
 {
-    public class Silky
+    public class Silky : MonoBehaviour
     {
-        GraphBuilder builder;
+        //GraphBuilder builder
         //story => graph
         Dictionary<string, SilkNode> story;
-
+        Dictionary<string, SilkNode> testStory;
         //public Dictionary<string, >
         //I might want to make the SilkGraph class do something first
         //for now I'll just have it return a dictionary I guess.... :/
@@ -22,10 +22,31 @@ namespace Silk
             //story = builder.motherGraph[storyName];
             return null;
         }*/
-
+        void Update()
+        {
+            //testStory = LoadStory("HowToUse");
+            /*
+            foreach (KeyValuePair<string, Dictionary<string, SilkNode>> story in builder.motherGraph)
+            {
+                Debug.Log("story name is " + story.Key);
+            }
+            */
+            //
+            testStory = LoadStory("HowToUse");
+            //Debug.Log(GetNodePassage(GetNodeByName("Start Here!")));
+        }
         public Dictionary<string, SilkNode> LoadStory(string storyName)
         {
-            story = builder.motherGraph[storyName];
+            /*
+            if (builder.motherGraph.ContainsKey(storyName))
+            {
+                story = builder.motherGraph[storyName];
+            }
+            else
+            {
+                Debug.LogError("No story named " + storyName + " found");
+            }
+            */
             return story;
         }
 

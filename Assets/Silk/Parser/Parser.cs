@@ -53,6 +53,7 @@ namespace Silk
 
                 }
                 graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
+                
             }
             foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
             {
