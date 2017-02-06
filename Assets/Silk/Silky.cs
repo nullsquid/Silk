@@ -4,7 +4,7 @@ using UnityEngine;
 using Silk;
 namespace Silk
 {
-    public class Silky : MonoBehaviour
+    public class Silky
     {
         //GraphBuilder builder
         //story => graph
@@ -22,19 +22,7 @@ namespace Silk
             //story = builder.motherGraph[storyName];
             return null;
         }*/
-        void Update()
-        {
-            //testStory = LoadStory("HowToUse");
-            /*
-            foreach (KeyValuePair<string, Dictionary<string, SilkNode>> story in builder.motherGraph)
-            {
-                Debug.Log("story name is " + story.Key);
-            }
-            */
-            //
-            testStory = LoadStory("HowToUse");
-            //Debug.Log(GetNodePassage(GetNodeByName("Start Here!")));
-        }
+        
         public Dictionary<string, SilkNode> LoadStory(string storyName)
         {
             /*
