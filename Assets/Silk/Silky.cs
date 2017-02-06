@@ -4,11 +4,15 @@ using UnityEngine;
 using Silk;
 namespace Silk
 {
-    public class Silky : MonoBehaviour
+    public class Silky
     {
+        //THIS WHOLE THING IS FUCKED BECAUSE I NEED TO GET THE INSTANCE OF THE GRAPH
+        //THAT ALREADY EXISTS!
+
         //GraphBuilder builder
         //story => graph
         Dictionary<string, SilkNode> story;
+        //for testing
         Dictionary<string, SilkNode> testStory;
         //public Dictionary<string, >
         //I might want to make the SilkGraph class do something first
@@ -22,19 +26,7 @@ namespace Silk
             //story = builder.motherGraph[storyName];
             return null;
         }*/
-        void Update()
-        {
-            //testStory = LoadStory("HowToUse");
-            /*
-            foreach (KeyValuePair<string, Dictionary<string, SilkNode>> story in builder.motherGraph)
-            {
-                Debug.Log("story name is " + story.Key);
-            }
-            */
-            //
-            testStory = LoadStory("HowToUse");
-            //Debug.Log(GetNodePassage(GetNodeByName("Start Here!")));
-        }
+        
         public Dictionary<string, SilkNode> LoadStory(string storyName)
         {
             /*
