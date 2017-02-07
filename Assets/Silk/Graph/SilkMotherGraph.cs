@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class SilkMotherGraph {
 
-    public Dictionary<string, Dictionary<string, SilkNode>> motherGraph = new Dictionary<string, Dictionary<string, SilkNode>>();
+    private Dictionary<string, Dictionary<string, SilkNode>> motherGraph = new Dictionary<string, Dictionary<string, SilkNode>>();
 
+    //public void AddToMotherGraph()
 }

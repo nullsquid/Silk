@@ -198,6 +198,9 @@ namespace Silk
                     
                     string newLink = "";
                     int linkLength;
+                    //I might want to reevaluate how I deal with link text that is repeated.
+                    //for now this should work
+                    int linkCount = 0;
              
                     for(int j = i + 2; j < inputToExtractLinksFrom.Length; j++)
                     {
@@ -208,7 +211,9 @@ namespace Silk
                             {
                                 if(inputToExtractLinksFrom[k] == ']')
                                 {
-                                    newLinks.Add(newLink, newLinkValue);
+                                    
+                                    newLinks.Add(linkCount + "_" + newLink, newLinkValue);
+                                    linkCount += 1;
                                     break;
                                 }
                                 else
@@ -217,7 +222,8 @@ namespace Silk
                                     if (inputToExtractLinksFrom[j] == ']')
                                     {
 
-                                        newLinks.Add(newLink, newLink);
+                                        newLinks.Add(linkCount + "_" + newLink, newLink);
+                                        linkCount += 1;
                                         break;
                                     }
                                 }
@@ -227,7 +233,8 @@ namespace Silk
                         {
                             if (!newLink.Contains("|"))
                             {
-                                newLinks.Add(newLink, newLink);
+                                newLinks.Add(linkCount + "_" + newLink, newLink);
+                                linkCount += 1;
                                 break;
                             }
                         }
