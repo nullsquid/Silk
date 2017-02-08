@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class SilkMotherGraph {
+namespace Silk
+{
+    public class SilkMotherGraph
+    {
 
-    private Dictionary<string, Dictionary<string, SilkNode>> motherGraph = new Dictionary<string, Dictionary<string, SilkNode>>();
+        private Dictionary<string, Dictionary<string, SilkNode>> motherGraph = new Dictionary<string, Dictionary<string, SilkNode>>();
 
-    //public void AddToMotherGraph()
+        //public void AddToMotherGraph()
+        //public loadStory
+    }
 }
