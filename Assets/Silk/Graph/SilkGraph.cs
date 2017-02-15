@@ -33,6 +33,23 @@ namespace Silk
             
         }
         */
+
+        //this needs some work
+        /*
+        public SilkNode GetNodeByLink(SilkLink link)
+        {
+            foreach(KeyValuePair<string, SilkNode> node in story)
+            {
+                if(node.Value.nodeName == link.LinkedNode)
+                {
+                    return node.Value;
+                }
+                
+            }
+            return null;
+        }
+        */
+
         public string GetNodePassage(string nodeName)
         {
             return story[nodeName].nodePassage;

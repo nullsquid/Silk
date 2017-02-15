@@ -18,7 +18,8 @@ namespace Silk
             
             graphBuilder = new GraphBuilder();
             importer = GetComponent<Silk.Importer>();
-            
+            List<string> filenames = new List<string>();
+
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
                 TextAsset tweeFile = currentTweeFile;
@@ -49,25 +50,71 @@ namespace Silk
                             promptContainer.Replace("]]", string.Empty);
                         }
                     }
-
-                    AssignDataToNodes(tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    SilkNode newNode = new SilkNode();
+                    AssignDataToNodes(newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
 
                 }
                 graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
                 
             }
-            foreach(KeyValuePair<string, SilkNode> node in graphBuilder.graph)
+            //Break This Out into its own method
+            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> silkStory in graphBuilder.motherGraph)
             {
-                //for testing
+                filenames.Add(silkStory.Key);
             }
+            //have to search the mother to do it to ALL the graphs???
+            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> story in graphBuilder.motherGraph)
+            {
+                foreach(KeyValuePair<string, SilkNode> node in story.Value)
+                {
+                   
+                    foreach (KeyValuePair<string, string> link in node.Value.links)
+                     {
+                        StringBuilder linkNameBuilder = new StringBuilder();
+                        string linkName;
+                        linkNameBuilder.Append(link.Value);
+                        linkName = linkNameBuilder.ToString().TrimStart().TrimEnd();
+                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value)
+                        {
+                            string nodeName = "";
+                            StringBuilder nodeNameBuilder = new StringBuilder();
+                            for (int a = 0; a < filenames.Count; a++)
+                            {
+
+                                
+                                if (linkedNode.Value.nodeName.Contains(filenames[a]))
+                                {
+                                    
+                                    nodeNameBuilder.Append(linkedNode.Value.nodeName.Remove(0, filenames[a].Length + 1));
+                                    nodeName = nodeNameBuilder.ToString().TrimEnd();
+
+                                }
+                                
+                            }
+                                                        
+                            if (linkName.ToString() == nodeName)
+                            {
+                                
+                                SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
+                                node.Value.silkLinks.Add(newSilkLink);
+                                Debug.Log(newSilkLink.LinkText);
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+
             foreach(KeyValuePair<string, Dictionary<string, SilkNode>> graph in graphBuilder.motherGraph)
             {
                 //for testing
-                //Debug.Log("graph is " + graph);
                 foreach(KeyValuePair<string, SilkNode> node in graph.Value)
                 {
                     //for testing
-                    //Debug.Log("passage is " + node.Value.nodeName);
+
+
                 }
                 
 
@@ -76,20 +123,36 @@ namespace Silk
         }
 
 
-        
-        void AssignDataToNodes(string newTweeData, string newPassage, string graphTitle)
+        //taking newNode out of here--lets see if it works
+        void AssignDataToNodes(SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
         {
-            SilkNode newNode = new SilkNode();
-            newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData);
+            newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
             newNode.nodePassage = newPassage;
-            //add links
-            newNode.silkLinks = ReturnLinks(newTweeData, newNode);
-            Debug.Log(newNode.nodePassage);
+            //add link names
+            newNode.links = ReturnLinks(newTweeData);
+            //Debug.Log(newNode.nodePassage);
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
 
         }
+        /*
+        void AssignLinksToNodes(SilkNode newNode, List<SilkLink> silkLinkList, string newTweeData)
+        {
+            List<SilkLink> links = new List<SilkLink>();
+            links = ReturnLinks(newTweeData, newNode);
+            //this will change to a SilkGraph in time
+            foreach (KeyValuePair<string, SilkNode> node in graphBuilder.graph) {
+                for(int l = 0; l < node.Value.silkLinks.Count; l++)
+                {
+
+                    //have the version that returns a dictionary
+                    //then for each link in the dictionary, make the new SilkLink for it
+                    //
+                }
+            }
+        }
+        */
 
         void AssignPassageToNodes(string newTweeData)
         {
@@ -328,6 +391,7 @@ namespace Silk
         }
 
         //overload for backref arg
+        /*
         List<SilkLink> ReturnLinks(string inputToExtractLinksFrom, SilkNode backRef)
         {
             List<SilkLink> newSilkLinks = new List<SilkLink>();
@@ -396,7 +460,7 @@ namespace Silk
 
             return newSilkLinks;
         }
-
+        */
 
         //garbage fire
         string ReturnPassage(string inputToExtractPassageFrom)

@@ -7,7 +7,7 @@ namespace Silk
     {
         
         private SilkNode _backRefNode;
-        private string _linkedNodeTitle;
+        private SilkNode _linkedNode;
         private string _linkText;
 
         public SilkNode BackRefNode
@@ -19,11 +19,11 @@ namespace Silk
 
         }
 
-        public string LinkedNode
+        public SilkNode LinkedNode
         {
             get
             {
-                return _linkedNodeTitle;
+                return _linkedNode;
             }
 
         }
@@ -37,11 +37,13 @@ namespace Silk
 
         }
 
-        public SilkLink(SilkNode thisNode, string linkedNodeTitle, string text)
+        #region Constructor
+        public SilkLink(SilkNode thisNode, SilkNode linkedNode, string text)
         {
             _backRefNode = thisNode;
-            _linkedNodeTitle = linkedNodeTitle;
+            _linkedNode = linkedNode;
             _linkText = text;
         }
+        #endregion
     }
 }
