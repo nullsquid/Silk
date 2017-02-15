@@ -2,7 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SilkTag  {
+namespace Silk
+{
+    public abstract class SilkTag
+    {
+        public virtual void SilkTagDefinition()
+        {
 
-	
+        }
+
+        protected void RunTag()
+        {
+            
+        }
+
+    }
 }

@@ -2,13 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-public class SilkNode {
+namespace Silk
+{
+    public class SilkNode
+    {
 
 
-    //Might use this to avoid naming conflicts instead of a generic Node datastructure
-    public string nodeName;
-    public string nodePassage;
-    public Dictionary<string, string> links = new Dictionary<string, string>();
-    public Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
-	
+        //Might use this to avoid naming conflicts instead of a generic Node datastructure
+        public string nodeName;
+        public string nodePassage;
+        public Dictionary<string, string> links = new Dictionary<string, string>();
+        public Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
+        public List<SilkLink> silkLinks = new List<SilkLink>();
+        public List<SilkTag> silkTags = new List<SilkTag>();
+
+
+
+    }
 }
