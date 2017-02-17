@@ -5,9 +5,25 @@ namespace Silk
 {
     public class SilkMotherGraph
     {
+        #region Data
+        //need to make this string, SilkGraph
+        private Dictionary<string, SilkGraph> motherGraph = new Dictionary<string, SilkGraph>();
 
-        private Dictionary<string, Dictionary<string, SilkNode>> motherGraph = new Dictionary<string, Dictionary<string, SilkNode>>();
+        public Dictionary<string, SilkGraph> MotherGraph
+        {
+            get
+            {
+                return motherGraph;
+            }
+        }
+        #endregion
 
+        #region Data Manipulation Methods
+        public void AddToMother(SilkGraph story)
+        {
+            //motherGraph.Add()
+        }
+        #endregion
         //public void AddToMotherGraph()
         //public loadStory
     }

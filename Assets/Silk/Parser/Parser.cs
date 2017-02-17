@@ -31,6 +31,7 @@ namespace Silk
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tweeNodesToInterpret.Length; i++)
                 {
+                    string storyTitle = "";
                     StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
 
                     if (tweeNodesToInterpret[i].Contains("|"))
@@ -39,7 +40,17 @@ namespace Silk
                     }
                     if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
                     {
-                        promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                        //Debug.Log(ReturnTitle(tweeNodesToInterpret[i]));
+                        string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
+                        if (storyTitleCheck == "StoryTitle")
+                        {
+
+                            storyTitle = ReturnStoryTitle(tweeNodesToInterpret[i]);
+                            Debug.Log("title");
+                        }
+                        else {
+                            promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                        }
                     }
                     foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
                     {
@@ -50,8 +61,9 @@ namespace Silk
                             promptContainer.Replace("]]", string.Empty);
                         }
                     }
+                    SilkGraph newSilkGraph = new SilkGraph(storyTitle);
                     SilkNode newNode = new SilkNode();
-                    AssignDataToNodes(newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
 
                 }
                 graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
@@ -124,8 +136,9 @@ namespace Silk
 
 
         //taking newNode out of here--lets see if it works
-        void AssignDataToNodes(SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
+        void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
         {
+            //SilkGraph newSilkGraph = new SilkGraph();
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
@@ -133,27 +146,31 @@ namespace Silk
             //add link names
             newNode.links = ReturnLinks(newTweeData);
             //Debug.Log(newNode.nodePassage);
+            newSilkGraph.AddToGraph(newNode.nodeName, newNode);
+            //maybe remove this??
             graphBuilder.AddToGraph(newNode.nodeName, newNode);
+            
 
         }
         /*
         void AssignLinksToNodes(SilkNode newNode, List<SilkLink> silkLinkList, string newTweeData)
         {
-            List<SilkLink> links = new List<SilkLink>();
-            links = ReturnLinks(newTweeData, newNode);
-            //this will change to a SilkGraph in time
-            foreach (KeyValuePair<string, SilkNode> node in graphBuilder.graph) {
-                for(int l = 0; l < node.Value.silkLinks.Count; l++)
+           
+        }
+        */
+        void AssignLinksToNodes(SilkMotherGraph mother)
+        {
+            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+            {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
+                    foreach(KeyValuePair<string, string> linkName in node.Value.links)
+                    {
 
-                    //have the version that returns a dictionary
-                    //then for each link in the dictionary, make the new SilkLink for it
-                    //
+                    }
                 }
             }
         }
-        */
-
         void AssignPassageToNodes(string newTweeData)
         {
 
@@ -168,8 +185,10 @@ namespace Silk
                 {
                     //title/graph parsing should go here
                     //
+                    
                     break;
                 }
+                
                 else
                 {
                     title += inputToExtractTitleFrom[i];
@@ -180,6 +199,18 @@ namespace Silk
             }
             return title.TrimStart(' ').TrimEnd(' ');
         }
+
+        string ReturnStoryTitle(string nodeToInterpret)
+        {
+            
+            string storyTitle = "";
+            if (nodeToInterpret.Contains(ReturnTitle(nodeToInterpret))){
+                storyTitle = nodeToInterpret.Replace(ReturnTitle(nodeToInterpret), string.Empty).TrimEnd().TrimStart();
+            }
+            //Debug.Log("title is >" + storyTitle + "<");
+            return storyTitle;
+        }
+        
 
         
 
@@ -323,6 +354,7 @@ namespace Silk
         */
 
 
+        
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
             List<SilkLink> newSilkLinks = new List<SilkLink>();

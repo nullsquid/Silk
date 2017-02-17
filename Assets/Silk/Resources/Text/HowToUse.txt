@@ -52,7 +52,8 @@ I'm working on writing a manager class/event system for these so that developers
 [[Future developments]]
 
 
-:: Silk Documentation
+:: StoryTitle
+Silk Docs
 
 
 
