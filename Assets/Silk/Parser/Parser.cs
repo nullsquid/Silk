@@ -8,15 +8,16 @@ namespace Silk
 {
     public class Parser : MonoBehaviour
     {
-        GraphBuilder graphBuilder;
+        //GraphBuilder graphBuilder;
+        TagFactory tagFactory;
         Importer importer;
         string textToParse;
         string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
         void Start()
         {
-            
-            graphBuilder = new GraphBuilder();
+            tagFactory = new TagFactory();
+            //graphBuilder = new GraphBuilder();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
             SilkMotherGraph mother = new SilkMotherGraph();
