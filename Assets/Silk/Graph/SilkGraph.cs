@@ -9,10 +9,10 @@ namespace Silk
         #region Constructor
         //need to find where I get the graph's name
         
-        public SilkGraph(string name)
+        /*public SilkGraph(string name)
         {
             storyName = name;
-        }
+        }*/
         
         #endregion
 
@@ -41,6 +41,10 @@ namespace Silk
         #endregion
 
         #region Accessor Methods
+        public void SetStoryName(string name)
+        {
+            storyName = name;
+        }
         public SilkNode GetNodeByName(string nodeName)
         {
             return story[nodeName];

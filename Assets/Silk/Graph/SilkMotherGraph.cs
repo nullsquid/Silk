@@ -19,9 +19,9 @@ namespace Silk
         #endregion
 
         #region Data Manipulation Methods
-        public void AddToMother(SilkGraph story)
+        public void AddToMother(string storyName, SilkGraph story)
         {
-            //motherGraph.Add()
+            motherGraph.Add(storyName, story);
         }
         #endregion
         //public void AddToMotherGraph()

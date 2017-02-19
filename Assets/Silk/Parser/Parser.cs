@@ -19,9 +19,10 @@ namespace Silk
             graphBuilder = new GraphBuilder();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-
+            SilkMotherGraph mother = new SilkMotherGraph();
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
+                SilkGraph newSilkGraph = new SilkGraph();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
                 //this works for single file
@@ -45,8 +46,8 @@ namespace Silk
                         if (storyTitleCheck == "StoryTitle")
                         {
 
-                            storyTitle = ReturnStoryTitle(tweeNodesToInterpret[i]);
-                            Debug.Log("title");
+                            newSilkGraph.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
+                            //Debug.Log("title");
                         }
                         else {
                             promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
@@ -61,23 +62,42 @@ namespace Silk
                             promptContainer.Replace("]]", string.Empty);
                         }
                     }
-                    SilkGraph newSilkGraph = new SilkGraph(storyTitle);
                     SilkNode newNode = new SilkNode();
                     AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-
+                    
                 }
-                graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
+                mother.AddToMother(fileName, newSilkGraph);
+                foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+                {
+                    foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
+                    {
+                        //Debug.Log(node.Value.nodeName);
+                        //Debug.Log(node.Value.nodePassage);
+                    }
+                }
+                
+                
                 
             }
             //Break This Out into its own method
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> silkStory in graphBuilder.motherGraph)
+            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph)
             {
                 filenames.Add(silkStory.Key);
+                //Debug.Log("filenames " + filenames[0]);
             }
-            //have to search the mother to do it to ALL the graphs???
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> story in graphBuilder.motherGraph)
+            //
+            //TODO take this out
+            foreach(KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph)//graphBuilder.motherGraph)
             {
-                foreach(KeyValuePair<string, SilkNode> node in story.Value)
+                //filenames.Add(silkStory.Key);
+            }
+            //end
+
+            //have to search the mother to do it to ALL the graphs???
+            //TODO Make this its own method
+            foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+            {
+                foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
                    
                     foreach (KeyValuePair<string, string> link in node.Value.links)
@@ -86,7 +106,7 @@ namespace Silk
                         string linkName;
                         linkNameBuilder.Append(link.Value);
                         linkName = linkNameBuilder.ToString().TrimStart().TrimEnd();
-                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value)
+                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value.Story)
                         {
                             string nodeName = "";
                             StringBuilder nodeNameBuilder = new StringBuilder();
@@ -109,7 +129,6 @@ namespace Silk
                                 
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
-                                Debug.Log(newSilkLink.LinkText);
                             }
 
                         }
@@ -119,19 +138,21 @@ namespace Silk
                 }
             }
 
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> graph in graphBuilder.motherGraph)
+            foreach(KeyValuePair<string, SilkGraph> graph in mother.MotherGraph)
             {
                 //for testing
-                foreach(KeyValuePair<string, SilkNode> node in graph.Value)
+                foreach(KeyValuePair<string, SilkNode> node in graph.Value.Story)
                 {
                     //for testing
-
+                    
+                    foreach(SilkLink _link in node.Value.silkLinks)
+                    {
+                        
+                    }
+                    
 
                 }
-                
-
             }
-            
         }
 
 
@@ -148,7 +169,7 @@ namespace Silk
             //Debug.Log(newNode.nodePassage);
             newSilkGraph.AddToGraph(newNode.nodeName, newNode);
             //maybe remove this??
-            graphBuilder.AddToGraph(newNode.nodeName, newNode);
+            //graphBuilder.AddToGraph(newNode.nodeName, newNode);
             
 
         }
