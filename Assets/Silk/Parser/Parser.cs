@@ -153,7 +153,13 @@ namespace Silk
         {
             //SilkGraph newSilkGraph = new SilkGraph();
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+            //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
+            //add custom tags
+            foreach(KeyValuePair<string, string[]> tagName in newNode.tags)
+            {
+                newNode.silkTags.Add(tagFactory.SetTag(tagName.Key, tagName.Value));
+            }
             //add passage
             newNode.nodePassage = newPassage;
             //add link names
