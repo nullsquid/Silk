@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Silk{
     public class TagFactory
     {
-        public TagBase SetTag(string tagName, string[] args)
+        public SilkTagBase SetTag(string tagName, string[] args)
         {
             if(tagName == "DummyTag")
             {

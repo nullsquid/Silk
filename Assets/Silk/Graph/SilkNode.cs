@@ -13,7 +13,7 @@ namespace Silk
         public Dictionary<string, string> links = new Dictionary<string, string>();
         public Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
         public List<SilkLink> silkLinks = new List<SilkLink>();
-        public List<TagBase> silkTags = new List<TagBase>();
+        public List<SilkTagBase> silkTags = new List<SilkTagBase>();
 
 
 

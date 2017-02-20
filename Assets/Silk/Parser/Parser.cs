@@ -139,7 +139,7 @@ namespace Silk
                 foreach(KeyValuePair<string, SilkNode> node in graph.Value.Story)
                 {
                     //for testing
-                    foreach(TagBase _tag in node.Value.silkTags)
+                    foreach(SilkTagBase _tag in node.Value.silkTags)
                     {
                         Debug.Log(_tag.TagName);
                     }
@@ -189,7 +189,7 @@ namespace Silk
             {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
-                    foreach(TagBase tag in node.Value.silkTags)
+                    foreach(SilkTagBase tag in node.Value.silkTags)
                     {
                         
                     }

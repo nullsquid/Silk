@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Silk;
-public class DummyTag : TagBase {
+public class DummyTag : SilkTagBase {
 
     public DummyTag(string tagName, string[] args)
     {
