@@ -168,8 +168,9 @@ namespace Silk
                 }
                 newNode.silkTags.Add(tagFactory.SetTag(newTagName, tagName.Value));
                 //TODO Figure out where the nullref exeption is coming from
-                Debug.Log(newNode.silkTags[0].TagName);
             }
+            Debug.Log(newNode.silkTags[0].TagName);
+
             //add passage
             newNode.nodePassage = newPassage;
             //add link names
