@@ -10,7 +10,13 @@ namespace Silk
         List<string> tagArgs = new List<string>();
 
         
-
+        public string TagName
+        {
+            get
+            {
+                return _tagName;
+            }
+        }
         public virtual void SilkTagDefinition()
         {
 

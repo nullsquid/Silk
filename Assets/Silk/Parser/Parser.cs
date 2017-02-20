@@ -155,10 +155,20 @@ namespace Silk
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
+            
             //add custom tags
             foreach(KeyValuePair<string, string[]> tagName in newNode.tags)
             {
-                newNode.silkTags.Add(tagFactory.SetTag(tagName.Key, tagName.Value));
+                
+                string newTagName = "";
+                //Right now, you can't use underscores in your custom tag names
+                if (tagName.Key.Contains("_"))
+                {
+                    newTagName = tagName.Key.Remove(tagName.Key.IndexOf('_')).TrimStart().TrimEnd();
+                }
+                newNode.silkTags.Add(tagFactory.SetTag(newTagName, tagName.Value));
+                //TODO Figure out where the nullref exeption is coming from
+                Debug.Log(newNode.silkTags[0].TagName);
             }
             //add passage
             newNode.nodePassage = newPassage;
@@ -175,9 +185,9 @@ namespace Silk
             {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
-                    foreach(KeyValuePair<string, string> linkName in node.Value.links)
+                    foreach(TagBase tag in node.Value.silkTags)
                     {
-
+                        
                     }
                 }
             }
@@ -221,7 +231,7 @@ namespace Silk
             return newTag;
         }
 
-        //TODO plug tag factory into here
+        //TODO look through this method to make sure it's working the way that AssignDataToNode() expects
         Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
         {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();

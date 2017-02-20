@@ -9,12 +9,19 @@ namespace Silk{
         {
             if(tagName == "DummyTag")
             {
+                if (tagName.Contains("_"))
+                {
+                    Debug.LogWarning("Tag cannot contain underscores");
+                }
+
                 DummyTag newDummyTag = new DummyTag(tagName, args);
                 return newDummyTag;
 
             }
 
             //else if(tagName == "..."){
+            //
+            //note::tag names at present cannot include underscores
             //
             //
             //}
