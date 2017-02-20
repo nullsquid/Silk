@@ -50,9 +50,23 @@ namespace Silk
             return story[nodeName];
         }
 
-        public SilkNode GetNodeByLink(SilkLink link)
+        public SilkNode GetNodeByLink(SilkNode curNode, SilkLink link)
         {
             return link.LinkedNode;
+        }
+
+        public SilkNode GetNodeByLinkText(SilkNode curNode, string linkText)
+        {
+            for(int i = 0; i < curNode.silkLinks.Count; i++)
+            {
+                if(curNode.silkLinks[i].LinkText == linkText)
+                {
+                    return curNode.silkLinks[i].LinkedNode;
+                }
+                
+            }
+            Debug.LogError("Could not find link text '" + linkText + "'. Did you make a typo?");
+            return null;
         }
 
         public string StoryName

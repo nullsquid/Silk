@@ -66,6 +66,7 @@ namespace Silk
                     }
                     SilkNode newNode = new SilkNode();
                     AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    Debug.Log(newNode.nodeName);
                     
                 }
                 mother.AddToMother(fileName, newSilkGraph);
@@ -162,7 +163,7 @@ namespace Silk
 
         void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
         {
-            //SilkGraph newSilkGraph = new SilkGraph();
+            
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
@@ -249,7 +250,6 @@ namespace Silk
             return newTag;
         }
 
-        //TODO look through this method to make sure it's working the way that AssignDataToNode() expects
         Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
         {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
