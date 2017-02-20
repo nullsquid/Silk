@@ -8,13 +8,12 @@ namespace Silk
     {
 
 
-        //Might use this to avoid naming conflicts instead of a generic Node datastructure
         public string nodeName;
         public string nodePassage;
         public Dictionary<string, string> links = new Dictionary<string, string>();
         public Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
         public List<SilkLink> silkLinks = new List<SilkLink>();
-        public List<SilkTag> silkTags = new List<SilkTag>();
+        public List<SilkTagBase> silkTags = new List<SilkTagBase>();
 
 
 
