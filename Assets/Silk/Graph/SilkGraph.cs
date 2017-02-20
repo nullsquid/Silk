@@ -6,8 +6,26 @@ namespace Silk
 {
     public class SilkGraph
     {
+        #region Constructor
+        //need to find where I get the graph's name
+        
+        /*public SilkGraph(string name)
+        {
+            storyName = name;
+        }*/
+        
+        #endregion
+
         #region Data
+        private string storyName;
         private Dictionary<string, SilkNode> story = new Dictionary<string, SilkNode>();
+        public Dictionary<string, SilkNode> Story
+        {
+            get
+            {
+                return story;
+            }
+        }
         #endregion
 
         #region Methods for Manipulating Data
@@ -23,10 +41,32 @@ namespace Silk
         #endregion
 
         #region Accessor Methods
+        public void SetStoryName(string name)
+        {
+            storyName = name;
+        }
         public SilkNode GetNodeByName(string nodeName)
         {
             return story[nodeName];
         }
+
+        public SilkNode GetNodeByLink(SilkLink link)
+        {
+            return link.LinkedNode;
+        }
+
+        public string StoryName
+        {
+            get
+            {
+                return storyName;
+            }
+        }
+        /*public string GetStoryName()
+        {
+            
+        }
+        */
         /*
         public SilkNode GetNodeByLink(string linkText)
         {

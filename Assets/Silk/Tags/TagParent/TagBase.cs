@@ -4,19 +4,26 @@ using UnityEngine;
 using System.Linq;
 namespace Silk
 {
-    public abstract class SilkTag
+    public abstract class TagBase
     {
-        string tagName;
+        protected string _tagName;
         List<string> tagArgs = new List<string>();
+
+        
 
         public virtual void SilkTagDefinition()
         {
-            
+
         }
 
         protected void RunTag(List<string> args)
         {
-            
+
+        }
+
+        protected void SetName(string name)
+        {
+            _tagName = name;
         }
 
         protected void DefineArgument(string arg)

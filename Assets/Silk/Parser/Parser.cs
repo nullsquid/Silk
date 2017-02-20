@@ -8,20 +8,25 @@ namespace Silk
 {
     public class Parser : MonoBehaviour
     {
-        GraphBuilder graphBuilder;
+        #region Private Variables
+        TagFactory tagFactory;
         Importer importer;
         string textToParse;
         string[] tweeNodesToInterpret;
         string[] delim = new string[] { ":: " };
+        #endregion
+
+        #region Unity Callbacks
+        //TODO get most of the code out of the Start method!!!
         void Start()
         {
-            
-            graphBuilder = new GraphBuilder();
+            tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-
+            SilkMotherGraph mother = new SilkMotherGraph();
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
+                SilkGraph newSilkGraph = new SilkGraph();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
                 //this works for single file
@@ -31,6 +36,7 @@ namespace Silk
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tweeNodesToInterpret.Length; i++)
                 {
+                    string storyTitle = "";
                     StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
 
                     if (tweeNodesToInterpret[i].Contains("|"))
@@ -39,7 +45,15 @@ namespace Silk
                     }
                     if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
                     {
-                        promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                        string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
+                        if (storyTitleCheck == "StoryTitle")
+                        {
+
+                            newSilkGraph.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
+                        }
+                        else {
+                            promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                        }
                     }
                     foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
                     {
@@ -51,21 +65,34 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    AssignDataToNodes(newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-
+                    AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    
                 }
-                graphBuilder.AddGraphToMother(fileName, graphBuilder.graph);
+                mother.AddToMother(fileName, newSilkGraph);
+                foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+                {
+                    foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
+                    {
+                        //for testing
+                    }
+                }
+                
+                
                 
             }
             //Break This Out into its own method
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> silkStory in graphBuilder.motherGraph)
+            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph)
             {
                 filenames.Add(silkStory.Key);
             }
+            //
+            
+
             //have to search the mother to do it to ALL the graphs???
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> story in graphBuilder.motherGraph)
+            //TODO Make this its own method
+            foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
             {
-                foreach(KeyValuePair<string, SilkNode> node in story.Value)
+                foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
                    
                     foreach (KeyValuePair<string, string> link in node.Value.links)
@@ -74,7 +101,7 @@ namespace Silk
                         string linkName;
                         linkNameBuilder.Append(link.Value);
                         linkName = linkNameBuilder.ToString().TrimStart().TrimEnd();
-                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value)
+                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value.Story)
                         {
                             string nodeName = "";
                             StringBuilder nodeNameBuilder = new StringBuilder();
@@ -97,7 +124,6 @@ namespace Silk
                                 
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
-                                Debug.Log(newSilkLink.LinkText);
                             }
 
                         }
@@ -107,25 +133,25 @@ namespace Silk
                 }
             }
 
-            foreach(KeyValuePair<string, Dictionary<string, SilkNode>> graph in graphBuilder.motherGraph)
+            foreach(KeyValuePair<string, SilkGraph> graph in mother.MotherGraph)
             {
                 //for testing
-                foreach(KeyValuePair<string, SilkNode> node in graph.Value)
+                foreach(KeyValuePair<string, SilkNode> node in graph.Value.Story)
                 {
                     //for testing
-
-
+                    
+                    foreach(SilkLink _link in node.Value.silkLinks)
+                    {
+                        
+                    }
                 }
-                
-
             }
-            
         }
+        #endregion
 
-
-        //taking newNode out of here--lets see if it works
-        void AssignDataToNodes(SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
+        void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
         {
+            //SilkGraph newSilkGraph = new SilkGraph();
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             newNode.tags = ReturnCustomTags(newTweeData);
             //add passage
@@ -133,27 +159,23 @@ namespace Silk
             //add link names
             newNode.links = ReturnLinks(newTweeData);
             //Debug.Log(newNode.nodePassage);
-            graphBuilder.AddToGraph(newNode.nodeName, newNode);
-
+            newSilkGraph.AddToGraph(newNode.nodeName, newNode);
         }
-        /*
-        void AssignLinksToNodes(SilkNode newNode, List<SilkLink> silkLinkList, string newTweeData)
-        {
-            List<SilkLink> links = new List<SilkLink>();
-            links = ReturnLinks(newTweeData, newNode);
-            //this will change to a SilkGraph in time
-            foreach (KeyValuePair<string, SilkNode> node in graphBuilder.graph) {
-                for(int l = 0; l < node.Value.silkLinks.Count; l++)
-                {
 
-                    //have the version that returns a dictionary
-                    //then for each link in the dictionary, make the new SilkLink for it
-                    //
+        //finish this method
+        void AssignLinksToNodes(SilkMotherGraph mother)
+        {
+            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+            {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
+                {
+                    foreach(KeyValuePair<string, string> linkName in node.Value.links)
+                    {
+
+                    }
                 }
             }
         }
-        */
-
         void AssignPassageToNodes(string newTweeData)
         {
 
@@ -166,29 +188,34 @@ namespace Silk
             {
                 if(inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[')
                 {
-                    //title/graph parsing should go here
-                    //
                     break;
                 }
+                
                 else
                 {
                     title += inputToExtractTitleFrom[i];
-                    
-
                 }
-
             }
             return title.TrimStart(' ').TrimEnd(' ');
         }
 
+        string ReturnStoryTitle(string nodeToInterpret)
+        {
+            string storyTitle = "";
+            if (nodeToInterpret.Contains(ReturnTitle(nodeToInterpret))){
+                storyTitle = nodeToInterpret.Replace(ReturnTitle(nodeToInterpret), string.Empty).TrimEnd().TrimStart();
+            }
+            return storyTitle;
+        }
         
-
+        //finish this method
         string ReturnPassageTags(string inputToExtractTagsFrom)
         {
             string newTag = "";
             return newTag;
         }
 
+        //TODO plug tag factory into here
         Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
         {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
@@ -254,75 +281,7 @@ namespace Silk
 
         }
 
-        /*
-        Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
-         {
-            List<SilkLink> newSilkLinks = new List<SilkLink>();
-            Dictionary<string, string> newLinks = new Dictionary<string, string>();
-            for (int i = 0; i < inputToExtractLinksFrom.Length; i++){
-                if(inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
-                {
-                    
-                    string newLink = "";
-                    int linkLength;
-                    //I might want to reevaluate how I deal with link text that is repeated.
-                    //for now this should work
-                    int linkCount = 0;
-             
-                    for(int j = i + 2; j < inputToExtractLinksFrom.Length; j++)
-                    {
-                        if(inputToExtractLinksFrom[j] == '|')
-                        {
-                            string newLinkValue = "";
-                            for(int k = j + 1; k < inputToExtractLinksFrom.Length; k++)
-                            {
-                                if(inputToExtractLinksFrom[k] == ']')
-                                {
-                                    
-                                    newLinks.Add(newLink, newLinkValue);
-                                    linkCount += 1;
-                                    break;
-                                }
-                                else
-                                {
-                                    newLinkValue += inputToExtractLinksFrom[k];
-                                    if (inputToExtractLinksFrom[j] == ']')
-                                    {
-
-                                        newLinks.Add(newLink, newLink);
-                                        //SilkLink newSilkLink = new SilkLink()
-                                        linkCount += 1;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if(inputToExtractLinksFrom[j] == ']')
-                        {
-                            if (!newLink.Contains("|"))
-                            {
-                                
-                                newLinks.Add(newLink, newLink);
-                                linkCount += 1;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            newLink += inputToExtractLinksFrom[j];
-
-                        }
-                    }
-
-                }
-            }
-            
-            
-            return newLinks;
-        }
-        */
-
-
+        //TODO clean this code up and remove unused variables
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
             List<SilkLink> newSilkLinks = new List<SilkLink>();
@@ -359,7 +318,6 @@ namespace Silk
                                     {
 
                                         newLinks.Add(newLink, newLink);
-                                        //SilkLink newSilkLink = new SilkLink()
                                         linkCount += 1;
                                         break;
                                     }
@@ -390,79 +348,9 @@ namespace Silk
             return newLinks;
         }
 
-        //overload for backref arg
-        /*
-        List<SilkLink> ReturnLinks(string inputToExtractLinksFrom, SilkNode backRef)
-        {
-            List<SilkLink> newSilkLinks = new List<SilkLink>();
-            Dictionary<string, string> newLinks = new Dictionary<string, string>();
-            for (int i = 0; i < inputToExtractLinksFrom.Length; i++)
-            {
-                if (inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
-                {
-
-                    string newLink = "";
-                    int linkLength;
-                    //I might want to reevaluate how I deal with link text that is repeated.
-                    //for now this should work
-                    int linkCount = 0;
-
-                    for (int j = i + 2; j < inputToExtractLinksFrom.Length; j++)
-                    {
-                        if (inputToExtractLinksFrom[j] == '|')
-                        {
-                            string newLinkValue = "";
-                            for (int k = j + 1; k < inputToExtractLinksFrom.Length; k++)
-                            {
-                                if (inputToExtractLinksFrom[k] == ']')
-                                {
-                                    SilkLink newSilkLink = new SilkLink(backRef, newLink, newLinkValue);
-                                    newSilkLinks.Add(newSilkLink);
-                                    newLinks.Add(newLink, newLinkValue);
-                                    break;
-                                }
-                                else
-                                {
-                                    newLinkValue += inputToExtractLinksFrom[k];
-                                    if (inputToExtractLinksFrom[j] == ']')
-                                    {
-
-                                        newLinks.Add(newLink, newLink);
-                                        SilkLink newSilkLink = new SilkLink(backRef, newLink, newLink);
-                                        newSilkLinks.Add(newSilkLink);
-                                        linkCount += 1;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (inputToExtractLinksFrom[j] == ']')
-                        {
-                            if (!newLink.Contains("|"))
-                            {
-                                SilkLink newSilkLink = new SilkLink(backRef, newLink, newLink);
-                                newSilkLinks.Add(newSilkLink);
-                                newLinks.Add(newLink, newLink);
-                                linkCount += 1;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            newLink += inputToExtractLinksFrom[j];
-
-                        }
-                    }
-
-                }
-            }
-
-
-            return newSilkLinks;
-        }
-        */
-
+        
         //garbage fire
+        //TODO bring Passage Setting code from start method down here
         string ReturnPassage(string inputToExtractPassageFrom)
         {
             Debug.Log("full text is " + inputToExtractPassageFrom);
@@ -485,14 +373,9 @@ namespace Silk
                 {
                     passage += inputToExtractPassageFrom[i];
                 }
-
             }
             Debug.Log("passage is " + passage);
             return passage;
         }
-
-        
-        
-
     }
 }
