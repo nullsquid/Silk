@@ -46,7 +46,7 @@ There are a few other things to talk about if you'd like.
 First, there isn't an API yet so in order to actually DO anything with the text after it's parsed you'll have to write your own code to do that. I'm working on this part of the tool as it will make it way more useful.
 
 Second, it does contain a means to add custom tags. The format that I settled on to parse them are as follows
-<<tagname="argument1","argument2">>
+
 I'm working on writing a manager class/event system for these so that developers can get creative with how they're used. That will come next
 
 [[Future developments]]

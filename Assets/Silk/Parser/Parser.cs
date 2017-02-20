@@ -139,9 +139,17 @@ namespace Silk
                 foreach(KeyValuePair<string, SilkNode> node in graph.Value.Story)
                 {
                     //for testing
+                    //Debug.Log(node.Value.silkTags[0]);
+                    //Debug.Log(node.Value.silkTags.Count);
+                    foreach(KeyValuePair<string,string[]> tagName in node.Value.tags)
+                    {
+                        //Debug.Log(tagName.Key);
+                        
+                    }
                     foreach(SilkTagBase _tag in node.Value.silkTags)
                     {
                         Debug.Log(_tag.TagName);
+
                     }
                     foreach(SilkLink _link in node.Value.silkLinks)
                     {
@@ -169,8 +177,14 @@ namespace Silk
                 {
                     newTagName = tagName.Key.Remove(tagName.Key.IndexOf('_')).TrimStart().TrimEnd();
                 }
-                newNode.silkTags.Add(tagFactory.SetTag(newTagName, tagName.Value));
-                //TODO Figure out where the nullref exeption is coming from
+                if (tagFactory.SetTag(newTagName, tagName.Value) != null)
+                {
+                    newNode.silkTags.Add(tagFactory.SetTag(newTagName, tagName.Value));
+                }
+                else
+                {
+                    Debug.LogError(newTagName + " is not a recognized tag. Check your TagFactory");
+                }
             }
             //Debug.Log(newNode.silkTags[0].TagName);
 
