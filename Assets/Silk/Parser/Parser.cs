@@ -358,7 +358,7 @@ namespace Silk
                                 }
                             }
                         }
-                        if (inputToExtractLinksFrom[j] == ']')
+                        if (inputToExtractLinksFrom[j] == ']' && inputToExtractLinksFrom[j+1] == ']')
                         {
                             if (!newLink.Contains("|"))
                             {

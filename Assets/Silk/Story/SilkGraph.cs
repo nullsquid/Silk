@@ -49,7 +49,21 @@ namespace Silk
         {
             return story[nodeName];
         }
+        public SilkNode GetNodeByTitle(string nodeName)
+        {
 
+            SilkNode newSilkNode = new SilkNode();
+            string modNodeName = storyName + "_" + nodeName;
+            foreach (KeyValuePair<string, SilkNode> _node in story)
+            {
+                if (_node.Value.nodeName == modNodeName)
+                {
+                    newSilkNode = _node.Value;
+                    return newSilkNode;
+                }
+            }
+            return null;
+        }
         public SilkNode GetNodeByLink(SilkNode curNode, SilkLink link)
         {
             return link.LinkedNode;
