@@ -18,7 +18,7 @@ namespace Silk
 
         #region Unity Callbacks
         //TODO get most of the code out of the Start method!!!
-        void Start()
+        void Awake()
         {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
@@ -67,6 +67,7 @@ namespace Silk
                     SilkNode newNode = new SilkNode();
                     AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
                     Debug.Log(newNode.nodeName);
+                    
                     
                 }
                 mother.AddToMother(fileName, newSilkGraph);
@@ -154,10 +155,11 @@ namespace Silk
                     }
                     foreach(SilkLink _link in node.Value.silkLinks)
                     {
-                        
+                        Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
                     }
                 }
             }
+
         }
         #endregion
 
@@ -191,8 +193,10 @@ namespace Silk
 
             //add passage
             newNode.nodePassage = newPassage;
+            //TODO Add the correct amount of links to the list
             //add link names
             newNode.links = ReturnLinks(newTweeData);
+            Debug.Log("Count " + newNode.nodeName + " " + newNode.links.Count);
             //Debug.Log(newNode.nodePassage);
             newSilkGraph.AddToGraph(newNode.nodeName, newNode);
         }
@@ -318,13 +322,15 @@ namespace Silk
         //TODO clean this code up and remove unused variables
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
+            StringBuilder inputCopy = new StringBuilder();
+            inputCopy.Append(inputToExtractLinksFrom);
             List<SilkLink> newSilkLinks = new List<SilkLink>();
             Dictionary<string, string> newLinks = new Dictionary<string, string>();
             for (int i = 0; i < inputToExtractLinksFrom.Length; i++)
             {
                 if (inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
                 {
-
+                    
                     string newLink = "";
                     int linkLength;
                     //I might want to reevaluate how I deal with link text that is repeated.
@@ -338,17 +344,19 @@ namespace Silk
                             string newLinkValue = "";
                             for (int k = j + 1; k < inputToExtractLinksFrom.Length; k++)
                             {
-                                if (inputToExtractLinksFrom[k] == ']')
+                                if (inputToExtractLinksFrom[k] == ']' && inputToExtractLinksFrom[k + 1] == ']')
                                 {
 
                                     newLinks.Add(newLink, newLinkValue);
-                                    linkCount += 1;
+                                    //linkCount += 1;
+                                    Debug.Log("Hey " + newLink);
                                     break;
                                 }
                                 else
                                 {
                                     newLinkValue += inputToExtractLinksFrom[k];
-                                    if (inputToExtractLinksFrom[j] == ']')
+                                    //TODO make sure that the [j + 1] works here
+                                    if (inputToExtractLinksFrom[j] == ']' && inputToExtractLinksFrom[j + 1] == ']')
                                     {
 
                                         newLinks.Add(newLink, newLink);
@@ -374,11 +382,18 @@ namespace Silk
 
                         }
                     }
-
+                    //Debug.Log(linkCount + " is link count");
                 }
+                
             }
 
-
+            //Debug.Log(newLinks.ContainsValue("2"));
+            int linkNum = 0;
+            foreach(KeyValuePair<string, string> link in newLinks)
+            {
+                linkNum++;
+            }
+            Debug.Log(linkNum + " is the number of links");
             return newLinks;
         }
 
