@@ -76,6 +76,8 @@ namespace Silk
                     foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
                     {
                         //for testing
+                        //Debug.Log("ON NODE: " + node.)
+
                     }
                 }
                 
@@ -347,43 +349,49 @@ namespace Silk
                             {
                                 if (inputCopy[k] == ']' && inputCopy[k + 1] == ']')
                                 {
-                                    //inputCopy.Replace(newLink, "");
+                                    
                                     newLinks.Add(newLink, newLinkValue);
+                                    if (newLinkValue.Length > 0)
+                                    {
+                                        inputCopy.Replace(newLinkValue, "");
+                                    }
+                                    //Debug.Log("NEW LINK IS " + newLink);
+
                                     //Debug.Log(inputCopy);
                                     break;
                                 }
                                 else
                                 {
                                     newLinkValue += inputCopy[k];
-                                    //TODO make sure that the [j + 1] works here
                                     if (inputCopy[j] == ']' && inputCopy[j + 1] == ']')
                                     {
                                         //TODO test if this works
-                                        //inputCopy.Replace(newLink, "");
+                                        inputCopy.Replace(newLink, "");
                                         newLinks.Add(newLink, newLink);
                                         break;
                                     }
                                 }
                             }
                         }
-                        //switch back to 'if' if this doesn't work
-                        else if (inputCopy[j] == ']' && inputCopy[j+1] == ']')
+                        if (inputCopy[j] == ']' && inputCopy[j+1] == ']')
                         {
-                            //test this
-                            newLinks.Add(newLink, newLink);
-                            break;
-                            /*
+                            //newLinks.Add(newLink, newLink);
+                            inputCopy.Replace(newLink, "");
+                            //break;
+                            Debug.Log("NEW LINK IS " + newLink);
                             if (!newLink.Contains("|"))
                             {
 
                                 newLinks.Add(newLink, newLink);
                                 break;
                             }
-                            */
+                            break;
+                            
                         }
                         else
                         {
                             newLink += inputCopy[j];
+                            
 
                         }
                     }
@@ -397,7 +405,7 @@ namespace Silk
             {
                 linkNum++;
             }
-            Debug.Log(linkNum + " is the number of links");
+            //Debug.Log(linkNum + " is the number of links");
             return newLinks;
         }
 
