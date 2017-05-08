@@ -59,16 +59,13 @@ namespace Silk
                     {
                         if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
                         {
-
                             promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
                             promptContainer.Replace("]]", string.Empty);
                         }
                     }
                     SilkNode newNode = new SilkNode();
                     AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-                    Debug.Log(newNode.nodeName);
-                    
-                    
+                    //Debug.Log(newNode.nodeName);
                 }
                 mother.AddToMother(fileName, newSilkGraph);
                 foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
@@ -198,7 +195,7 @@ namespace Silk
             //TODO Add the correct amount of links to the list
             //add link names
             newNode.links = ReturnLinks(newTweeData);
-            Debug.Log("Count " + newNode.nodeName + " " + newNode.links.Count);
+            //Debug.Log("Count " + newNode.nodeName + " " + newNode.links.Count);
             //Debug.Log(newNode.nodePassage);
             newSilkGraph.AddToGraph(newNode.nodeName, newNode);
         }
@@ -378,7 +375,7 @@ namespace Silk
                             //newLinks.Add(newLink, newLink);
                             inputCopy.Replace(newLink, "");
                             //break;
-                            Debug.Log("NEW LINK IS " + newLink);
+                            //Debug.Log("NEW LINK IS " + newLink);
                             if (!newLink.Contains("|"))
                             {
 
