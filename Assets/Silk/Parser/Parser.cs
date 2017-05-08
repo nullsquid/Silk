@@ -8,6 +8,10 @@ namespace Silk
 {
     public class Parser : MonoBehaviour
     {
+        #region Public Variables
+        public SilkMotherGraph mother;
+        #endregion
+
         #region Private Variables
         TagFactory tagFactory;
         Importer importer;
@@ -23,7 +27,7 @@ namespace Silk
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-            SilkMotherGraph mother = new SilkMotherGraph();
+            mother = new SilkMotherGraph();
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
                 SilkGraph newSilkGraph = new SilkGraph();
@@ -166,6 +170,8 @@ namespace Silk
         {
             
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+            //only to remove it when required in GetNodeName
+            newNode.StoryName = graphTitle;
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
             

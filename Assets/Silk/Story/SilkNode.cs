@@ -17,8 +17,11 @@ namespace Silk
         #endregion
 
         #region Data
+        private string storyName;
+
         public string nodeName;
         public string nodePassage;
+
         public Dictionary<string, string> links = new Dictionary<string, string>();
         public Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
         public List<SilkLink> silkLinks = new List<SilkLink>();
@@ -26,6 +29,24 @@ namespace Silk
         #endregion
 
         #region Accessor Methods
+        public string StoryName
+        {
+            set
+            {
+                storyName = value;
+            }
+        }
+
+        public string GetNodeName()
+        {
+            StringBuilder strippedName = new StringBuilder();
+            strippedName.Append(nodeName);
+
+            strippedName.Replace(storyName + "_", "");
+            
+            return strippedName.ToString().TrimEnd().TrimStart();
+        }
+
         public void AddLinkName(string linkText, string linkPointer)
         {
             links.Add(linkText, linkPointer);
