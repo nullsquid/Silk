@@ -22,7 +22,7 @@ namespace Silk
         string[] delim = new string[] { ":: " };
         #endregion
 
-        #region Unity Callbacks
+        #region Unity Methods
         //TODO get most of the code out of the Start method!!!
         void Awake()
         {
@@ -166,6 +166,10 @@ namespace Silk
             }
 
         }
+        #endregion
+
+        #region Initialization
+
         #endregion
 
         void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
