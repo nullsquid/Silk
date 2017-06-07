@@ -22,38 +22,45 @@ namespace Silk
         string[] delim = new string[] { ":: " };
         #endregion
 
-        #region Unity Methods
-        //TODO get most of the code out of the Start method!!!
+        #region Singleton
+        public static Parser Instance { get; private set; }
         void Awake()
         {
+            if(Instance != null && Instance != this) {
+                Destroy(gameObject);
+            }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeSilk();
+        }
+        #endregion
+
+        //TODO sort out all of this nonsense, break into other methods, etc
+        #region Initialization
+        void InitializeSilk() {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
             mother = new SilkMotherGraph();
-            foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
-            {
+            foreach (TextAsset currentTweeFile in importer.rawTweeFiles) {
                 SilkGraph newSilkGraph = new SilkGraph();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
                 //this works for single file
                 //textToParse = testText.text;
-                
+
                 textToParse = tweeFile.text;
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < tweeNodesToInterpret.Length; i++)
-                {
+                for (int i = 0; i < tweeNodesToInterpret.Length; i++) {
                     string storyTitle = "";
                     StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
 
-                    if (tweeNodesToInterpret[i].Contains("|"))
-                    {
+                    if (tweeNodesToInterpret[i].Contains("|")) {
                         promptContainer.Replace("|", string.Empty);
                     }
-                    if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
-                    {
+                    if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i]))) {
                         string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
-                        if (storyTitleCheck == "StoryTitle")
-                        {
+                        if (storyTitleCheck == "StoryTitle") {
 
                             newSilkGraph.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
                         }
@@ -61,10 +68,8 @@ namespace Silk
                             promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
                         }
                     }
-                    foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
-                    {
-                        if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
-                        {
+                    foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i])) {
+                        if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value)) {
                             promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
                             promptContainer.Replace("]]", string.Empty);
                         }
@@ -74,61 +79,51 @@ namespace Silk
                     //Debug.Log(newNode.nodeName);
                 }
                 mother.AddToMother(fileName, newSilkGraph);
-                foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
-                {
-                    foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
-                    {
+                foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph) {
+                    foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
                         //for testing
                         //Debug.Log("ON NODE: " + node.)
 
                     }
                 }
-                
-                
-                
+
+
+
             }
             //Break This Out into its own method
-            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph)
-            {
+            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph) {
                 filenames.Add(silkStory.Key);
             }
             //
-            
+
 
             //have to search the mother to do it to ALL the graphs???
             //TODO Make this its own method
-            foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
-            {
-                foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
-                {
-                   
-                    foreach (KeyValuePair<string, string> link in node.Value.links)
-                     {
+            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+
+                    foreach (KeyValuePair<string, string> link in node.Value.links) {
                         StringBuilder linkNameBuilder = new StringBuilder();
                         string linkName;
                         linkNameBuilder.Append(link.Value);
                         linkName = linkNameBuilder.ToString().TrimStart().TrimEnd();
-                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value.Story)
-                        {
+                        foreach (KeyValuePair<string, SilkNode> linkedNode in story.Value.Story) {
                             string nodeName = "";
                             StringBuilder nodeNameBuilder = new StringBuilder();
-                            for (int a = 0; a < filenames.Count; a++)
-                            {
+                            for (int a = 0; a < filenames.Count; a++) {
 
-                                
-                                if (linkedNode.Value.nodeName.Contains(filenames[a]))
-                                {
-                                    
+
+                                if (linkedNode.Value.nodeName.Contains(filenames[a])) {
+
                                     nodeNameBuilder.Append(linkedNode.Value.nodeName.Remove(0, filenames[a].Length + 1));
                                     nodeName = nodeNameBuilder.ToString().TrimEnd();
 
                                 }
-                                
+
                             }
-                                                        
-                            if (linkName.ToString() == nodeName)
-                            {
-                                
+
+                            if (linkName.ToString() == nodeName) {
+
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
                             }
@@ -140,36 +135,26 @@ namespace Silk
                 }
             }
 
-            foreach(KeyValuePair<string, SilkGraph> graph in mother.MotherGraph)
-            {
+            foreach (KeyValuePair<string, SilkGraph> graph in mother.MotherGraph) {
                 //for testing
-                foreach(KeyValuePair<string, SilkNode> node in graph.Value.Story)
-                {
+                foreach (KeyValuePair<string, SilkNode> node in graph.Value.Story) {
                     //for testing
                     //Debug.Log(node.Value.silkTags[0]);
                     //Debug.Log(node.Value.silkTags.Count);
-                    foreach(KeyValuePair<string,string[]> tagName in node.Value.tags)
-                    {
+                    foreach (KeyValuePair<string, string[]> tagName in node.Value.tags) {
                         //Debug.Log(tagName.Key);
-                        
+
                     }
-                    foreach(SilkTagBase _tag in node.Value.silkTags)
-                    {
+                    foreach (SilkTagBase _tag in node.Value.silkTags) {
                         Debug.Log(_tag.TagName);
 
                     }
-                    foreach(SilkLink _link in node.Value.silkLinks)
-                    {
+                    foreach (SilkLink _link in node.Value.silkLinks) {
                         Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
                     }
                 }
             }
-
         }
-        #endregion
-
-        #region Initialization
-
         #endregion
 
         void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
