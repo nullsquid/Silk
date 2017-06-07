@@ -6,8 +6,14 @@ using System.Collections.Generic;
 using Silk;
 namespace Silk
 {
+    //TODO Make Parser a Singleton
+    //TODO Change Parser's name to Silk or something that's more friendly
     public class Parser : MonoBehaviour
     {
+        #region Public Variables
+        public SilkMotherGraph mother;
+        #endregion
+
         #region Private Variables
         TagFactory tagFactory;
         Importer importer;
@@ -18,12 +24,12 @@ namespace Silk
 
         #region Unity Callbacks
         //TODO get most of the code out of the Start method!!!
-        void Start()
+        void Awake()
         {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-            SilkMotherGraph mother = new SilkMotherGraph();
+            mother = new SilkMotherGraph();
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
                 SilkGraph newSilkGraph = new SilkGraph();
@@ -59,15 +65,13 @@ namespace Silk
                     {
                         if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value))
                         {
-
                             promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
                             promptContainer.Replace("]]", string.Empty);
                         }
                     }
                     SilkNode newNode = new SilkNode();
                     AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-                    Debug.Log(newNode.nodeName);
-                    
+                    //Debug.Log(newNode.nodeName);
                 }
                 mother.AddToMother(fileName, newSilkGraph);
                 foreach(KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
@@ -75,6 +79,8 @@ namespace Silk
                     foreach(KeyValuePair<string, SilkNode> node in story.Value.Story)
                     {
                         //for testing
+                        //Debug.Log("ON NODE: " + node.)
+
                     }
                 }
                 
@@ -154,10 +160,11 @@ namespace Silk
                     }
                     foreach(SilkLink _link in node.Value.silkLinks)
                     {
-                        
+                        Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
                     }
                 }
             }
+
         }
         #endregion
 
@@ -165,6 +172,8 @@ namespace Silk
         {
             
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+            //only to remove it when required in GetNodeName
+            newNode.StoryName = graphTitle;
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
             
@@ -191,8 +200,10 @@ namespace Silk
 
             //add passage
             newNode.nodePassage = newPassage;
+            //TODO Add the correct amount of links to the list
             //add link names
             newNode.links = ReturnLinks(newTweeData);
+            //Debug.Log("Count " + newNode.nodeName + " " + newNode.links.Count);
             //Debug.Log(newNode.nodePassage);
             newSilkGraph.AddToGraph(newNode.nodeName, newNode);
         }
@@ -316,69 +327,90 @@ namespace Silk
         }
 
         //TODO clean this code up and remove unused variables
+        //TODO replace all of the inputToExtractLinksFrom variables with inputCopy
+        //TODO remove the link substring from inputCopy once it's been added to the list
         Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
         {
+            StringBuilder inputCopy = new StringBuilder();
+            inputCopy.Append(inputToExtractLinksFrom);
             List<SilkLink> newSilkLinks = new List<SilkLink>();
             Dictionary<string, string> newLinks = new Dictionary<string, string>();
-            for (int i = 0; i < inputToExtractLinksFrom.Length; i++)
+            for (int i = 0; i < inputCopy.Length; i++)
             {
-                if (inputToExtractLinksFrom[i] == '[' && inputToExtractLinksFrom[i + 1] == '[')
+                if (inputCopy[i] == '[' && inputCopy[i + 1] == '[')
                 {
-
+                    
                     string newLink = "";
-                    int linkLength;
                     //I might want to reevaluate how I deal with link text that is repeated.
                     //for now this should work
-                    int linkCount = 0;
-
-                    for (int j = i + 2; j < inputToExtractLinksFrom.Length; j++)
+                    for (int j = i + 2; j < inputCopy.Length; j++)
                     {
-                        if (inputToExtractLinksFrom[j] == '|')
+                        //bug might be in here
+                        //make sure that it breaks if there is no |
+                        if (inputCopy[j] == '|')
                         {
                             string newLinkValue = "";
-                            for (int k = j + 1; k < inputToExtractLinksFrom.Length; k++)
+                            for (int k = j + 1; k < inputCopy.Length; k++)
                             {
-                                if (inputToExtractLinksFrom[k] == ']')
+                                if (inputCopy[k] == ']' && inputCopy[k + 1] == ']')
                                 {
-
+                                    
                                     newLinks.Add(newLink, newLinkValue);
-                                    linkCount += 1;
+                                    if (newLinkValue.Length > 0)
+                                    {
+                                        inputCopy.Replace(newLinkValue, "");
+                                    }
+                                    //Debug.Log("NEW LINK IS " + newLink);
+
+                                    //Debug.Log(inputCopy);
                                     break;
                                 }
                                 else
                                 {
-                                    newLinkValue += inputToExtractLinksFrom[k];
-                                    if (inputToExtractLinksFrom[j] == ']')
+                                    newLinkValue += inputCopy[k];
+                                    if (inputCopy[j] == ']' && inputCopy[j + 1] == ']')
                                     {
-
+                                        //TODO test if this works
+                                        inputCopy.Replace(newLink, "");
                                         newLinks.Add(newLink, newLink);
-                                        linkCount += 1;
                                         break;
                                     }
                                 }
                             }
                         }
-                        if (inputToExtractLinksFrom[j] == ']' && inputToExtractLinksFrom[j+1] == ']')
+                        if (inputCopy[j] == ']' && inputCopy[j+1] == ']')
                         {
+                            //newLinks.Add(newLink, newLink);
+                            inputCopy.Replace(newLink, "");
+                            //break;
+                            //Debug.Log("NEW LINK IS " + newLink);
                             if (!newLink.Contains("|"))
                             {
 
                                 newLinks.Add(newLink, newLink);
-                                linkCount += 1;
                                 break;
                             }
+                            break;
+                            
                         }
                         else
                         {
-                            newLink += inputToExtractLinksFrom[j];
+                            newLink += inputCopy[j];
+                            
 
                         }
                     }
-
                 }
+                
             }
 
-
+            //Debug.Log(newLinks.ContainsValue("2"));
+            int linkNum = 0;
+            foreach(KeyValuePair<string, string> link in newLinks)
+            {
+                linkNum++;
+            }
+            //Debug.Log(linkNum + " is the number of links");
             return newLinks;
         }
 
