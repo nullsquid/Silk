@@ -10,7 +10,7 @@ namespace Silk
     public class Silky : MonoBehaviour
     {
         #region Public Variables
-        public SilkMotherGraph mother;
+        public SilkMotherStory mother;
         #endregion
 
         #region Private Variables
@@ -50,10 +50,10 @@ namespace Silk
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-            mother = new SilkMotherGraph();
+            mother = new SilkMotherStory();
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
-                SilkGraph newSilkGraph = new SilkGraph();
+                SilkStory newSilkStory = new SilkStory();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
                 //this works for single file
@@ -76,7 +76,7 @@ namespace Silk
                         if (storyTitleCheck == "StoryTitle")
                         {
 
-                            newSilkGraph.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
+                            newSilkStory.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
                         }
                         else
                         {
@@ -92,11 +92,12 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    //TODO Switch type from SilkG--- to SilkStory in AssignDataToNodes
+                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
                     //Debug.Log(newNode.nodeName);
                 }
-                mother.AddToMother(fileName, newSilkGraph);
-                foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+                mother.AddToMother(fileName, newSilkStory);
+                foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
                 {
                     foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                     {
@@ -110,17 +111,17 @@ namespace Silk
 
             }
             //TODO Break This Out into its own method
-            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph)
+            foreach (KeyValuePair<string, SilkStory> silkStory in mother.MotherStory)
             {
                 filenames.Add(silkStory.Key);
             }
             //
 
 
-            //have to search the mother to do it to ALL the graphs???
+            //have to search the mother to do it to ALL the gr---???
             //TODO in mother or in story, make a method that allows for easier searching
             //TODO Make this its own method
-            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
             {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
@@ -163,10 +164,10 @@ namespace Silk
                 }
             }
             //TODO break this into its own method (TESTING)
-            foreach (KeyValuePair<string, SilkGraph> graph in mother.MotherGraph)
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
             {
                 //for testing
-                foreach (KeyValuePair<string, SilkNode> node in graph.Value.Story)
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
                     //for testing
                     //Debug.Log(node.Value.silkTags[0]);
@@ -190,9 +191,9 @@ namespace Silk
         }
         #endregion
 
-        void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
+        void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
         {
-
+            //TODO figure out where this g----Title is started
             newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //only to remove it when required in GetNodeName
             newNode.StoryName = graphTitle;
@@ -226,13 +227,13 @@ namespace Silk
             //add link names
             newNode.links = ReturnLinks(newTweeData);
 
-            newSilkGraph.AddToGraph(newNode.nodeName, newNode);
+            newSilkStory.AddToGraph(newNode.nodeName, newNode);
         }
 
         //finish this method
-        void AssignLinksToNodes(SilkMotherGraph mother)
+        void AssignLinksToNodes(SilkMotherStory mother)
         {
-            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
             {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
