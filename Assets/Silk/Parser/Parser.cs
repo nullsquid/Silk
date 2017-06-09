@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Silk;
 namespace Silk
 {
-    //TODO Make Parser a Singleton
     //TODO Change Parser's name to Silk or something that's more friendly
     public class Parser : MonoBehaviour
     {
@@ -37,6 +36,14 @@ namespace Silk
 
         //TODO sort out all of this nonsense, break into other methods, etc
         #region Initialization
+        void ImportText()
+        {
+            //All of the "Getting Text Files to parse" code
+        }
+        void InitializeTagFactory()
+        {
+
+        }
         void InitializeSilk() {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
@@ -90,7 +97,7 @@ namespace Silk
 
 
             }
-            //Break This Out into its own method
+            //TODO Break This Out into its own method
             foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph) {
                 filenames.Add(silkStory.Key);
             }
@@ -98,6 +105,7 @@ namespace Silk
 
 
             //have to search the mother to do it to ALL the graphs???
+            //TODO in mother or in story, make a method that allows for easier searching
             //TODO Make this its own method
             foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
@@ -134,7 +142,7 @@ namespace Silk
                     }
                 }
             }
-
+            //TODO break this into its own method (TESTING)
             foreach (KeyValuePair<string, SilkGraph> graph in mother.MotherGraph) {
                 //for testing
                 foreach (KeyValuePair<string, SilkNode> node in graph.Value.Story) {
@@ -192,8 +200,7 @@ namespace Silk
             //TODO Add the correct amount of links to the list
             //add link names
             newNode.links = ReturnLinks(newTweeData);
-            //Debug.Log("Count " + newNode.nodeName + " " + newNode.links.Count);
-            //Debug.Log(newNode.nodePassage);
+
             newSilkGraph.AddToGraph(newNode.nodeName, newNode);
         }
 
