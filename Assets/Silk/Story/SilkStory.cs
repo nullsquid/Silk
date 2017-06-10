@@ -29,7 +29,7 @@ namespace Silk
         #endregion
 
         #region Methods for Manipulating Data
-        public void AddToGraph(string nodeName, SilkNode node)
+        public void AddToStory(string nodeName, SilkNode node)
         {
             story.Add(nodeName, node);
         }

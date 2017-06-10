@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Silk;
 namespace Silk
 {
-    //TODO Change Parser's name to Silk or something that's more friendly
     public class Silky : MonoBehaviour
     {
         #region Public Variables
@@ -191,12 +190,12 @@ namespace Silk
         }
         #endregion
 
-        void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
+        void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle)
         {
             //TODO figure out where this g----Title is started
-            newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+            newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //only to remove it when required in GetNodeName
-            newNode.StoryName = graphTitle;
+            newNode.StoryName = storyTitle;
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
 
@@ -227,7 +226,7 @@ namespace Silk
             //add link names
             newNode.links = ReturnLinks(newTweeData);
 
-            newSilkStory.AddToGraph(newNode.nodeName, newNode);
+            newSilkStory.AddToStory(newNode.nodeName, newNode);
         }
 
         //finish this method
