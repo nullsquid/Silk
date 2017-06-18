@@ -8,6 +8,7 @@ namespace Silk
 {
     public class Silky : MonoBehaviour
     {
+
         #region Public Variables
         public SilkMotherStory mother;
         #endregion
@@ -30,10 +31,10 @@ namespace Silk
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeSilk();
+            
         }
         #endregion
-
+        
         //TODO sort out all of this nonsense, break into other methods, etc
         #region Initialization
         void ImportText()
@@ -191,6 +192,11 @@ namespace Silk
                 }
             }
         }
+
+        private void Start() {
+            InitializeSilk();
+        }
+
         #endregion
 
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle)
