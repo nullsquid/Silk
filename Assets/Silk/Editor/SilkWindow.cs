@@ -11,7 +11,7 @@ namespace Silk.Editor {
             if (!GameObject.Find("Silk")) {
                 GameObject newSilkInstance;
                 newSilkInstance = new GameObject("Silk");
-                newSilkInstance.AddComponent<Parser>();
+                newSilkInstance.AddComponent<Silky>();
                 newSilkInstance.AddComponent<Importer>();
             }
             else {
