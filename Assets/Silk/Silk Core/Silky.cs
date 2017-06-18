@@ -34,7 +34,34 @@ namespace Silk
             
         }
         #endregion
-        
+
+        #region Testing Methods
+        void LogNodes(string info) {
+            string output = info.ToUpper();
+            //foreach(KeyValuePair<string, SilkStory> in )
+            foreach(KeyValuePair<string, SilkStory> story in mother.MotherStory) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                    switch (output) {
+                        case "NAME":
+                            Debug.Log("NODE NAME:: " + node.Value.nodeName);
+                            break;
+                        case "PROMPT":
+                            Debug.Log("NODE PROMPT:: " + node.Value.nodePassage);
+                            break;
+                        case "LINKS":
+                            for(int i = 0; i < node.Value.silkLinks.Count; i++) {
+                                Debug.Log("SILK LINK " + i + ":: " + node.Value.silkLinks[i]);
+                            }
+                            break;
+                        default:
+                            Debug.LogError("No information for the given parameter");
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+
         //TODO sort out all of this nonsense, break into other methods, etc
         #region Initialization
         void ImportText()
