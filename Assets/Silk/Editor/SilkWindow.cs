@@ -18,5 +18,11 @@ namespace Silk.Editor {
                 Debug.LogError("There is already one Silk in the scene");
             }
         }
+        [MenuItem("Silk/Remove Silk")]
+        private static void DestroySilk() {
+            if (GameObject.Find("Silk")) {
+                DestroyImmediate(GameObject.Find("Silk"));
+            }
+        }
     }
 }
