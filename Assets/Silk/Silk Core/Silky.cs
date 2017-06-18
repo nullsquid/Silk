@@ -40,10 +40,13 @@ namespace Silk
             string output = info.ToUpper();
             //foreach(KeyValuePair<string, SilkStory> in )
             string _nodeName = "";
+            string prefix;
             foreach(KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
-                    _nodeName = node.Value.nodeName.Replace(story.Value.StoryName + '_', String.Empty);
-                    Debug.Log(story.Value.StoryName);
+                    
+                    prefix = story.Value.StoryName + "_";
+                    _nodeName = node.Value.nodeName.Replace(prefix, String.Empty);
+                    Debug.Log("ns::> " + prefix);
                     switch (output) {
                         case "NAME":
                             Debug.Log("NODE NAME:: " + _nodeName);
@@ -106,7 +109,7 @@ namespace Silk
                         string nodeContainingStoryTitle = ReturnNodeTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
                         if (nodeContainingStoryTitle == "StoryTitle")
                         {
-
+                            //storyTitle = ReturnStoryTitle(tweeNodesToInterpret[i]);
                             newSilkStory.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
                         }
                         else
@@ -123,11 +126,14 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
+                    //TODO P1 fix this bug where StoryName is null 3 times and the right thing 6 times
+                    Debug.Log("NEW STORY NAME LOOP : " + newSilkStory.StoryName);
+                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);//newSilkStory.StoryName);
                     
-                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-                    //Debug.Log(newNode.nodeName);
                 }
+                Debug.Log("STORY IS " + newSilkStory.StoryName);
                 mother.AddToMother(fileName, newSilkStory);
+                //TODO P3 clean out all these comments
                 /*foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
                 {
                     foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
@@ -225,7 +231,7 @@ namespace Silk
 
         private void Start() {
             InitializeSilk();
-            //LogNodes("NAME");
+            LogNodes("NAME");
             
         }
 
@@ -234,9 +240,10 @@ namespace Silk
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle)
         {
             //TODO figure out where this g----Title is started
-            Debug.Log("STORY NAME IS " + newSilkStory.StoryName);
-            newNode.nodeName = newSilkStory.StoryName + "_" + ReturnNodeTitle(newTweeData).TrimEnd(' ');
-            Debug.Log(newNode.nodeName);
+            //Debug.Log("STORY NAME IS " + newSilkStory.StoryName);
+            newNode.nodeName = storyTitle + "_" + ReturnNodeTitle(newTweeData).TrimEnd(' ');
+
+            //newSilkStory.SetStoryName(storyTitle);
             //only to remove it when required in GetNodeName
             newNode.StoryName = storyTitle;
             //add custom tag names
