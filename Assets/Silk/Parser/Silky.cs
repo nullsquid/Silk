@@ -169,6 +169,7 @@ namespace Silk
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
                     //for testing
+                    Debug.Log("NODE IS CALLED " + node.Value.nodeName);
                     //Debug.Log(node.Value.silkTags[0]);
                     //Debug.Log(node.Value.silkTags.Count);
                     foreach (KeyValuePair<string, string[]> tagName in node.Value.tags)
