@@ -50,8 +50,10 @@ namespace Silk
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
             mother = new SilkMotherStory();
+            
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles)
             {
+                Debug.Log("this works");
                 SilkStory newSilkStory = new SilkStory();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
