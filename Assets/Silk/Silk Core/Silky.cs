@@ -39,18 +39,21 @@ namespace Silk
         void LogNodes(string info) {
             string output = info.ToUpper();
             //foreach(KeyValuePair<string, SilkStory> in )
+            string _nodeName = "";
             foreach(KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                    _nodeName = node.Value.nodeName.Replace(story.Value.StoryName + '_', String.Empty);
+                    Debug.Log(story.Value.StoryName);
                     switch (output) {
                         case "NAME":
-                            Debug.Log("NODE NAME:: " + node.Value.nodeName);
+                            Debug.Log("NODE NAME:: " + _nodeName);
                             break;
                         case "PROMPT":
                             Debug.Log("NODE PROMPT:: " + node.Value.nodePassage);
                             break;
                         case "LINKS":
                             for(int i = 0; i < node.Value.silkLinks.Count; i++) {
-                                Debug.Log("SILK LINK " + i + ":: " + node.Value.silkLinks[i]);
+                                Debug.Log("SILK LINK " + i + ":: " + node.Value.silkLinks[i].LinkText);
                             }
                             break;
                         default:
@@ -98,17 +101,17 @@ namespace Silk
                     {
                         promptContainer.Replace("|", string.Empty);
                     }
-                    if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i])))
+                    if (tweeNodesToInterpret[i].Contains(ReturnNodeTitle(tweeNodesToInterpret[i])))
                     {
-                        string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
-                        if (storyTitleCheck == "StoryTitle")
+                        string nodeContainingStoryTitle = ReturnNodeTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
+                        if (nodeContainingStoryTitle == "StoryTitle")
                         {
 
                             newSilkStory.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
                         }
                         else
                         {
-                            promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
+                            promptContainer.Replace(ReturnNodeTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnNodeTitle(tweeNodesToInterpret[i]).Length);
                         }
                     }
                     foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i]))
@@ -120,12 +123,12 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    //TODO Switch type from SilkG--- to SilkStory in AssignDataToNodes
+                    
                     AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
                     //Debug.Log(newNode.nodeName);
                 }
                 mother.AddToMother(fileName, newSilkStory);
-                foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
+                /*foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
                 {
                     foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                     {
@@ -133,7 +136,7 @@ namespace Silk
                         //Debug.Log("ON NODE: " + node.)
 
                     }
-                }
+                }*/
 
 
 
@@ -198,7 +201,7 @@ namespace Silk
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
                 {
                     //for testing
-                    Debug.Log("NODE IS CALLED " + node.Value.nodeName);
+                    //Debug.Log("NODE IS CALLED " + node.Value.nodeName);
                     //Debug.Log(node.Value.silkTags[0]);
                     //Debug.Log(node.Value.silkTags.Count);
                     foreach (KeyValuePair<string, string[]> tagName in node.Value.tags)
@@ -206,14 +209,15 @@ namespace Silk
                         //Debug.Log(tagName.Key);
 
                     }
+                    //TODO test if this works without the debug statements
                     foreach (SilkTagBase _tag in node.Value.silkTags)
                     {
-                        Debug.Log(_tag.TagName);
+                        //Debug.Log(_tag.TagName);
 
                     }
                     foreach (SilkLink _link in node.Value.silkLinks)
                     {
-                        Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
+                        //Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
                     }
                 }
             }
@@ -221,6 +225,8 @@ namespace Silk
 
         private void Start() {
             InitializeSilk();
+            //LogNodes("NAME");
+            
         }
 
         #endregion
@@ -228,7 +234,9 @@ namespace Silk
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle)
         {
             //TODO figure out where this g----Title is started
-            newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+            Debug.Log("STORY NAME IS " + newSilkStory.StoryName);
+            newNode.nodeName = newSilkStory.StoryName + "_" + ReturnNodeTitle(newTweeData).TrimEnd(' ');
+            Debug.Log(newNode.nodeName);
             //only to remove it when required in GetNodeName
             newNode.StoryName = storyTitle;
             //add custom tag names
@@ -283,7 +291,7 @@ namespace Silk
 
         }
 
-        string ReturnTitle(string inputToExtractTitleFrom)
+        string ReturnNodeTitle(string inputToExtractTitleFrom)
         {
             string title = "";
             for (int i = 0; i < inputToExtractTitleFrom.Length; i++)
@@ -304,9 +312,10 @@ namespace Silk
         string ReturnStoryTitle(string nodeToInterpret)
         {
             string storyTitle = "";
-            if (nodeToInterpret.Contains(ReturnTitle(nodeToInterpret)))
+            if (nodeToInterpret.Contains(ReturnNodeTitle(nodeToInterpret)))
             {
-                storyTitle = nodeToInterpret.Replace(ReturnTitle(nodeToInterpret), string.Empty).TrimEnd().TrimStart();
+                storyTitle = nodeToInterpret.Replace(ReturnNodeTitle(nodeToInterpret), string.Empty).TrimEnd().TrimStart();
+                Debug.Log("DEEP: " + storyTitle);
             }
             return storyTitle;
         }
