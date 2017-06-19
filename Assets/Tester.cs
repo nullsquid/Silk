@@ -14,10 +14,7 @@ public class Tester : MonoBehaviour {
 		Debug.Log ("working");
 		foreach (KeyValuePair<string, SilkStory> story in Silky.Instance.mother.MotherStory) {
 			foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
-				foreach (SilkLink silkLink in node.Value.silkLinks) {
-					
-					Debug.Log ("LYNX " +silkLink.LinkText);
-				}
+				Debug.Log ("LYNK" + node.Value.silkLinks);
 			}
 		}
 	}
