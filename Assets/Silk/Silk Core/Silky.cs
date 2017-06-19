@@ -39,30 +39,25 @@ namespace Silk
         void LogNodes(string info) {
             string output = info.ToUpper();
             //foreach(KeyValuePair<string, SilkStory> in )
-            string _nodeName = "";
-            string prefix;
+
             foreach(KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
-                    
-                    prefix = story.Value.StoryName + "_";
-                    _nodeName = node.Value.nodeName.Replace(prefix, String.Empty);
-                    Debug.Log("ns::> " + prefix);
-                    switch (output) {
-                        case "NAME":
-                            Debug.Log("NODE NAME:: " + _nodeName);
-                            break;
-                        case "PROMPT":
-                            Debug.Log("NODE PROMPT:: " + node.Value.nodePassage);
-                            break;
-                        case "LINKS":
-                            for(int i = 0; i < node.Value.silkLinks.Count; i++) {
-                                Debug.Log("SILK LINK " + i + ":: " + node.Value.silkLinks[i].LinkText);
-                            }
-                            break;
-                        default:
-                            Debug.LogError("No information for the given parameter");
-                            break;
-                    }
+					switch(output){
+					case "NAME": 
+						Debug.Log ("NODE:: " + node.Value.GetNodeName ());
+						break;
+					case "LINKS":
+						for (int i = 0; i < node.Value.silkLinks.Count; i++) {
+							Debug.Log ("LINK " + i + ":: " + node.Value.silkLinks[i].LinkText);
+						}
+						break;
+					case "PROMPT":
+						Debug.Log ("PROMPT:: " + node.Value.nodePassage);
+						break;
+					default:
+						Debug.Log ("The given argument " + info + " cannot be used");
+						break;
+					}
                 }
             }
         }
@@ -126,14 +121,14 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    //TODO P1 fix this bug where StoryName is null 3 times and the right thing 6 times
+                    //TODO_P1 fix this bug where StoryName is null 3 times and the right thing 6 times
                     Debug.Log("NEW STORY NAME LOOP : " + newSilkStory.StoryName);
-                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);//newSilkStory.StoryName);
+                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), /*fileName);*/newSilkStory.StoryName);
                     
                 }
                 Debug.Log("STORY IS " + newSilkStory.StoryName);
                 mother.AddToMother(fileName, newSilkStory);
-                //TODO P3 clean out all these comments
+                //TODO_P3 clean out all these comments
                 /*foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory)
                 {
                     foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
@@ -173,6 +168,8 @@ namespace Silk
                         {
                             string nodeName = "";
                             StringBuilder nodeNameBuilder = new StringBuilder();
+							//TESTING
+
                             for (int a = 0; a < filenames.Count; a++)
                             {
 
@@ -186,13 +183,19 @@ namespace Silk
                                 }
 
                             }
+							//if (linkedNode.Value.nodeName.Contains (story.Value.StoryName)) {
+							//	nodeNameBuilder.Append (linkedNode.Value.nodeName.Replace (story.Value.StoryName, ""));
+							//	nodeName = nodeNameBuilder.ToString ().TrimEnd (' ');
+							//}
 
                             if (linkName.ToString() == nodeName)
                             {
-
+								Debug.Log ("BOOOOOOOOOOOOOOP");
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
                             }
+							Debug.Log (linkName + " ||| " + nodeName);
+								
 
                         }
 
@@ -231,7 +234,7 @@ namespace Silk
 
         private void Start() {
             InitializeSilk();
-            LogNodes("NAME");
+            LogNodes("LINKS");
             
         }
 
