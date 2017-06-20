@@ -25,6 +25,20 @@ namespace Silk
         }
         #endregion
 
+        #region Accessor Methods
+        public SilkNode GetNodeByName(string storyName, string nodeName) {
+            foreach(KeyValuePair<string, SilkStory> story in MotherStory) {
+                if (story.Key == storyName) {
+                    foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                        if (node.Value.GetNodeName() == nodeName) {
+                            return node.Value;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        #endregion
         //public loadStory
     }
 }
