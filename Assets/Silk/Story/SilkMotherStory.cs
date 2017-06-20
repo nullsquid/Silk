@@ -25,6 +25,27 @@ namespace Silk
         }
         #endregion
 
+        #region Accessor Methods
+        public SilkNode GetNodeByName(string storyName, string nodeName) {
+            foreach(KeyValuePair<string, SilkStory> story in MotherStory) {
+                if (story.Key == storyName) {
+                    foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                        if (node.Value.GetNodeName() == nodeName) {
+                            Debug.Log("Node " + nodeName + " in " + storyName + " returned");
+                            return node.Value;
+                        }
+                        else {
+                            Debug.LogWarning("No node named " + nodeName + " found");
+                        }
+                    }
+                }
+                else {
+                    Debug.LogError("Story " + storyName + " not found. Try another?");
+                }
+            }
+            return null;
+        }
+        #endregion
         //public loadStory
     }
 }

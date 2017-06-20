@@ -6,15 +6,6 @@ namespace Silk
 {
     public class SilkNode
     {
-        #region Constructor
-        /*
-        public SilkNode(string name, string passage)
-        {
-            nodeName = name;
-            nodePassage = passage;
-        }
-        */
-        #endregion
 
         #region Data
         private string storyName;
