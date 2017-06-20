@@ -4,15 +4,16 @@ using System.Collections;
 
 namespace Silk.Editor {
     public class SilkWindow : MonoBehaviour {
-        
+        public static string silkName = "Silk_4.1";
+
         [MenuItem("Silk/Create New Silk")]
-        
         private static void CreateNewSilk()
         {
             
             if (!GameObject.Find("Silk")) {
                 GameObject newSilkInstance;
-                newSilkInstance = new GameObject("Silk_4.0b");
+                
+                newSilkInstance = new GameObject(silkName);
                 newSilkInstance.AddComponent<Silky>();
                 newSilkInstance.AddComponent<Importer>();
             }
@@ -22,8 +23,8 @@ namespace Silk.Editor {
         }
         [MenuItem("Silk/Remove Silk")]
         private static void DestroySilk() {
-            if (GameObject.Find("Silk")) {
-                DestroyImmediate(GameObject.Find("Silk"));
+            if (GameObject.Find(silkName)) {
+                DestroyImmediate(GameObject.Find(silkName));
             }
         }
     }
