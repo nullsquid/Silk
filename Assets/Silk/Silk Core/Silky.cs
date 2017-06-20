@@ -4,13 +4,11 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using Silk;
-namespace Silk
-{
-    //TODO Change Parser's name to Silk or something that's more friendly
-    public class Parser : MonoBehaviour
-    {
+namespace Silk {
+    public class Silky : MonoBehaviour {
+
         #region Public Variables
-        public SilkMotherGraph mother;
+        public SilkMotherStory mother;
         #endregion
 
         #region Private Variables
@@ -21,36 +19,44 @@ namespace Silk
         string[] delim = new string[] { ":: " };
         #endregion
 
+        #region Testing Methods
+        void LogNodes() {
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                    Debug.Log("NODE >>" + node.Value.GetNodeName());
+                }
+            }
+        }
+        #endregion
+
         #region Singleton
-        public static Parser Instance { get; private set; }
-        void Awake()
-        {
-            if(Instance != null && Instance != this) {
+        public static Silky Instance { get; private set; }
+        void Awake() {
+            if (Instance != null && Instance != this) {
                 Destroy(gameObject);
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeSilk();
+
         }
         #endregion
 
         //TODO sort out all of this nonsense, break into other methods, etc
         #region Initialization
-        void ImportText()
-        {
+        void ImportText() {
             //All of the "Getting Text Files to parse" code
         }
-        void InitializeTagFactory()
-        {
+        void InitializeTagFactory() {
 
         }
         void InitializeSilk() {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
             List<string> filenames = new List<string>();
-            mother = new SilkMotherGraph();
+            mother = new SilkMotherStory();
+
             foreach (TextAsset currentTweeFile in importer.rawTweeFiles) {
-                SilkGraph newSilkGraph = new SilkGraph();
+                SilkStory newSilkStory = new SilkStory();
                 TextAsset tweeFile = currentTweeFile;
                 string fileName = currentTweeFile.name;
                 //this works for single file
@@ -69,7 +75,7 @@ namespace Silk
                         string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
                         if (storyTitleCheck == "StoryTitle") {
 
-                            newSilkGraph.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
+                            newSilkStory.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
                         }
                         else {
                             promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
@@ -82,11 +88,12 @@ namespace Silk
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    AssignDataToNodes(newSilkGraph, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+                    //TODO Switch type from SilkG--- to SilkStory in AssignDataToNodes
+                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
                     //Debug.Log(newNode.nodeName);
                 }
-                mother.AddToMother(fileName, newSilkGraph);
-                foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph) {
+                mother.AddToMother(fileName, newSilkStory);
+                foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                     foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
                         //for testing
                         //Debug.Log("ON NODE: " + node.)
@@ -98,16 +105,16 @@ namespace Silk
 
             }
             //TODO Break This Out into its own method
-            foreach (KeyValuePair<string, SilkGraph> silkStory in mother.MotherGraph) {
+            foreach (KeyValuePair<string, SilkStory> silkStory in mother.MotherStory) {
                 filenames.Add(silkStory.Key);
             }
             //
 
 
-            //have to search the mother to do it to ALL the graphs???
+            //have to search the mother to do it to ALL the gr---???
             //TODO in mother or in story, make a method that allows for easier searching
             //TODO Make this its own method
-            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph) {
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
 
                     foreach (KeyValuePair<string, string> link in node.Value.links) {
@@ -134,19 +141,22 @@ namespace Silk
 
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
+                                Debug.Log("SilkLink " + newSilkLink.LinkText);
                             }
 
                         }
 
 
                     }
+
                 }
             }
             //TODO break this into its own method (TESTING)
-            foreach (KeyValuePair<string, SilkGraph> graph in mother.MotherGraph) {
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 //for testing
-                foreach (KeyValuePair<string, SilkNode> node in graph.Value.Story) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
                     //for testing
+                    Debug.Log("NODE IS CALLED " + node.Value.nodeName);
                     //Debug.Log(node.Value.silkTags[0]);
                     //Debug.Log(node.Value.silkTags.Count);
                     foreach (KeyValuePair<string, string[]> tagName in node.Value.tags) {
@@ -163,33 +173,36 @@ namespace Silk
                 }
             }
         }
+
+        private void Start() {
+            InitializeSilk();
+            //Debug.Log("NODE TEST " + LogNodes().GetNodeName());
+            LogNodes();
+            
+        }
+
         #endregion
 
-        void AssignDataToNodes(SilkGraph newSilkGraph, SilkNode newNode, string newTweeData, string newPassage, string graphTitle)
-        {
-            
-            newNode.nodeName = graphTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
+        void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle) {
+            //TODO figure out where this g----Title is started
+            newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //only to remove it when required in GetNodeName
-            newNode.StoryName = graphTitle;
+            newNode.StoryName = storyTitle;
             //add custom tag names
             newNode.tags = ReturnCustomTags(newTweeData);
-            
+
             //add custom tags
-            foreach(KeyValuePair<string, string[]> tagName in newNode.tags)
-            {
-                
+            foreach (KeyValuePair<string, string[]> tagName in newNode.tags) {
+
                 string newTagName = "";
                 //Right now, you can't use underscores in your custom tag names
-                if (tagName.Key.Contains("_"))
-                {
+                if (tagName.Key.Contains("_")) {
                     newTagName = tagName.Key.Remove(tagName.Key.IndexOf('_')).TrimStart().TrimEnd();
                 }
-                if (tagFactory.SetTag(newTagName, tagName.Value) != null)
-                {
+                if (tagFactory.SetTag(newTagName, tagName.Value) != null) {
                     newNode.silkTags.Add(tagFactory.SetTag(newTagName, tagName.Value));
                 }
-                else
-                {
+                else {
                     Debug.LogError(newTagName + " is not a recognized tag. Check your TagFactory");
                 }
             }
@@ -201,121 +214,97 @@ namespace Silk
             //add link names
             newNode.links = ReturnLinks(newTweeData);
 
-            newSilkGraph.AddToGraph(newNode.nodeName, newNode);
+            newSilkStory.AddToStory(newNode.nodeName, newNode);
         }
 
         //finish this method
-        void AssignLinksToNodes(SilkMotherGraph mother)
-        {
-            foreach (KeyValuePair<string, SilkGraph> story in mother.MotherGraph)
-            {
-                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story)
-                {
-                    foreach(SilkTagBase tag in node.Value.silkTags)
-                    {
-                        
+        void AssignLinksToNodes(SilkMotherStory mother) {
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                    foreach (SilkTagBase tag in node.Value.silkTags) {
+
                     }
                 }
             }
         }
-        void AssignPassageToNodes(string newTweeData)
-        {
+        void AssignPassageToNodes(string newTweeData) {
 
         }
 
-        string ReturnTitle(string inputToExtractTitleFrom)
-        {
+        string ReturnTitle(string inputToExtractTitleFrom) {
             string title = "";
-            for(int i = 0;i < inputToExtractTitleFrom.Length; i++)
-            {
-                if(inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[')
-                {
+            for (int i = 0; i < inputToExtractTitleFrom.Length; i++) {
+                if (inputToExtractTitleFrom[i] == '\n' || inputToExtractTitleFrom[i] == '[') {
                     break;
                 }
-                
-                else
-                {
+
+                else {
                     title += inputToExtractTitleFrom[i];
                 }
             }
             return title.TrimStart(' ').TrimEnd(' ');
         }
 
-        string ReturnStoryTitle(string nodeToInterpret)
-        {
+        string ReturnStoryTitle(string nodeToInterpret) {
             string storyTitle = "";
-            if (nodeToInterpret.Contains(ReturnTitle(nodeToInterpret))){
+            if (nodeToInterpret.Contains(ReturnTitle(nodeToInterpret))) {
                 storyTitle = nodeToInterpret.Replace(ReturnTitle(nodeToInterpret), string.Empty).TrimEnd().TrimStart();
             }
             return storyTitle;
         }
-        
+
         //finish this method
-        string ReturnPassageTags(string inputToExtractTagsFrom)
-        {
+        string ReturnPassageTags(string inputToExtractTagsFrom) {
             string newTag = "";
             return newTag;
         }
 
-        Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom)
-        {
+        Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom) {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
             List<string> rawTags = new List<string>();
             int iterations = 0;
-            for (int i = 0; i < inputToExtractTagsFrom.Length; i++)
-            {
+            for (int i = 0; i < inputToExtractTagsFrom.Length; i++) {
                 string rawTag = "";
                 //to find each custom tag
-                if (inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<')
-                {
+                if (inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<') {
                     //to get data out of each tag
-                    for (int j = i + 2; j < inputToExtractTagsFrom.Length; j++)
-                    {
-                        if(inputToExtractTagsFrom[j] == '>' && inputToExtractTagsFrom[j + 1] == '>')
-                        {
+                    for (int j = i + 2; j < inputToExtractTagsFrom.Length; j++) {
+                        if (inputToExtractTagsFrom[j] == '>' && inputToExtractTagsFrom[j + 1] == '>') {
                             rawTags.Add(rawTag);
                             break;
                         }
-                        else
-                        {
+                        else {
                             rawTag += inputToExtractTagsFrom[j];
                         }
                     }
                 }
             }
-            foreach(string tag in rawTags)
-            {
+            foreach (string tag in rawTags) {
                 string tagName = "";
                 string[] tagArgs = null;
-                
-                for(int i = 0; i < tag.Length; i++)
-                {
 
-                    if(tag[i] == '=')
-                    {
+                for (int i = 0; i < tag.Length; i++) {
+
+                    if (tag[i] == '=') {
                         tagArgs = tag.Substring(i + 1).Split(',');
                         break;
                     }
-                    else
-                    {
+                    else {
                         tagName += tag[i];
-                        
+
                     }
                 }
-                if (tagArgs != null)
-                {
-                    
+                if (tagArgs != null) {
+
                     tags.Add(tagName + "_" + iterations, tagArgs);
-                    
+
                 }
-                else
-                {
+                else {
                     tags.Add(tagName, null);
                 }
                 iterations += 1;
             }
-            foreach(KeyValuePair<string, string[]> tag in tags)
-            {
+            foreach (KeyValuePair<string, string[]> tag in tags) {
                 //Debug.Log(tag.Key);
             }
             return tags;
@@ -325,35 +314,27 @@ namespace Silk
         //TODO clean this code up and remove unused variables
         //TODO replace all of the inputToExtractLinksFrom variables with inputCopy
         //TODO remove the link substring from inputCopy once it's been added to the list
-        Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom)
-        {
+        Dictionary<string, string> ReturnLinks(string inputToExtractLinksFrom) {
             StringBuilder inputCopy = new StringBuilder();
             inputCopy.Append(inputToExtractLinksFrom);
             List<SilkLink> newSilkLinks = new List<SilkLink>();
             Dictionary<string, string> newLinks = new Dictionary<string, string>();
-            for (int i = 0; i < inputCopy.Length; i++)
-            {
-                if (inputCopy[i] == '[' && inputCopy[i + 1] == '[')
-                {
-                    
+            for (int i = 0; i < inputCopy.Length; i++) {
+                if (inputCopy[i] == '[' && inputCopy[i + 1] == '[') {
+
                     string newLink = "";
                     //I might want to reevaluate how I deal with link text that is repeated.
                     //for now this should work
-                    for (int j = i + 2; j < inputCopy.Length; j++)
-                    {
+                    for (int j = i + 2; j < inputCopy.Length; j++) {
                         //bug might be in here
                         //make sure that it breaks if there is no |
-                        if (inputCopy[j] == '|')
-                        {
+                        if (inputCopy[j] == '|') {
                             string newLinkValue = "";
-                            for (int k = j + 1; k < inputCopy.Length; k++)
-                            {
-                                if (inputCopy[k] == ']' && inputCopy[k + 1] == ']')
-                                {
-                                    
+                            for (int k = j + 1; k < inputCopy.Length; k++) {
+                                if (inputCopy[k] == ']' && inputCopy[k + 1] == ']') {
+
                                     newLinks.Add(newLink, newLinkValue);
-                                    if (newLinkValue.Length > 0)
-                                    {
+                                    if (newLinkValue.Length > 0) {
                                         inputCopy.Replace(newLinkValue, "");
                                     }
                                     //Debug.Log("NEW LINK IS " + newLink);
@@ -361,11 +342,9 @@ namespace Silk
                                     //Debug.Log(inputCopy);
                                     break;
                                 }
-                                else
-                                {
+                                else {
                                     newLinkValue += inputCopy[k];
-                                    if (inputCopy[j] == ']' && inputCopy[j + 1] == ']')
-                                    {
+                                    if (inputCopy[j] == ']' && inputCopy[j + 1] == ']') {
                                         //TODO test if this works
                                         inputCopy.Replace(newLink, "");
                                         newLinks.Add(newLink, newLink);
@@ -374,65 +353,55 @@ namespace Silk
                                 }
                             }
                         }
-                        if (inputCopy[j] == ']' && inputCopy[j+1] == ']')
-                        {
+                        if (inputCopy[j] == ']' && inputCopy[j + 1] == ']') {
                             //newLinks.Add(newLink, newLink);
                             inputCopy.Replace(newLink, "");
                             //break;
                             //Debug.Log("NEW LINK IS " + newLink);
-                            if (!newLink.Contains("|"))
-                            {
+                            if (!newLink.Contains("|")) {
 
                                 newLinks.Add(newLink, newLink);
                                 break;
                             }
                             break;
-                            
+
                         }
-                        else
-                        {
+                        else {
                             newLink += inputCopy[j];
-                            
+
 
                         }
                     }
                 }
-                
+
             }
 
             //Debug.Log(newLinks.ContainsValue("2"));
             int linkNum = 0;
-            foreach(KeyValuePair<string, string> link in newLinks)
-            {
+            foreach (KeyValuePair<string, string> link in newLinks) {
                 linkNum++;
             }
             //Debug.Log(linkNum + " is the number of links");
             return newLinks;
         }
 
-        
+
         //garbage fire
         //TODO bring Passage Setting code from start method down here
-        string ReturnPassage(string inputToExtractPassageFrom)
-        {
+        string ReturnPassage(string inputToExtractPassageFrom) {
             Debug.Log("full text is " + inputToExtractPassageFrom);
             string passage = "";
-             
-            for(int i = 0; i < inputToExtractPassageFrom.Length; i++)
-            {
-                if(inputToExtractPassageFrom[i] == ':')
-                {
-                    for(int j = i; j < inputToExtractPassageFrom.Length; j++)
-                    {
+
+            for (int i = 0; i < inputToExtractPassageFrom.Length; i++) {
+                if (inputToExtractPassageFrom[i] == ':') {
+                    for (int j = i; j < inputToExtractPassageFrom.Length; j++) {
 
                     }
                 }
-                else if (inputToExtractPassageFrom[i] == '[' || inputToExtractPassageFrom[i] == '<')
-                {
+                else if (inputToExtractPassageFrom[i] == '[' || inputToExtractPassageFrom[i] == '<') {
 
                 }
-                else
-                {
+                else {
                     passage += inputToExtractPassageFrom[i];
                 }
             }
