@@ -19,6 +19,16 @@ namespace Silk {
         string[] delim = new string[] { ":: " };
         #endregion
 
+        #region Testing Methods
+        void LogNodes() {
+            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
+                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+                    Debug.Log("NODE >>" + node.Value.GetNodeName());
+                }
+            }
+        }
+        #endregion
+
         #region Singleton
         public static Silky Instance { get; private set; }
         void Awake() {
@@ -166,6 +176,9 @@ namespace Silk {
 
         private void Start() {
             InitializeSilk();
+            //Debug.Log("NODE TEST " + LogNodes().GetNodeName());
+            LogNodes();
+            
         }
 
         #endregion
