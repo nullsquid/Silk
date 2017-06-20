@@ -46,6 +46,5 @@ namespace Silk
             return null;
         }
         #endregion
-        //public loadStory
     }
 }

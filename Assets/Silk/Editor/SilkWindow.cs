@@ -4,13 +4,15 @@ using System.Collections;
 
 namespace Silk.Editor {
     public class SilkWindow : MonoBehaviour {
+        
         [MenuItem("Silk/Create New Silk")]
         
         private static void CreateNewSilk()
         {
+            
             if (!GameObject.Find("Silk")) {
                 GameObject newSilkInstance;
-                newSilkInstance = new GameObject("Silk");
+                newSilkInstance = new GameObject("Silk_4.0b");
                 newSilkInstance.AddComponent<Silky>();
                 newSilkInstance.AddComponent<Importer>();
             }
