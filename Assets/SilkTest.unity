@@ -108,52 +108,52 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &258816383
+--- !u!1 &398499173
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 258816386}
-  - component: {fileID: 258816385}
-  - component: {fileID: 258816384}
+  - component: {fileID: 398499176}
+  - component: {fileID: 398499175}
+  - component: {fileID: 398499174}
   m_Layer: 0
-  m_Name: Silk
+  m_Name: Silk_4.1b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &258816384
+--- !u!114 &398499174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258816383}
+  m_GameObject: {fileID: 398499173}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c976064964a5a488a5891ced78c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rawTweeFiles: []
---- !u!114 &258816385
+--- !u!114 &398499175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258816383}
+  m_GameObject: {fileID: 398499173}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1868fb2786e434c4dbf99164bd74b769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &258816386
+--- !u!4 &398499176
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258816383}
+  m_GameObject: {fileID: 398499173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
