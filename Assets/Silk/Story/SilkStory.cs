@@ -47,7 +47,14 @@ namespace Silk
         }
         public SilkNode GetNodeByName(string nodeName)
         {
-            return story[nodeName];
+            
+            foreach (KeyValuePair<string, SilkNode> node in Story) {
+                if(node.Value.GetNodeName() == nodeName) {
+                    return node.Value;
+                }
+                //return story[nodeName];
+            }
+            return null;
         }
         public SilkNode GetNodeByTitle(string nodeName)
         {
@@ -134,6 +141,8 @@ namespace Silk
         {
             return story[nodeName].nodeName;
         }
+
+        
 
         #endregion
 
