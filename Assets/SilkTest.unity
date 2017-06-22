@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 398499175}
   - component: {fileID: 398499174}
   m_Layer: 0
-  m_Name: Silk_4.1b
+  m_Name: Silk_4.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
