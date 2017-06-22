@@ -45,6 +45,18 @@ namespace Silk
             }
             return null;
         }
+
+		public SilkStory GetStoryByName(string storyName){
+			foreach (KeyValuePair<string, SilkStory> story in MotherStory) {
+				if (story.Value.StoryName == storyName) {
+					Debug.Log ("Story " + storyName + " returned");
+					return story.Value;
+				} else {
+					Debug.LogError("No story named " + storyName + " found");
+				}
+			}
+			return null;
+		}
         #endregion
     }
 }
