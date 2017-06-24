@@ -42,6 +42,8 @@ namespace Silk {
         #endregion
 
         //TODO sort out all of this nonsense, break into other methods, etc
+        //TODO lex the tags first, parse second
+        //TODO add each element of the node to a queue that will be parsed when it's the current node
         #region Initialization
         void ImportText() {
             //All of the "Getting Text Files to parse" code
@@ -66,8 +68,9 @@ namespace Silk {
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tweeNodesToInterpret.Length; i++) {
                     string storyTitle = "";
+                    //TODO move to it's own method--everything that deals in extracting the prompt
                     StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
-
+                    //TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
                     if (tweeNodesToInterpret[i].Contains("|")) {
                         promptContainer.Replace("|", string.Empty);
                     }
@@ -88,9 +91,7 @@ namespace Silk {
                         }
                     }
                     SilkNode newNode = new SilkNode();
-                    //TODO Switch type from SilkG--- to SilkStory in AssignDataToNodes
                     AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
-                    //Debug.Log(newNode.nodeName);
                 }
                 mother.AddToMother(fileName, newSilkStory);
                 foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
@@ -111,8 +112,6 @@ namespace Silk {
             //
 
 
-            //have to search the mother to do it to ALL the gr---???
-            //TODO in mother or in story, make a method that allows for easier searching
             //TODO Make this its own method
             foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
                 foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
@@ -184,7 +183,6 @@ namespace Silk {
         #endregion
 
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle) {
-            //TODO figure out where this g----Title is started
             newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
             //only to remove it when required in GetNodeName
             newNode.StoryName = storyTitle;
