@@ -68,30 +68,11 @@ namespace Silk {
                 tweeNodesToInterpret = textToParse.Split(delim, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tweeNodesToInterpret.Length; i++) {
                     string storyTitle = "";
+					//this is where prompt parsing was supposed to go 
                     //TODO move to it's own method--everything that deals in extracting the prompt
-                    StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[i]);
-                    //TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
-                    if (tweeNodesToInterpret[i].Contains("|")) {
-                        promptContainer.Replace("|", string.Empty);
-                    }
-                    if (tweeNodesToInterpret[i].Contains(ReturnTitle(tweeNodesToInterpret[i]))) {
-                        string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[i]).TrimStart().TrimEnd();
-                        if (storyTitleCheck == "StoryTitle") {
-
-                            newSilkStory.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[i]));
-                        }
-                        else {
-                            promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[i]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[i]).Length);
-                        }
-                    }
-                    foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[i])) {
-                        if (tweeNodesToInterpret[i].Contains("[[" + entry.Key) || tweeNodesToInterpret[i].Contains("[[" + entry.Value)) {
-                            promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
-                            promptContainer.Replace("]]", string.Empty);
-                        }
-                    }
+                    
                     SilkNode newNode = new SilkNode();
-                    AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], promptContainer.ToString(), fileName);
+					AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], GetPrompt(i, newSilkStory), fileName);
                 }
                 mother.AddToMother(fileName, newSilkStory);
                 foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
@@ -181,6 +162,36 @@ namespace Silk {
         }
 
         #endregion
+		string GetPrompt(int c, SilkStory story){
+			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
+			//TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
+			if (tweeNodesToInterpret[c].Contains("|")) {
+				promptContainer.Replace("|", string.Empty);
+			}
+			if (tweeNodesToInterpret[c].Contains(ReturnTitle(tweeNodesToInterpret[c]))) {
+				string storyTitleCheck = ReturnTitle(tweeNodesToInterpret[c]).TrimStart().TrimEnd();
+				if (storyTitleCheck == "StoryTitle") {
+
+					story.SetStoryName(ReturnStoryTitle(tweeNodesToInterpret[c]));
+				}
+				else {
+					promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[c]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[c]).Length);
+				}
+			}
+			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
+				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
+					promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
+					promptContainer.Replace("]]", string.Empty);
+				}
+			}
+			Debug.Log ("PROMPT >>" + promptContainer.ToString ().TrimStart().TrimEnd());
+			return promptContainer.ToString ();
+		}
+
+		string ReplacePromptTokens(string inputText){
+			string outputText = "";
+			return outputText;
+		}
 
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle) {
             newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');
