@@ -188,10 +188,30 @@ namespace Silk {
 			return promptContainer.ToString ();
 		}
 
+        string TagReplace() {
+
+            return null;
+        }
+
 		string ReplacePromptTokens(string inputText){
 			string outputText = "";
+            for(int i = 0; i < inputText.Length; i++) {
+                if(inputText[i] == '<' && inputText[i + 1] == '<') {
+                    string curTag = "";
+                    for(int j = i; j < inputText.Length; j++) {
+                        if(inputText[j] == '>' && inputText[j + 1] == '>') {
+                            break;
+                        }
+                        else {
+                            curTag += inputText[j];
+                        }
+                    }
+                }
+            }
 			return outputText;
 		}
+
+        
 
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle) {
             newNode.nodeName = storyTitle + "_" + ReturnTitle(newTweeData).TrimEnd(' ');

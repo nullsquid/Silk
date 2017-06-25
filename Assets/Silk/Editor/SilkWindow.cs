@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Silk.Editor {
     public class SilkWindow : MonoBehaviour {
-        public static string silkName = "Silk_4.1";
+        public static string silkName = "Silk_0.4.2";
 
         [MenuItem("Silk/Create New Silk")]
         private static void CreateNewSilk()
