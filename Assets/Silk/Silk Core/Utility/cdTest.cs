@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class cdTest : MonoBehaviour {
 
+	string words = "";
     private void Start() {
         StartCoroutine(PrintWords());
     }
     IEnumerator PrintWords() {
         CoroutineDataWrapper cd = new CoroutineDataWrapper(this, GetString());
         yield return cd.coroutine;
-        Debug.Log("Result is " + cd.result);
+		words = cd.result as string;
+		Debug.Log("Result is " + words);
     }
 
     IEnumerator GetString() {

@@ -44,6 +44,7 @@ namespace Silk {
         //TODO sort out all of this nonsense, break into other methods, etc
         //TODO lex the tags first, parse second
         //TODO add each element of the node to a queue that will be parsed when it's the current node
+
         #region Initialization
         void ImportText() {
             //All of the "Getting Text Files to parse" code
@@ -162,6 +163,22 @@ namespace Silk {
         }
 
         #endregion
+
+		#region Get Prompts
+		string InvokeGetPrompt(int c, SilkStory story){
+			string _prompt = "";
+			return _prompt;
+		}
+
+		IEnumerator GetPromptInit(int c, SilkStory story){
+
+			yield return null;
+		}
+
+		IEnumerator ReplaceTag(){
+			yield return null;
+		}
+
 		string GetPrompt(int c, SilkStory story){
 			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
 			//TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
@@ -210,7 +227,7 @@ namespace Silk {
             }
 			return outputText;
 		}
-
+		#endregion
         
 
         void AssignDataToNodes(SilkStory newSilkStory, SilkNode newNode, string newTweeData, string newPassage, string storyTitle) {
