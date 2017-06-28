@@ -34,8 +34,10 @@ namespace Silk
                             Debug.Log("Node " + nodeName + " in " + storyName + " returned");
                             return node.Value;
                         }
-                        else {
-                            Debug.LogWarning("No node named " + nodeName + " found");
+                        else{
+                            //should rather be if nodeName does not exist inside current document, then error
+                            //Debug.LogWarning("the value is " + node.Value.GetNodeName());
+                            //Debug.LogWarning("No node named " + nodeName + " found");
                         }
                     }
                 }

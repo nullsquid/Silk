@@ -15,6 +15,7 @@ public class cdTest : MonoBehaviour {
 
     IEnumerator GetString() {
         yield return new WaitForSeconds(1.0f);
+        Debug.Log("i");
         yield return Silk.Silky.Instance.mother.GetNodeByName("Sample","Start").silkLinks[0].LinkText;
     }
 }
