@@ -17,6 +17,7 @@ namespace Silk
                 return _tagName;
             }
         }
+
         public virtual void SilkTagDefinition()
         {
 
