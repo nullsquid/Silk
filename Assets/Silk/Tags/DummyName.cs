@@ -4,6 +4,7 @@ using UnityEngine;
 using Silk;
 public class DummyName : SilkTagBase {
     private string _name;
+    private string tagToReplace;
     private string _newName = "MEMM";
 	public string Name {
         get
