@@ -5,18 +5,7 @@ using UnityEngine;
 namespace Silk{
     public class TagFactory
     {
-        private string _tag;
-        public string Tag
-        {
-            get
-            {
-                return _tag;
-            }
-            private set
-            {
-                _tag = value;
-            }
-        }
+
         string SetRawTag(string tagName, string[] args) {
             string rawTag = "<<" + tagName + '=';
             for (int i = 0; i < args.Length; i++) {
@@ -27,7 +16,6 @@ namespace Silk{
         }
         public SilkTagBase SetTag(string tagName, string[] args)
         {
-            Tag = SetRawTag(tagName, args);
             
             if(tagName == "DummyTag")
             {
@@ -37,12 +25,14 @@ namespace Silk{
                 }
 
                 DummyTag newDummyTag = new DummyTag(tagName, args);
+				newDummyTag.RawTag = SetRawTag (tagName, args);
                 return newDummyTag;
 
             }
             if(tagName == "DummyName") {
                 //TODO make this actually replace the text that is coming into it
-                DummyName newDummyName = new DummyName(args);
+                DummyName newDummyName = new DummyName(args, 0);
+				newDummyName.RawTag = SetRawTag (tagName, args);
                 return newDummyName;
             }
 

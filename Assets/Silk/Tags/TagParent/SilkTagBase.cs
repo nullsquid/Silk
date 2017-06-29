@@ -6,7 +6,9 @@ namespace Silk
 {
     public abstract class SilkTagBase
     {
+		protected string _rawTag;
         protected string _tagName;
+		protected int priority;
         List<string> _silkTagArgs = new List<string>();
 
 
@@ -18,6 +20,14 @@ namespace Silk
             }
         }
 
+		public string RawTag{
+			get{
+				return _rawTag;
+			}
+			set{
+				_rawTag = value;
+			}
+		}
         public virtual void SilkTagDefinition()
         {
 

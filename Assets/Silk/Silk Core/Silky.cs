@@ -179,6 +179,17 @@ namespace Silk {
 			yield return null;
 		}
 
+		//should take GetPrompt(i, newStory) as a parameter; maybe should be a coroutine
+		string ReturnProcessedPrompt(string rawPrompt){
+			for (int i = 0; i < rawPrompt.Length; i++) {
+				if (rawPrompt [i] == '<' && rawPrompt [i + 1] == '<') {
+					//lex tags, create priority==>priority 0 happens in this method before return, priority 1 gets put on queue
+					return null;
+				}
+			}
+			return null;
+		}
+
 		string GetPrompt(int c, SilkStory story){
 			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
 			//TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
@@ -195,6 +206,19 @@ namespace Silk {
 					promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[c]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[c]).Length);
 				}
 			}
+			//extract/////
+
+			foreach(string nodeText in tweeNodesToInterpret){
+				
+				for (int l = 0; l < nodeText.Length; l++) {
+					if (nodeText [l] == '<' && nodeText [l + 1] == '<') {
+						//Debug.Log (nodeText [i + 2]);
+						Debug.Log("hey");
+						break;
+					}
+				}
+			}
+			////////////
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
 					promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
@@ -235,7 +259,9 @@ namespace Silk {
             //only to remove it when required in GetNodeName
             newNode.StoryName = storyTitle;
             //add custom tag names
-            newNode.tags = ReturnCustomTags(newTweeData);
+			//
+			//TODO TEST
+            //newNode.tags = ReturnCustomTags(newTweeData);
 
             //add custom tags
             foreach (KeyValuePair<string, string[]> tagName in newNode.tags) {

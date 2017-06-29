@@ -26,6 +26,6 @@ public class cdTest : MonoBehaviour {
         Debug.Log("i");
         yield return Silk.Silky.Instance.mother.GetNodeByName("Sample","Start").silkLinks[0].LinkText;
         factory.SetTag(_name, _args);
-        yield return factory.Tag;
+        //yield return factory.Tag;
     }
 }
