@@ -3,7 +3,8 @@
 
 
 :: Start
-Yesterday upon the stair <<name>>
+Yesterday upon the stair <<name="C","A","B">>
+I did a thing <<start="this">>
 
 [[I met a man who wasn’t there|When I came home last night at three]]
 

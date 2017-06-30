@@ -73,6 +73,7 @@ namespace Silk {
                     //TODO move to it's own method--everything that deals in extracting the prompt
                     
                     SilkNode newNode = new SilkNode();
+                    
 					AssignDataToNodes(newSilkStory, newNode, tweeNodesToInterpret[i], GetPrompt(i, newSilkStory), fileName);
                 }
                 mother.AddToMother(fileName, newSilkStory);
@@ -183,8 +184,8 @@ namespace Silk {
 		string ReturnProcessedPrompt(string rawPrompt){
 			for (int i = 0; i < rawPrompt.Length; i++) {
 				if (rawPrompt [i] == '<' && rawPrompt [i + 1] == '<') {
-					//lex tags, create priority==>priority 0 happens in this method before return, priority 1 gets put on queue
-					return null;
+                    //lex tags, create priority==>priority 0 happens in this method before return, priority 1 gets put on queue
+                    SilkTagBase newTag;
 				}
 			}
 			return null;
@@ -192,8 +193,9 @@ namespace Silk {
 
 		string GetPrompt(int c, SilkStory story){
 			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
-			//TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
-			if (tweeNodesToInterpret[c].Contains("|")) {
+            string curNodeText = tweeNodesToInterpret[c];
+            //TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
+            if (tweeNodesToInterpret[c].Contains("|")) {
 				promptContainer.Replace("|", string.Empty);
 			}
 			if (tweeNodesToInterpret[c].Contains(ReturnTitle(tweeNodesToInterpret[c]))) {
@@ -206,19 +208,24 @@ namespace Silk {
 					promptContainer.Replace(ReturnTitle(tweeNodesToInterpret[c]), string.Empty, 0, ReturnTitle(tweeNodesToInterpret[c]).Length);
 				}
 			}
-			//extract/////
-
-			foreach(string nodeText in tweeNodesToInterpret){
-				
-				for (int l = 0; l < nodeText.Length; l++) {
-					if (nodeText [l] == '<' && nodeText [l + 1] == '<') {
-						//Debug.Log (nodeText [i + 2]);
-						Debug.Log("hey");
-						break;
-					}
-				}
-			}
-			////////////
+            for(int k = 0; k < curNodeText.Length; k++) {
+                
+                if(curNodeText[k] == '<' && curNodeText[k + 1] == '<') {
+                    string rawTag = "";
+                    for(int t = k; t < curNodeText.Length; t++) {
+                        if(curNodeText[t - 1] == '>' && curNodeText[t - 2] == '>') {
+                            break;
+                        }
+                        else {
+                            rawTag += curNodeText[t];
+                        }
+                    }
+                    Debug.Log("RAW TAG IS " + rawTag);
+                    ParseRawTag(rawTag);
+                    //ParseRawTag(GetRawTag(curNodeText));
+                    
+                }
+            }
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
 					promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
@@ -331,11 +338,79 @@ namespace Silk {
             return newTag;
         }
 
+        string GetRawTag(string inputText) {
+            Debug.Log("fired");
+            string rawTag = "";
+            for(int i = 0; i < inputText.Length; i++) {
+                if(inputText[i] == '>' && inputText[i+1] == '>') {
+                    break;
+                }
+                else {
+                    rawTag += inputText[i];
+                }
+            }
+            /*for (int t = 0; t < inputText.Length; t++) {
+                //might wanna remove the outer conditional
+                if (inputText[t] == '<' && inputText[t + 1] == '<') {
+                    for (int i = 0; i < inputText.Length; i++) {
+                        if (inputText[t] == '>' && inputText[t + 1] == '>') {
+                            break;
+                        }
+                        else {
+                            rawTag += inputText[t];
+                        }
+                    }
+                }
+            }
+            */
+            Debug.Log("RAW IS " + rawTag);
+            return rawTag;
+        }
+        
+        RawTag ParseRawTag(string inputRawTag) {
+            RawTag newRawTag = new RawTag();
+            string[] rawArguments;
+            for(int i = 0; i < inputRawTag.Length; i++) {
+                if(i == 2) {
+                    for(int j = i; j < inputRawTag.Length; j++) {
+                        //Debug.Log(inputRawTag[j]);
+                        if (inputRawTag[j] == '=') {
+                            rawArguments = inputRawTag.Substring(j + 1).Split(',');
+                            for(int r = 0; r < rawArguments.Length; r++) {
+                                string rawArgument = rawArguments[r].Replace("\"", "").Replace(">>", "");
+                                newRawTag.AddArgument(rawArgument);
+                            }
+                            break;
+                        }
+                        else {
+                            newRawTag.RawTagName += inputRawTag[j];
+
+                        }
+                    }
+                    
+                }
+                
+            }
+
+            return newRawTag;
+        }
+
+        IEnumerator ParseCustomTag (string inputText) {
+            string rawTag = "";
+            for(int t = 0; t < inputText.Length; t++) {
+                if(inputText[t] == '>' && inputText[t + 1] == '>') {
+                    yield return null;
+                }
+                else {
+                    rawTag += inputText[t];
+                }
+            }
+        }
         Dictionary<string, string[]> ReturnCustomTags(string inputToExtractTagsFrom) {
             Dictionary<string, string[]> tags = new Dictionary<string, string[]>();
             List<string> rawTags = new List<string>();
             int iterations = 0;
-            for (int i = 0; i < inputToExtractTagsFrom.Length; i++) {
+            for (int i = 0; i < inputToExtractTagsFrom.Length; i++) { 
                 string rawTag = "";
                 //to find each custom tag
                 if (inputToExtractTagsFrom[i] == '<' && inputToExtractTagsFrom[i + 1] == '<') {
