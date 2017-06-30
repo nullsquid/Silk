@@ -14,9 +14,16 @@ namespace Silk{
             rawTag += ">>";
             return rawTag;
         }
-        public SilkTagBase SetTag(string tagName, string[] args)
+        public SilkTagBase SetTag(string tagName, List<string> args)
         {
-            
+            if(tagName == "DummyTag") {
+                return null;
+            }
+            else {
+                return null;
+            }
+            //TODO sort out what each tag needs to do upon creation
+            /*
             if(tagName == "DummyTag")
             {
                 if (tagName.Contains("_"))
@@ -35,6 +42,7 @@ namespace Silk{
 				newDummyName.RawTag = SetRawTag (tagName, args);
                 return newDummyName;
             }
+            
 
             
             //else if(tagName == "..."){
@@ -48,6 +56,7 @@ namespace Silk{
             {
                 return null;
             }
+            */
         } 
     }
 }

@@ -194,7 +194,6 @@ namespace Silk {
 		string GetPrompt(int c, SilkStory story){
 			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
             string curNodeText = tweeNodesToInterpret[c];
-            //TODO once in the container, loop through and replace all necessary tags with appropriate items, e.g. names, pronouns, etc
             if (tweeNodesToInterpret[c].Contains("|")) {
 				promptContainer.Replace("|", string.Empty);
 			}
@@ -220,9 +219,10 @@ namespace Silk {
                             rawTag += curNodeText[t];
                         }
                     }
-                    ParseRawTag(rawTag);
+                    ParseRawTag(rawTag, tagFactory);
 					//TODO create a new SilkTag that returns a value, where value takes the place of "name" below.
 					//it can be "", in which case it'll put it on the queue
+                    
 					promptContainer.Replace (rawTag, "name");
 
                 }
@@ -253,6 +253,9 @@ namespace Silk {
             //newNode.tags = ReturnCustomTags(newTweeData);
 
             //add custom tags
+
+            //TODO process tags just in time, rather than doing a tag-pass
+            /*
             foreach (KeyValuePair<string, string[]> tagName in newNode.tags) {
 
                 string newTagName = "";
@@ -267,6 +270,7 @@ namespace Silk {
                     Debug.LogError(newTagName + " is not a recognized tag. Check your TagFactory");
                 }
             }
+            */
             //Debug.Log(newNode.silkTags[0].TagName);
 
             //add passage
@@ -349,7 +353,7 @@ namespace Silk {
             return rawTag;
         }
         
-        RawTag ParseRawTag(string inputRawTag) {
+        RawTag ParseRawTag(string inputRawTag, TagFactory tFactory) {
             RawTag newRawTag = new RawTag();
             string[] rawArguments;
             for(int i = 0; i < inputRawTag.Length; i++) {
@@ -373,7 +377,10 @@ namespace Silk {
                 }
                 
             }
-
+            //TODO make TagFactory take a list rather than an array
+            //tFactory.SetTag(newRawTag.RawTagName, )
+            
+            
             return newRawTag;
         }
 

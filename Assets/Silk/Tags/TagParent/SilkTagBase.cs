@@ -28,6 +28,12 @@ namespace Silk
 				_rawTag = value;
 			}
 		}
+
+        public virtual string ReplaceWith() {
+
+            return null;
+        }
+
         public virtual void SilkTagDefinition()
         {
 
@@ -51,6 +57,10 @@ namespace Silk
         protected void DefineArguments(string[] args)
         {
             _silkTagArgs = args.ToList<string>();
+        }
+
+        protected void DefineArguments(List<string> args) {
+            _silkTagArgs = args;
         }
 
     }
