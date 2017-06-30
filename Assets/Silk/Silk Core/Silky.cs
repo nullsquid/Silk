@@ -220,10 +220,11 @@ namespace Silk {
                             rawTag += curNodeText[t];
                         }
                     }
-                    Debug.Log("RAW TAG IS " + rawTag);
                     ParseRawTag(rawTag);
-                    //ParseRawTag(GetRawTag(curNodeText));
-                    
+					//TODO create a new SilkTag that returns a value, where value takes the place of "name" below.
+					//it can be "", in which case it'll put it on the queue
+					promptContainer.Replace (rawTag, "name");
+
                 }
             }
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
@@ -232,32 +233,13 @@ namespace Silk {
 					promptContainer.Replace("]]", string.Empty);
 				}
 			}
-			Debug.Log ("PROMPT >>" + promptContainer.ToString ().TrimStart().TrimEnd());
+			Debug.Log (promptContainer.ToString ());
 			return promptContainer.ToString ();
 		}
 
-        string TagReplace() {
 
-            return null;
-        }
 
-		string ReplacePromptTokens(string inputText){
-			string outputText = "";
-            for(int i = 0; i < inputText.Length; i++) {
-                if(inputText[i] == '<' && inputText[i + 1] == '<') {
-                    string curTag = "";
-                    for(int j = i; j < inputText.Length; j++) {
-                        if(inputText[j] == '>' && inputText[j + 1] == '>') {
-                            break;
-                        }
-                        else {
-                            curTag += inputText[j];
-                        }
-                    }
-                }
-            }
-			return outputText;
-		}
+
 		#endregion
         
 
