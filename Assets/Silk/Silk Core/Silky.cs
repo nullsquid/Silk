@@ -231,9 +231,28 @@ namespace Silk {
                     
 					promptContainer.Replace (rawTag, ParseRawTag(rawTag, tagFactory).Value);
                 }
+				if (curNodeText [k] == '[' && curNodeText [k + 1] == '[') {
+					string rawLink = "";
+					for (int l = k; l < curNodeText.Length; l++) {
+						
+						if (l >= 2 && curNodeText [l - 1] == ']' && curNodeText [l - 2] == ']') {
+							break;
+						} 
+						else {
+							rawLink += curNodeText [l];
+						}
+
+					}
+					Debug.Log("RAW LINK IS " + rawLink);
+					//promptContainer.Replace (rawLink, "");
+					//TODO Figure this out
+					promptContainer.Remove(k, rawLink.Length);
+				}
             }
 
 			//TODO try getting rid of the links in the same loop-through method that I use for the tags
+			//TEST
+			/*
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
 				Debug.Log ("ENTRY " + entry);
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
@@ -241,7 +260,8 @@ namespace Silk {
 					promptContainer.Replace("]]", string.Empty);
 				}
 			}
-			Debug.Log (promptContainer.ToString ());
+			*/
+			Debug.Log ("THE PROMPT " + promptContainer.ToString ());
 			//promptContainer.Replace (System.Environment.NewLine, String.Empty);
 			return promptContainer.ToString ();
 		}
