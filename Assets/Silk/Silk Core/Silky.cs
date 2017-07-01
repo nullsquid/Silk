@@ -232,6 +232,8 @@ namespace Silk {
 					promptContainer.Replace (rawTag, ParseRawTag(rawTag, tagFactory).Value);
                 }
             }
+
+			//TODO try getting rid of the links in the same loop-through method that I use for the tags
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
 				Debug.Log ("ENTRY " + entry);
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
