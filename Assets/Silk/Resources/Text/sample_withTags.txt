@@ -1,0 +1,68 @@
+﻿:: Go away, go away, and please don’t slam the door
+<<speaker="C">>
+Go away, go away, and please don’t slam the door
+
+[[A little man who wasn’t there|He wasn’t there again today]]
+
+
+:: The man was waiting there for me
+<<speaker="C">>
+The man was waiting there for me
+
+[[Last night I saw upon the stair|5G]]
+
+
+:: When I came home last night at three
+<<speaker="C">>
+When I came home last night at three
+
+[[But when I looked around the hall|Go away, go away, don’t you come back any more!]]
+
+[[I couldn’t see him there at all!|Go away, go away, and please don’t slam the door]]
+
+
+:: 5M
+<<unload>>
+<<nexttree="5M">>
+<<state="idle">>
+
+
+:: Start
+<<speaker="C">>
+Yesterday upon the stair
+
+[[I met a man who wasn’t there|When I came home last night at three]]
+
+[[He wasn’t there again today|The man was waiting there for me]]
+
+[[I wish, I wish he’d go away|5G]]
+
+
+:: He wasn’t there again today
+<<speaker="C">>
+<<pronoun="m","subject">> wasn’t there again today
+
+[[5G]]
+
+
+:: Go away, go away, don’t you come back any more!
+<<speaker="C">>
+Go away, go away, don’t you come back any more!
+
+[[Oh, how I wish he’d go away|5M]]
+
+
+:: 5G
+<<unload>>
+<<nexttree="5G">>
+<<state="idle">>
+
+
+:: StoryTitle
+Sample
+
+
+:: StoryAuthor
+Anonymous
+
+
