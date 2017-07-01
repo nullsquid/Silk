@@ -31,7 +31,17 @@ namespace Silk {
 		void LogNodePrompt(){
 			foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
 				foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
-					Debug.Log ("PROMPT >>" + node.Value.nodePassage);
+					Debug.Log ("PROMPT FOR " + story.Value.StoryName + ">>" + node.Value.nodePassage);
+				}
+			}
+		}
+
+		void LogNodeLinks(){
+			foreach(KeyValuePair<string, SilkStory> story in mother.MotherStory){
+				foreach(KeyValuePair<string, SilkNode> node in story.Value.Story){
+					foreach (SilkLink link in node.Value.silkLinks) {
+						Debug.Log ("LINK >>" + link.LinkText);
+					}
 				}
 			}
 		}
@@ -60,6 +70,7 @@ namespace Silk {
         void InitializeTagFactory() {
 
         }
+		//TODO extract new methods from all of this
         void InitializeSilk() {
             tagFactory = new TagFactory();
             importer = GetComponent<Silk.Importer>();
@@ -131,7 +142,7 @@ namespace Silk {
 
                                 SilkLink newSilkLink = new SilkLink(node.Value, linkedNode.Value, link.Key);
                                 node.Value.silkLinks.Add(newSilkLink);
-                                Debug.Log("SilkLink " + newSilkLink.LinkText);
+                                //Debug.Log("SilkLink " + newSilkLink.LinkText);
                             }
 
                         }
@@ -141,27 +152,7 @@ namespace Silk {
 
                 }
             }
-            //TODO break this into its own method (TESTING)
-            foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
-                //for testing
-                foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
-                    //for testing
-                    Debug.Log("NODE IS CALLED " + node.Value.nodeName);
-                    //Debug.Log(node.Value.silkTags[0]);
-                    //Debug.Log(node.Value.silkTags.Count);
-                    foreach (KeyValuePair<string, string[]> tagName in node.Value.tags) {
-                        //Debug.Log(tagName.Key);
-
-                    }
-                    foreach (SilkTagBase _tag in node.Value.silkTags) {
-                        Debug.Log(_tag.TagName);
-
-                    }
-                    foreach (SilkLink _link in node.Value.silkLinks) {
-                        Debug.Log(node.Value.nodeName + " " + " " + _link.LinkText);
-                    }
-                }
-            }
+            
         }
 
         private void Start() {
