@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class NextTreeTag : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
+using Silk;
+public class NextTreeTag : SilkTagBase {
+	public NextTreeTag(List<string> args){
+		if (args.Count == 1) {
+			Value = "";
+			//SetNextTree(args[0]
+		} else {
+			Value = "TOO MANY ARGS FOR TREE TAG";
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

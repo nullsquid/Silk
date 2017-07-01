@@ -16,24 +16,54 @@ namespace Silk{
         }
         public SilkTagBase SetTag(string tagName, List<string> args)
         {
+
+			switch (tagName) {
+			case "name":
+				NameTag newName = new NameTag (args);
+				return newName;
+			case "speaker":
+				SpeakerTag newSpeaker = new SpeakerTag (args);
+				return newSpeaker;
+			case "nexttree":
+				NextTreeTag newTreeTag = new NextTreeTag (args);
+				return newTreeTag;
+			case "state":
+				StateTag newState = new StateTag (args);
+				return newState;
+			case "unload":
+				UnloadTag newUnload = new UnloadTag ();
+				return newUnload;
+			default:
+				DummyTag newDummy = new DummyTag (tagName, args);
+				return newDummy;
+
+			}
+
+
+
+
+			/*
 			if (tagName == "DummyTag") {
 				DummyTag newDummyTag = new DummyTag (tagName, args);
 				return newDummyTag;
 			} else if (tagName == "name") {
 				if (args.Count == 1) {
-					NameTag newName = new NameTag (args[0]);
+					NameTag newName = new NameTag (args [0]);
 					return newName;
 				} else {
 					Debug.LogWarning ("name tag has too many arguments");
-					NameTag newName = new NameTag (args[0]);
+					NameTag newName = new NameTag (args [0]);
 					return newName;
 				}
+			} else if (tagName == "speaker") {
+
 			}
             else {
 				Debug.LogWarning ("Tag not found");
 				DummyTag newDummyTag = new DummyTag (tagName, args);
 				return newDummyTag;
             }
+			*/
             //TODO sort out what each tag needs to do upon creation
             /*
             if(tagName == "DummyTag")

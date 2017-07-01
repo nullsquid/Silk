@@ -1,16 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Silk;
+public class UnloadTag : SilkTagBase {
+	public UnloadTag(){
 
-public class UnloadTag : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
