@@ -16,11 +16,23 @@ namespace Silk{
         }
         public SilkTagBase SetTag(string tagName, List<string> args)
         {
-            if(tagName == "DummyTag") {
-                return null;
-            }
+			if (tagName == "DummyTag") {
+				DummyTag newDummyTag = new DummyTag (tagName, args);
+				return newDummyTag;
+			} else if (tagName == "name") {
+				if (args.Count == 1) {
+					NameTag newName = new NameTag (args[0]);
+					return newName;
+				} else {
+					Debug.LogWarning ("name tag has too many arguments");
+					NameTag newName = new NameTag (args[0]);
+					return newName;
+				}
+			}
             else {
-                return null;
+				Debug.LogWarning ("Tag not found");
+				DummyTag newDummyTag = new DummyTag (tagName, args);
+				return newDummyTag;
             }
             //TODO sort out what each tag needs to do upon creation
             /*

@@ -27,6 +27,14 @@ namespace Silk {
                 }
             }
         }
+
+		void LogNodePrompt(){
+			foreach (KeyValuePair<string, SilkStory> story in mother.MotherStory) {
+				foreach (KeyValuePair<string, SilkNode> node in story.Value.Story) {
+					Debug.Log ("PROMPT >>" + node.Value.nodePassage);
+				}
+			}
+		}
         #endregion
 
         #region Singleton
@@ -159,7 +167,8 @@ namespace Silk {
         private void Start() {
             InitializeSilk();
             //Debug.Log("NODE TEST " + LogNodes().GetNodeName());
-            LogNodes();
+            //LogNodes();
+			LogNodePrompt();
             
         }
 
@@ -219,21 +228,19 @@ namespace Silk {
                             rawTag += curNodeText[t];
                         }
                     }
-                    ParseRawTag(rawTag, tagFactory);
-					//TODO create a new SilkTag that returns a value, where value takes the place of "name" below.
-					//it can be "", in which case it'll put it on the queue
                     
-					promptContainer.Replace (rawTag, "name");
-
+					promptContainer.Replace (rawTag, ParseRawTag(rawTag, tagFactory).Value);
                 }
             }
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
+				Debug.Log ("ENTRY " + entry);
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
 					promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
 					promptContainer.Replace("]]", string.Empty);
 				}
 			}
 			Debug.Log (promptContainer.ToString ());
+			//promptContainer.Replace (System.Environment.NewLine, String.Empty);
 			return promptContainer.ToString ();
 		}
 
@@ -353,7 +360,7 @@ namespace Silk {
             return rawTag;
         }
         
-        RawTag ParseRawTag(string inputRawTag, TagFactory tFactory) {
+		SilkTagBase ParseRawTag(string inputRawTag, TagFactory tFactory) {
             RawTag newRawTag = new RawTag();
             string[] rawArguments;
             for(int i = 0; i < inputRawTag.Length; i++) {
@@ -378,10 +385,10 @@ namespace Silk {
                 
             }
             //TODO make TagFactory take a list rather than an array
-            //tFactory.SetTag(newRawTag.RawTagName, )
+			return tFactory.SetTag(newRawTag.RawTagName, newRawTag.TagArgs);
             
             
-            return newRawTag;
+            //return newRawTag;
         }
 
         IEnumerator ParseCustomTag (string inputText) {

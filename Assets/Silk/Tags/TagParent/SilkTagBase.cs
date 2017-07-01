@@ -8,10 +8,12 @@ namespace Silk
     {
 		protected string _rawTag;
         protected string _tagName;
+		//protected string _value;
 		protected int priority;
+
         List<string> _silkTagArgs = new List<string>();
 
-
+		public string Value{ get; set; }
         public string TagName
         {
             get
