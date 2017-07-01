@@ -166,39 +166,15 @@ namespace Silk {
 
         private void Start() {
             InitializeSilk();
-            //Debug.Log("NODE TEST " + LogNodes().GetNodeName());
-            //LogNodes();
-			LogNodePrompt();
+
+			//LogNodePrompt();
             
         }
 
         #endregion
 
 		#region Get Prompts
-		string InvokeGetPrompt(int c, SilkStory story){
-			string _prompt = "";
-			return _prompt;
-		}
 
-		IEnumerator GetPromptInit(int c, SilkStory story){
-
-			yield return null;
-		}
-
-		IEnumerator ReplaceTag(){
-			yield return null;
-		}
-
-		//should take GetPrompt(i, newStory) as a parameter; maybe should be a coroutine
-		string ReturnProcessedPrompt(string rawPrompt){
-			for (int i = 0; i < rawPrompt.Length; i++) {
-				if (rawPrompt [i] == '<' && rawPrompt [i + 1] == '<') {
-                    //lex tags, create priority==>priority 0 happens in this method before return, priority 1 gets put on queue
-                    SilkTagBase newTag;
-				}
-			}
-			return null;
-		}
 
 		string GetPrompt(int c, SilkStory story){
 			StringBuilder promptContainer = new StringBuilder(tweeNodesToInterpret[c]);
@@ -231,38 +207,26 @@ namespace Silk {
                     
 					promptContainer.Replace (rawTag, ParseRawTag(rawTag, tagFactory).Value);
                 }
-				if (curNodeText [k] == '[' && curNodeText [k + 1] == '[') {
-					string rawLink = "";
-					for (int l = k; l < curNodeText.Length; l++) {
-						
-						if (l >= 2 && curNodeText [l - 1] == ']' && curNodeText [l - 2] == ']') {
-							break;
-						} 
-						else {
-							rawLink += curNodeText [l];
-						}
 
-					}
-					Debug.Log("RAW LINK IS " + rawLink);
-					//promptContainer.Replace (rawLink, "");
-					//TODO Figure this out
-					promptContainer.Remove(k, rawLink.Length);
-				}
+
+
             }
 
-			//TODO try getting rid of the links in the same loop-through method that I use for the tags
-			//TEST
-			/*
+
 			foreach (KeyValuePair<string, string> entry in ReturnLinks(tweeNodesToInterpret[c])) {
-				Debug.Log ("ENTRY " + entry);
 				if (tweeNodesToInterpret[c].Contains("[[" + entry.Key) || tweeNodesToInterpret[c].Contains("[[" + entry.Value)) {
-					promptContainer.Replace("[[" + entry.Key, string.Empty).Replace(entry.Value + "]]", string.Empty);
-					promptContainer.Replace("]]", string.Empty);
+					promptContainer.Replace ("[[" + entry.Key, String.Empty);
+					//////////////////////////////////////////////////////////////
+					//this is to catch instances where the syntax [[link]] is used
+					//in order to remove the trailing "]]"
+					//////////////////////////////////////////////////////////////
+					if (entry.Key == entry.Value) {
+						promptContainer.Replace ("]]", String.Empty);
+					}
+					promptContainer.Replace(entry.Value + "]]", String.Empty);
 				}
 			}
-			*/
-			Debug.Log ("THE PROMPT " + promptContainer.ToString ());
-			//promptContainer.Replace (System.Environment.NewLine, String.Empty);
+			promptContainer.Replace (System.Environment.NewLine, String.Empty);
 			return promptContainer.ToString ();
 		}
 
